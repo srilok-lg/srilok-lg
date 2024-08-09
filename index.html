@@ -16,44 +16,68 @@
             margin: 0 auto;
         }
         h1 { color: #2c3e50; }
-        #switchButton {
-            padding: 10px 20px;
-            font-size: 16px;
-            cursor: pointer;
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 60px;
+            height: 34px;
             margin-bottom: 20px;
-            background-color: #3498db;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            transition: all 0.3s ease;
         }
-        #switchButton:hover {
-            background-color: #2980b9;
-            transform: scale(1.05);
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
         }
-        .mermaid {
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 34px;
+        }
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 26px;
+            width: 26px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+        input:checked + .slider {
+            background-color: #2196F3;
+        }
+        input:checked + .slider:before {
+            transform: translateX(26px);
+        }
+        .switch-label {
+            display: inline-block;
+            vertical-align: middle;
+            margin-left: 10px;
+        }
+        #graphDiv {
             margin-top: 20px;
             margin-bottom: 20px;
         }
-        .mermaid .node rect,
-        .mermaid .node circle,
-        .mermaid .node ellipse,
-        .mermaid .node polygon,
-        .mermaid .node path {
-            transition: all 0.3s ease;
-        }
-        .mermaid .clickable:hover {
-            transform: scale(1.05);
+        .clickable:hover {
+            cursor: pointer;
             filter: drop-shadow(0 0 5px rgba(0,0,0,0.3));
-        }
-        .mermaid .edgePath {
-            stroke-width: 2px !important;
         }
     </style>
 </head>
 <body>
     <h1 id="graphTitle">Operations Flow</h1>
-    <button id="switchButton">Switch to Infra Tree</button>
+    <label class="switch">
+        <input type="checkbox" id="graphToggle">
+        <span class="slider"></span>
+    </label>
+    <span class="switch-label" id="toggleLabel">Switch to Infra Tree</span>
     <div id="graphDiv"></div>
     <script>
         const operationsFlow = `
@@ -122,7 +146,7 @@
             theme: 'neutral',
             fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif',
             flowchart: {
-                curve: 'linear',
+                curve: 'basis',
                 nodeSpacing: 50,
                 rankSpacing: 50,
             }
@@ -131,25 +155,25 @@
         function renderGraph() {
             const graphDiv = document.getElementById('graphDiv');
             const graphDefinition = currentGraph === 'operations' ? operationsFlow : infraTree;
-            mermaid.render('graphDiv', graphDefinition, (svgCode) => {
-                graphDiv.innerHTML = svgCode;
+            mermaid.render('mermaid-graph', graphDefinition).then(result => {
+                graphDiv.innerHTML = result.svg;
             });
         }
 
         document.addEventListener('DOMContentLoaded', renderGraph);
 
-        document.getElementById('switchButton').addEventListener('click', function() {
+        document.getElementById('graphToggle').addEventListener('change', function() {
             const graphTitle = document.getElementById('graphTitle');
-            const switchButton = document.getElementById('switchButton');
+            const toggleLabel = document.getElementById('toggleLabel');
             
-            if (currentGraph === 'operations') {
+            if (this.checked) {
                 currentGraph = 'infra';
                 graphTitle.textContent = 'Infra Tree';
-                switchButton.textContent = 'Switch to Operations Flow';
+                toggleLabel.textContent = 'Switch to Operations Flow';
             } else {
                 currentGraph = 'operations';
                 graphTitle.textContent = 'Operations Flow';
-                switchButton.textContent = 'Switch to Infra Tree';
+                toggleLabel.textContent = 'Switch to Infra Tree';
             }
             
             renderGraph();
