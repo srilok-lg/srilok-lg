@@ -1,169 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Graph Network</title>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+            line-height: 1.6;
+            padding: 20px;
+            color: #333;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        h1 { color: #2c3e50; }
+        #switchButton {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-bottom: 20px;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+        #switchButton:hover {
+            background-color: #2980b9;
+            transform: scale(1.05);
+        }
+        .mermaid {
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+        .mermaid .node rect,
+        .mermaid .node circle,
+        .mermaid .node ellipse,
+        .mermaid .node polygon,
+        .mermaid .node path {
+            transition: all 0.3s ease;
+        }
+        .mermaid .clickable:hover {
+            transform: scale(1.05);
+            filter: drop-shadow(0 0 5px rgba(0,0,0,0.3));
+        }
+        .mermaid .edgePath {
+            stroke-width: 2px !important;
+        }
+    </style>
+</head>
+<body>
+    <h1 id="graphTitle">Operations Flow</h1>
+    <button id="switchButton">Switch to Infra Tree</button>
+    <div id="graphDiv"></div>
+    <script>
+        const operationsFlow = `
+        graph TD
+            Advertisers -->|Outreach/RFP| Media_Planning
+            Media_Planning -->|Closed Won| Campaign_Management
+            Inventory <-->|Infra| Campaign_Management 
+            Campaign_Management --> Deliverables
+            Deliverables -->|KPIs achieved| Billing
+            Billing -->|Invoice| Advertisers
 
-    <!DOCTYPE html>
-    <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Graph Network</title>
-        <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
-        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
-        <style>
-            body {
-                font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
-                line-height: 1.6;
-                padding: 20px;
-                color: #333;
+            click Media_Planning "media_planning.html" "Go to Media Planning page"
+            click Campaign_Management "campaign_management.html" "Go to Campaign Management page"
+            click Inventory "inventory.html" "Go to Inventory page"
+            click Billing "billing.html" "Go to Billing page"
+
+            classDef clickable cursor:pointer;
+            class Media_Planning,Campaign_Management,Inventory,Billing clickable;
+        `;
+
+        const infraTree = `
+        graph TD
+            Mosaic <--> Kasper
+            Salesforce --> Mosaic
+            Mosaic <--> Peregrine
+            Mosaic <--> Beeswax
+
+            Campaign_setup["Campaign Setup"] --> Mosaic
+            Segments --> Campaign_setup
+            Lists --> Campaign_setup
+            Creatives --> Campaign_setup
+            Tags --> Campaign_setup
+
+            Inventory <--> Peregrine
+            Inventory <--> Beeswax
+
+            DropBox --> Lists
+            DropBox --> Creatives
+            DropBox --> Tags
+
+            Peregrine --> Pixel_Pinger["Pixel Pinger"]
+            Peregrine --> SSP_Data["SSP Data"]
+            Beeswax --> SSP_Data
+            SSP_Data --> Segments
+
+            Pixel_Pinger --> DAS
+            DAS --> Insights
+            DAS --> Steller
+            Steller --> Kasper
+
+            Pixel_Pinger --> Segments
+            Insights --> Reports
+            SSP_Data --> Elastic
+
+            Reports --> Standard
+            Reports --> Advanced
+
+            Sellers --> Salesforce
+            Advertisers --> Sellers
+        `;
+
+        let currentGraph = 'operations';
+        
+        mermaid.initialize({ 
+            startOnLoad: true,
+            theme: 'neutral',
+            fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif',
+            flowchart: {
+                curve: 'linear',
+                nodeSpacing: 50,
+                rankSpacing: 50,
             }
-            h1 { color: #2c3e50; }
-            .switch {
-                position: relative;
-                display: inline-block;
-                width: 60px;
-                height: 34px;
-                margin-bottom: 20px;
-            }
-            .switch input {
-                opacity: 0;
-                width: 0;
-                height: 0;
-            }
-            .slider {
-                position: absolute;
-                cursor: pointer;
-                top: 0;
-                left: 0;
-                right: 0;
-                bottom: 0;
-                background-color: #ccc;
-                transition: .4s;
-                border-radius: 34px;
-            }
-            .slider:before {
-                position: absolute;
-                content: "";
-                height: 26px;
-                width: 26px;
-                left: 4px;
-                bottom: 4px;
-                background-color: white;
-                transition: .4s;
-                border-radius: 50%;
-            }
-            input:checked + .slider {
-                background-color: #2196F3;
-            }
-            input:checked + .slider:before {
-                transform: translateX(26px);
-            }
-            .switch-label {
-                display: inline-block;
-                vertical-align: middle;
-                margin-left: 10px;
-            }
-        </style>
-    </head>
-    <body>
-        <h1 id="graphTitle">Operations Flow</h1>
-        <label class="switch">
-            <input type="checkbox" id="graphToggle">
-            <span class="slider"></span>
-        </label>
-        <span class="switch-label" id="toggleLabel">Switch to Infrastructure Map</span>
-        <div id="graphDiv"></div>
-        <script>
-            const operationsFlow = `
-    graph TD
-        Advertisers --> |Outreach/RFP| Media_Planning["Media Planning"]
-        Media_Planning --> |Closed Won| Campaign_Management["Campaign Management"]
-        Inventory <--> |Infra| Campaign_Management 
-        Campaign_Management --> Deliverables
-        Deliverables --> |KPIs achieved| Billing
-        Billing --> |Invoice| Advertisers
+        });
 
-        click Media_Planning "media_planning.html" "Go to Media Planning page"
-        click Campaign_Management "campaign_management.html" "Go to Campaign Management page"
-        click Inventory "inventory.html" "Go to Inventory page"
-        click Billing "billing.html" "Go to Billing page"
-    `;
-            const infraTree = `
-    graph TD
-        Mosaic <--> Kasper
-        Salesforce --> Mosaic
-        Mosaic <--> Peregrine
-        Mosaic <--> Beeswax
+        function renderGraph() {
+            const graphDiv = document.getElementById('graphDiv');
+            const graphDefinition = currentGraph === 'operations' ? operationsFlow : infraTree;
+            mermaid.render('graphDiv', graphDefinition, (svgCode) => {
+                graphDiv.innerHTML = svgCode;
+            });
+        }
 
-        Campaign_setup["Campaign Setup"] --> Mosaic
-        Segments --> Campaign_setup["Campaign Setup"]
-        Lists --> Campaign_setup["Campaign Setup"]
-        Creatives --> Campaign_setup["Campaign Setup"]
-        Tags --> Campaign_setup["Campaign Setup"]
+        document.addEventListener('DOMContentLoaded', renderGraph);
 
-        Inventory <--> Peregrine
-        Inventory <--> Beeswax
-
-        DropBox --> Lists
-        DropBox --> Creatives
-        DropBox --> Tags
-
-        Peregrine --> Pixel_Pinger["Pixel Pinger"]
-        Peregrine --> SSP_Data["SSP Data"]
-        Beeswax --> SSP_Data
-        SSP_Data --> Segments
-
-        Pixel_Pinger["Pixel Pinger"] --> DAS
-        DAS --> Insights
-        DAS --> Steller
-        Steller --> Kasper
-
-        Pixel_Pinger --> Segments
-        Insights --> Reports
-        SSP_Data --> Elastic
-
-        Reports --> Standard
-        Reports --> Advanced
-
-        Sellers --> Salesforce
-        Advertisers --> Sellers
-    `;
-            let currentGraph = 'operations';
+        document.getElementById('switchButton').addEventListener('click', function() {
+            const graphTitle = document.getElementById('graphTitle');
+            const switchButton = document.getElementById('switchButton');
             
-            function initializeMermaid() {
-                mermaid.initialize({ 
-                    startOnLoad: true,
-                    theme: 'neutral',
-                    fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif'
-                });
+            if (currentGraph === 'operations') {
+                currentGraph = 'infra';
+                graphTitle.textContent = 'Infra Tree';
+                switchButton.textContent = 'Switch to Operations Flow';
+            } else {
+                currentGraph = 'operations';
+                graphTitle.textContent = 'Operations Flow';
+                switchButton.textContent = 'Switch to Infra Tree';
             }
-
-            function renderGraph() {
-                const graphDiv = document.getElementById('graphDiv');
-                graphDiv.innerHTML = currentGraph === 'operations' ? operationsFlow : infraTree;
-                graphDiv.removeAttribute('data-processed');
-                mermaid.init(undefined, graphDiv);
-            }
-
-            document.addEventListener('DOMContentLoaded', function() {
-                initializeMermaid();
-                renderGraph();
-            });
-
-            document.getElementById('graphToggle').addEventListener('change', function() {
-                const graphTitle = document.getElementById('graphTitle');
-                const toggleLabel = document.getElementById('toggleLabel');
-                
-                if (this.checked) {
-                    currentGraph = 'infra';
-                    graphTitle.textContent = 'Infrastructure Map';
-                    toggleLabel.textContent = 'Switch to Operations Flow';
-                } else {
-                    currentGraph = 'operations';
-                    graphTitle.textContent = 'Operations Flow';
-                    toggleLabel.textContent = 'Switch to Infrastructure Map';
-                }
-                
-                renderGraph();
-            });
-        </script>
-    </body>
-    </html>
-    
+            
+            renderGraph();
+        });
+    </script>
+</body>
+</html>
