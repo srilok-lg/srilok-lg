@@ -1,0 +1,63 @@
+
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Graph Network</title>
+        <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+    </head>
+    <body>
+        <h1>Graph Network</h1>
+        <div class="mermaid">
+        
+    graph TD
+        Mosaic <--> Kasper
+        Salesforce --> Mosaic
+        Mosaic <--> Peregrine
+        Mosaic <--> Beeswax
+
+        Campaign_setup["Campaign Setup"] --> Mosaic
+        Segments --> Campaign_setup
+        Lists --> Campaign_setup
+        Creatives --> Campaign_setup
+        Tags --> Campaign_setup
+
+        Inventory <--> Peregrine
+        Inventory <--> Beeswax
+
+        DropBox --> Lists
+        DropBox --> Creatives
+        DropBox --> Tags
+
+        Peregrine --> Pixel_Pinger["Pixel Pinger"]
+        Peregrine --> SSP_Data["SSP Data"]
+        Beeswax --> SSP_Data
+        SSP_Data --> Segments
+
+        Pixel_Pinger --> DAS
+        DAS --> Insights
+        DAS --> Steller
+        Steller --> Kasper
+
+        Pixel_Pinger --> Segments
+
+        Insights --> Reports 
+        
+        SSP_Data --> Elastic
+
+        Reports --> Standard
+        Reports --> Advanced
+
+        Sellers --> Salesforce
+        Advertisers --> Sellers
+
+        click Mosaic "mosaic.html" "Go to Mosaic page"
+    
+        </div>
+        <script>
+            mermaid.initialize({ startOnLoad: true });
+        </script>
+    </body>
+    </html>
+    
