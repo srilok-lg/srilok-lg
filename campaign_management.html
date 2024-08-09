@@ -20,7 +20,34 @@
     </head>
     <body>
         <h1>Campaign Management</h1>
-        <p>This is the Campaign Management page. Add more details about Campaign Management here.</p>
+        graph TD
+            A1["SetUp"] --> A2["Optimization"] --> A3["Reporting"]
+            subgraph  
+                campaign_info["Campaign Info"] --> A1
+                placement_info["Placement Info"] --> A1 
+                creative_info["Creative Info"] --> A1
+            end
+        
+            subgraph  
+                Bidding --> A2
+                Pacing --> A2
+                Targeting --> A2
+                Modifiers --> A2
+            end
+        
+            subgraph  
+                A3 --> weekly["Weekly Delivery Reporting"]
+                A3 --> weekly_app["Weekly App Reporting"]
+                A3 --> eoc["End of Campaign Summary"]
+            end
+            %% Setting hierarchy levels
+            classDef level1 fill:#f9d5e5,stroke:#333,stroke-width:2px;
+            classDef level2 fill:#eeac99,stroke:#333,stroke-width:2px;
+            classDef level3 fill:#e06377,stroke:#333,stroke-width:2px;
+            
+            class SetUp,Optimization,Reporting level1;
+            class campaign_info,placement_info,creative_info,Bidding,Pacing,Targeting,Modifiers,weekly,weekly_app,eoc level2;
+</p>
         <a href="index.html">Back to Operations Flow</a>
     </body>
     </html>
