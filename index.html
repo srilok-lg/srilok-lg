@@ -15,35 +15,62 @@
                 color: #333;
             }
             h1 { color: #2c3e50; }
-            #switchButton {
-                padding: 10px 20px;
-                font-size: 16px;
-                cursor: pointer;
+            .switch {
+                position: relative;
+                display: inline-block;
+                width: 60px;
+                height: 34px;
                 margin-bottom: 20px;
+            }
+            .switch input {
+                opacity: 0;
+                width: 0;
+                height: 0;
+            }
+            .slider {
+                position: absolute;
+                cursor: pointer;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background-color: #ccc;
+                transition: .4s;
+                border-radius: 34px;
+            }
+            .slider:before {
+                position: absolute;
+                content: "";
+                height: 26px;
+                width: 26px;
+                left: 4px;
+                bottom: 4px;
+                background-color: white;
+                transition: .4s;
+                border-radius: 50%;
+            }
+            input:checked + .slider {
+                background-color: #2196F3;
+            }
+            input:checked + .slider:before {
+                transform: translateX(26px);
+            }
+            .switch-label {
+                display: inline-block;
+                vertical-align: middle;
+                margin-left: 10px;
             }
         </style>
     </head>
     <body>
         <h1 id="graphTitle">Operations Flow</h1>
-        <button id="switchButton">Switch to Infra Tree</button>
-        <div class="mermaid" id="graphDiv">
-        
-    graph TD
-        Advertisers --> |Outreach/RFP| Media_Planning["Media Planning"]
-        Media_Planning --> |Closed Won| Campaign_Management["Campaign Management"]
-        Inventory <--> |Infra| Campaign_Management 
-        Campaign_Management --> Deliverables
-        Deliverables --> |KPIs achieved| Billing
-        Billing --> |Invoice| Advertisers
-
-        click Media_Planning "media_planning.html" "Go to Media Planning page"
-        click Campaign_Management "campaign_management.html" "Go to Campaign Management page"
-        click Inventory "inventory.html" "Go to Inventory page"
-        click Billing "billing.html" "Go to Billing page"
-    
-        </div>
+        <label class="switch">
+            <input type="checkbox" id="graphToggle">
+            <span class="slider"></span>
+        </label>
+        <span class="switch-label" id="toggleLabel">Switch to Infrastructure Map</span>
+        <div id="graphDiv"></div>
         <script>
-            let currentGraph = 'operations';
             const operationsFlow = `
     graph TD
         Advertisers --> |Outreach/RFP| Media_Planning["Media Planning"]
@@ -98,31 +125,43 @@
         Sellers --> Salesforce
         Advertisers --> Sellers
     `;
+            let currentGraph = 'operations';
             
-            mermaid.initialize({ 
-                startOnLoad: true,
-                theme: 'neutral',
-                fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif'
+            function initializeMermaid() {
+                mermaid.initialize({ 
+                    startOnLoad: true,
+                    theme: 'neutral',
+                    fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif'
+                });
+            }
+
+            function renderGraph() {
+                const graphDiv = document.getElementById('graphDiv');
+                graphDiv.innerHTML = currentGraph === 'operations' ? operationsFlow : infraTree;
+                graphDiv.removeAttribute('data-processed');
+                mermaid.init(undefined, graphDiv);
+            }
+
+            document.addEventListener('DOMContentLoaded', function() {
+                initializeMermaid();
+                renderGraph();
             });
 
-            document.getElementById('switchButton').addEventListener('click', function() {
-                const graphDiv = document.getElementById('graphDiv');
+            document.getElementById('graphToggle').addEventListener('change', function() {
                 const graphTitle = document.getElementById('graphTitle');
-                const switchButton = document.getElementById('switchButton');
+                const toggleLabel = document.getElementById('toggleLabel');
                 
-                if (currentGraph === 'operations') {
-                    graphDiv.innerHTML = infraTree;
-                    graphTitle.textContent = 'Infra Tree';
-                    switchButton.textContent = 'Switch to Operations Flow';
+                if (this.checked) {
                     currentGraph = 'infra';
+                    graphTitle.textContent = 'Infrastructure Map';
+                    toggleLabel.textContent = 'Switch to Operations Flow';
                 } else {
-                    graphDiv.innerHTML = operationsFlow;
-                    graphTitle.textContent = 'Operations Flow';
-                    switchButton.textContent = 'Switch to Infra Tree';
                     currentGraph = 'operations';
+                    graphTitle.textContent = 'Operations Flow';
+                    toggleLabel.textContent = 'Switch to Infrastructure Map';
                 }
                 
-                mermaid.init(undefined, graphDiv);
+                renderGraph();
             });
         </script>
     </body>
