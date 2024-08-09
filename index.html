@@ -77,7 +77,7 @@
         <input type="checkbox" id="graphToggle">
         <span class="slider"></span>
     </label>
-    <span class="switch-label" id="toggleLabel">Switch to Infra Tree</span>
+    <span class="switch-label" id="toggleLabel">Switch to Infrastructure Map</span>
     <div id="graphDiv"></div>
     <script>
         const operationsFlow = `
@@ -168,12 +168,12 @@
             
             if (this.checked) {
                 currentGraph = 'infra';
-                graphTitle.textContent = 'Infra Tree';
+                graphTitle.textContent = 'Infrastructure Map';
                 toggleLabel.textContent = 'Switch to Operations Flow';
             } else {
                 currentGraph = 'operations';
                 graphTitle.textContent = 'Operations Flow';
-                toggleLabel.textContent = 'Switch to Infra Tree';
+                toggleLabel.textContent = 'Switch to Infrastructure Map';
             }
             
             renderGraph();
