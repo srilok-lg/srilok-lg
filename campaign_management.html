@@ -1,85 +1,127 @@
-    <!DOCTYPE html>
-    <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Campaign Management</title>
-        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
-        <style>
-            body {
-                font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
-                line-height: 1.6;
-                padding: 20px;
-                color: #333;
-            }
-            h1 { color: #2c3e50; }
-            a { color: #3498db; text-decoration: none; }
-            a:hover { text-decoration: underline; }
-        </style>
-    </head>
-    <body>
-        <h1 id="graphTitle">Campaign Management</h1>
-        <label class="switch">
-            <input type="checkbox" id="graphToggle">
-            <span class="slider"></span>
-            <div id="graphDiv"></div>
-            
-        <script>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Campaign Management</title>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+            line-height: 1.6;
+            padding: 20px;
+            color: #333;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        h1 { color: #2c3e50; }
+        a { color: #3498db; text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        .mermaid {
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+    </style>
+    <script>
+        mermaid.initialize({
+            startOnLoad: true,
+            theme: 'neutral',
+            fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif'
+        });
+    </script>
+</head>
+<body>
+    <h1>Campaign Management</h1>
+    
+    <p>Campaign Management is a crucial process in advertising that involves planning, executing, and monitoring advertising campaigns. It typically consists of three main phases: Setup, Optimization, and Reporting.</p>
+
+    <div class="mermaid">
     graph TD
         A1["SetUp"] --> A2["Optimization"] --> A3["Reporting"]
-        subgraph  
-            campaign_info["Campaign Info"] --> A1
-            placement_info["Placement Info"] --> A1 
-            creative_info["Creative Info"] --> A1
-        end
-    
-        subgraph  
-            Bidding --> A2
-            Pacing --> A2
-            Targeting --> A2
-            Modifiers --> A2
-        end
-    
-        subgraph  
-            A3 --> weekly["Weekly Delivery Reporting"]
-            A3 --> weekly_app["Weekly App Reporting"]
-            A3 --> eoc["End of Campaign Summary"]
-        end
-        %% Setting hierarchy levels
-        classDef level1 fill:#f9d5e5,stroke:#333,stroke-width:2px;
-        classDef level2 fill:#eeac99,stroke:#333,stroke-width:2px;
-        classDef level3 fill:#e06377,stroke:#333,stroke-width:2px;
-        
-        class SetUp,Optimization,Reporting level1;
-        class campaign_info,placement_info,creative_info,Bidding,Pacing,Targeting,Modifiers,weekly,weekly_app,eoc level2;
-        
-        function initializeMermaid() {
-            mermaid.initialize({ 
-                startOnLoad: true,
-                theme: 'neutral',
-                fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif'
-            });
-        }
+    subgraph  
+        campaign_info["Campaign Info"] --> A1
+        placement_info["Placement Info"] --> A1 
+        creative_info["Creative Info"] --> A1
+    end
 
-        function renderGraph() {
-            const graphDiv = document.getElementById('graphDiv');
-            graphDiv.innerHTML = currentGraph === 'operations' ? operationsFlow : infraTree;
-            graphDiv.removeAttribute('data-processed');
-            mermaid.init(undefined, graphDiv);
-        }
+    subgraph  
+        Bidding --> A2
+        Pacing --> A2
+        Targeting --> A2
+        Modifiers --> A2
+    end
 
-        document.addEventListener('DOMContentLoaded', function() {
-            initializeMermaid();
-            renderGraph();
+    subgraph  
+        A3 --> weekly["Weekly Delivery Reporting"]
+        A3 --> weekly_app["Weekly App Reporting"]
+        A3 --> eoc["End of Campaign Summary"]
+    end
+    %% Setting hierarchy levels
+    classDef level1 fill:#f9d5e5,stroke:#333,stroke-width:2px;
+    classDef level2 fill:#eeac99,stroke:#333,stroke-width:2px;
+    classDef level3 fill:#e06377,stroke:#333,stroke-width:2px;
+    
+    class A1,A2,A3 level1;
+    class campaign_info,placement_info,creative_info,Bidding,Pacing,Targeting,Modifiers,weekly,weekly_app,eoc level2;
+    </div>
+
+    <h2>Phases of Campaign Management</h2>
+
+    <h3>1. Setup</h3>
+    <p>In this initial phase, we gather all necessary information to launch the campaign:</p>
+    <ul>
+        <li><strong>Campaign Info:</strong> Overall campaign objectives, timeline, and budget.</li>
+        <li><strong>Placement Info:</strong> Where the ads will be displayed.</li>
+        <li><strong>Creative Info:</strong> The actual ad content to be used.</li>
+    </ul>
+
+    <h3>2. Optimization</h3>
+    <p>Once the campaign is live, we continuously monitor and adjust to improve performance:</p>
+    <ul>
+        <li><strong>Bidding:</strong> Adjusting bid strategies to optimize ad spend.</li>
+        <li><strong>Pacing:</strong> Ensuring the budget is spent evenly over the campaign duration.</li>
+        <li><strong>Targeting:</strong> Refining the audience to reach the most relevant users.</li>
+        <li><strong>Modifiers:</strong> Applying adjustments based on factors like device, time of day, etc.</li>
+    </ul>
+
+    <h3>3. Reporting</h3>
+    <p>Regular reporting helps track campaign performance and inform future strategies:</p>
+    <ul>
+        <li><strong>Weekly Delivery Reporting:</strong> Regular updates on campaign progress.</li>
+        <li><strong>Weekly App Reporting:</strong> Specific reports for app-based campaigns.</li>
+        <li><strong>End of Campaign Summary:</strong> Comprehensive analysis of the entire campaign performance.</li>
+    </ul>
+
+    <p>Effective campaign management requires a deep understanding of these phases and the ability to adapt strategies based on real-time data and insights.</p>
+
+    <a href="index.html">Back to Graph Network</a>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            function renderMermaid() {
+                var element = document.querySelector(".mermaid");
+                if (element && element.offsetWidth > 0) {
+                    var graphDefinition = element.textContent || element.innerText;
+                    mermaid.mermaidAPI.render('graphDiv', graphDefinition, function(svgCode) {
+                        element.innerHTML = svgCode;
+                    });
+                } else {
+                    // If the element is not ready yet, try again after a short delay
+                    setTimeout(renderMermaid, 100); // retry after 100ms
+                }
+            }
+
+            if (typeof mermaid !== 'undefined') {
+                renderMermaid();
+            } else {
+                // If mermaid is not loaded yet, wait for it
+                var script = document.querySelector('script[src*="mermaid"]');
+                if (script) {
+                    script.onload = renderMermaid;
+                }
+            }
         });
-
-        document.getElementById('graphToggle').addEventListener('change', function() {
-            const graphTitle = document.getElementById('graphTitle');
-            const toggleLabel = document.getElementById('toggleLabel');
-        renderGraph();
-        });
-        <a href="index.html">Back to Operations Flow</a>
-        </script>
-    </body>
-    </html>
-    
+    </script>
+</body>
+</html>
