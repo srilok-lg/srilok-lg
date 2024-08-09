@@ -82,8 +82,8 @@
     <script>
         const operationsFlow = `
         graph TD
-            Advertisers -->|Outreach/RFP| Media_Planning
-            Media_Planning -->|Closed Won| Campaign_Management
+            Advertisers -->|Outreach/RFP| Media_Planning["Media Planning"]
+            Media_Planning -->|Closed Won| Campaign_Management["Campaign Management"]
             Inventory <-->|Infra| Campaign_Management 
             Campaign_Management --> Deliverables
             Deliverables -->|KPIs achieved| Billing
