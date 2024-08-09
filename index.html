@@ -100,10 +100,17 @@
 
         const infraTree = `
         graph TD
-            C4["Segments"] --> Segment
+            Salesforce --> Opportunities
+            Opportunities <--> A2["Campaign Parameters"]
+            C4["Segment Portal"] --> Segments
             C4 --> DAGs
-            A1["Inventory"]  --> |Internal & External| B2["SSP"]
-            A2["Campaign Parameters"] --> B1["DSP"]
+            Segments --> A2
+            LG --> B5["Native segments"]
+            B5 --> C4
+            LG --> A1["Inventory"]
+            Data_p["Data Partnerhips"] --> A1
+            A1 --> |Internal & External| B2["SSP"]
+            A2 --> B1["DSP"]
             B1 --> C1["Mosaic"]
             B1 --> C2["Beeswax"]
             B2 --> C2
@@ -112,6 +119,7 @@
             C3 --> SSP_logs
             C1 --> PP
             C2 --> PP
+            A1 <--> Programmatic
             PP["Pixel Pinger"] --> DAS
             DAS --> Kasper
             Kasper <--> Mosaic
