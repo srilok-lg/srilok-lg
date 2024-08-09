@@ -100,43 +100,26 @@
 
         const infraTree = `
         graph TD
-            Mosaic <--> Kasper
-            Salesforce --> Mosaic
-            Mosaic <--> Peregrine
-            Mosaic <--> Beeswax
-
-            Campaign_setup["Campaign Setup"] --> Mosaic
-            Segments --> Campaign_setup
-            Lists --> Campaign_setup
-            Creatives --> Campaign_setup
-            Tags --> Campaign_setup
-
-            Inventory <--> Peregrine
-            Inventory <--> Beeswax
-
-            DropBox --> Lists
-            DropBox --> Creatives
-            DropBox --> Tags
-
-            Peregrine --> Pixel_Pinger["Pixel Pinger"]
-            Peregrine --> SSP_Data["SSP Data"]
-            Beeswax --> SSP_Data
-            SSP_Data --> Segments
-
-            Pixel_Pinger --> DAS
+            C4["Segments"] --> Segment
+            C4 --> DAGs
+            A1["Inventory"]  --> |Internal & External| B2["SSP"]
+            A2["Campaign Parameters"] --> B1["DSP"]
+            B1 --> C1["Mosaic"]
+            B1 --> C2["Beeswax"]
+            B2 --> C2
+            B2 --> C3["Peregrine"]
+            C2 --> SSP_logs 
+            C3 --> SSP_logs
+            C1 --> PP
+            C2 --> PP
+            PP["Pixel Pinger"] --> DAS
+            DAS --> Kasper
+            Kasper <--> Mosaic
             DAS --> Insights
+            Insights --> Reporting
             DAS --> Steller
-            Steller --> Kasper
-
-            Pixel_Pinger --> Segments
-            Insights --> Reports
-            SSP_Data --> Elastic
-
-            Reports --> Standard
-            Reports --> Advanced
-
-            Sellers --> Salesforce
-            Advertisers --> Sellers
+            SSP_logs --> DAS
+            SSP_logs["SSP Logs"] --> Elastic
         `;
 
         let currentGraph = 'operations';
