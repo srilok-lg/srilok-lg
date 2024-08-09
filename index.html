@@ -4,7 +4,7 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Operations Flow</title>
+        <title>Graph Network</title>
         <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
         <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
         <style>
@@ -15,12 +15,50 @@
                 color: #333;
             }
             h1 { color: #2c3e50; }
+            #switchButton {
+                padding: 10px 20px;
+                font-size: 16px;
+                cursor: pointer;
+                margin-bottom: 20px;
+            }
         </style>
     </head>
     <body>
-        <h1>Operations Flow</h1>
-        <div class="mermaid">
+        <h1 id="graphTitle">Operations Flow</h1>
+        <button id="switchButton">Switch to Infra Tree</button>
+        <div class="mermaid" id="graphDiv">
         
+    graph TD
+        Advertisers --> |Outreach/RFP| Media_Planning["Media Planning"]
+        Media_Planning --> |Closed Won| Campaign_Management["Campaign Management"]
+        Inventory <--> |Infra| Campaign_Management 
+        Campaign_Management --> Deliverables
+        Deliverables --> |KPIs achieved| Billing
+        Billing --> |Invoice| Advertisers
+
+        click Media_Planning "media_planning.html" "Go to Media Planning page"
+        click Campaign_Management "campaign_management.html" "Go to Campaign Management page"
+        click Inventory "inventory.html" "Go to Inventory page"
+        click Billing "billing.html" "Go to Billing page"
+    
+        </div>
+        <script>
+            let currentGraph = 'operations';
+            const operationsFlow = `
+    graph TD
+        Advertisers --> |Outreach/RFP| Media_Planning["Media Planning"]
+        Media_Planning --> |Closed Won| Campaign_Management["Campaign Management"]
+        Inventory <--> |Infra| Campaign_Management 
+        Campaign_Management --> Deliverables
+        Deliverables --> |KPIs achieved| Billing
+        Billing --> |Invoice| Advertisers
+
+        click Media_Planning "media_planning.html" "Go to Media Planning page"
+        click Campaign_Management "campaign_management.html" "Go to Campaign Management page"
+        click Inventory "inventory.html" "Go to Inventory page"
+        click Billing "billing.html" "Go to Billing page"
+    `;
+            const infraTree = `
     graph TD
         Mosaic <--> Kasper
         Salesforce --> Mosaic
@@ -28,10 +66,10 @@
         Mosaic <--> Beeswax
 
         Campaign_setup["Campaign Setup"] --> Mosaic
-        Segments --> Campaign_setup
-        Lists --> Campaign_setup
-        Creatives --> Campaign_setup
-        Tags --> Campaign_setup
+        Segments --> Campaign_setup["Campaign Setup"]
+        Lists --> Campaign_setup["Campaign Setup"]
+        Creatives --> Campaign_setup["Campaign Setup"]
+        Tags --> Campaign_setup["Campaign Setup"]
 
         Inventory <--> Peregrine
         Inventory <--> Beeswax
@@ -45,32 +83,46 @@
         Beeswax --> SSP_Data
         SSP_Data --> Segments
 
-        Pixel_Pinger --> DAS
+        Pixel_Pinger["Pixel Pinger"] --> DAS
         DAS --> Insights
         DAS --> Steller
         Steller --> Kasper
 
         Pixel_Pinger --> Segments
-
-        Insights --> Reports 
-        
+        Insights --> Reports
         SSP_Data --> Elastic
 
-        Reports --> Dropbox
-        Standard
+        Reports --> Standard
         Reports --> Advanced
 
         Sellers --> Salesforce
         Advertisers --> Sellers
-
-        click Mosaic "mosaic.html" "Go to Mosaic page"
-    
-        </div>
-        <script>
+    `;
+            
             mermaid.initialize({ 
                 startOnLoad: true,
                 theme: 'neutral',
                 fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif'
+            });
+
+            document.getElementById('switchButton').addEventListener('click', function() {
+                const graphDiv = document.getElementById('graphDiv');
+                const graphTitle = document.getElementById('graphTitle');
+                const switchButton = document.getElementById('switchButton');
+                
+                if (currentGraph === 'operations') {
+                    graphDiv.innerHTML = infraTree;
+                    graphTitle.textContent = 'Infra Tree';
+                    switchButton.textContent = 'Switch to Operations Flow';
+                    currentGraph = 'infra';
+                } else {
+                    graphDiv.innerHTML = operationsFlow;
+                    graphTitle.textContent = 'Operations Flow';
+                    switchButton.textContent = 'Switch to Infra Tree';
+                    currentGraph = 'operations';
+                }
+                
+                mermaid.init(undefined, graphDiv);
             });
         </script>
     </body>
