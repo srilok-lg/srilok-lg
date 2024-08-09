@@ -1,5 +1,5 @@
 
-# Graph Network Visualization
+# Operations Flow Visualization
 
 This repository contains a visualization of our system's graph network using Mermaid.js.
 
