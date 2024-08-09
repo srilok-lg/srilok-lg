@@ -6,9 +6,19 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Graph Network</title>
         <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+        <style>
+            body {
+                font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+                line-height: 1.6;
+                padding: 20px;
+                color: #333;
+            }
+            h1 { color: #2c3e50; }
+        </style>
     </head>
     <body>
-        <h1>Operations Flowchart</h1>
+        <h1>Graph Network</h1>
         <div class="mermaid">
         
     graph TD
@@ -56,7 +66,11 @@
     
         </div>
         <script>
-            mermaid.initialize({ startOnLoad: true });
+            mermaid.initialize({ 
+                startOnLoad: true,
+                theme: 'neutral',
+                fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif'
+            });
         </script>
     </body>
     </html>
