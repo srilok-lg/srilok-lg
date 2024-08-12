@@ -1,5 +1,5 @@
 
-# Dual Graph Network Visualization
+# Operations & Infrastructure Visualization
 
 This repository contains visualizations of our system's graph network using Mermaid.js.
 
