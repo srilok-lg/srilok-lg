@@ -82,12 +82,12 @@
     <script>
         const operationsFlow = `
         graph TD
-            Advertisers -->|Outreach/RFP| Media_Planning["Media Planning"]
-            Media_Planning -->|Closed Won| Campaign_Management["Campaign Management"]
-            Inventory <-->|Infra| Campaign_Management 
-            Campaign_Management --> Deliverables
-            Deliverables -->|KPIs achieved| Billing
-            Billing -->|Invoice| Advertisers
+            Advertisers("Advertisers") -->|Outreach/RFP| Media_Planning("Media Planning")
+            Media_Planning -->|Closed Won| Campaign_Management("Campaign Management")
+            Inventory("Inventory") <-->|Infra| Campaign_Management
+            Campaign_Management --> Deliverables("Deliverables")
+            Deliverables -->|KPIs achieved|Billing("Billing")
+            Billing -->|Invoice|Advertisers
 
             click Media_Planning "media_planning.html" "Go to Media Planning page"
             click Campaign_Management "campaign_management.html" "Go to Campaign Management page"
