@@ -10,6 +10,7 @@ This repository contains visualizations of our system's graph network using Merm
 - `campaign_management.html`: Details about Campaign Management.
 - `inventory.html`: Details about Inventory.
 - `billing.html`: Details about Billing.
+- `deliverables.html`: Details about Deliverables.
 
 ## Viewing the Visualization
 
