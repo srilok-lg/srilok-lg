@@ -12,6 +12,7 @@
             line-height: 1.6;
             padding: 20px;
             color: #333;
+            max-width: 1000px;
             margin: 0 auto;
         }
         h1 { color: #2c3e50; }
@@ -22,10 +23,8 @@
 </head>
 <body>
     <a href="index.html">Back to Operations Flow</a>
-    <h1>Campaign Mangement</h1>
-    <div id="graph-container">
-        <div id="graph"></div>
-    </div>
+    <h1>Media Planning</h1>
+    <div id="graph"></div>
     <script>
         const graphDefinition = `
         flowchart LR
@@ -56,17 +55,6 @@
         
             MP("Media Planning") --> CM --> DV("Deliverables")
         `;
-
-        let mermaidConfig = {
-            startOnLoad: false,
-            theme: 'neutral',
-            fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif',
-            flowchart: {
-                useMaxWidth: true,
-                htmlLabels: true,
-                curve: 'basis'
-            }
-        };
 
         mermaid.initialize({
             startOnLoad: true,
