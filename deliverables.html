@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <a href="index.html">Back to Operations Flow</a>
-    <title>Deliverables</title>
+    <title>Media Planning</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
     <style>
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
@@ -19,7 +19,53 @@
     </style>
 </head>
 <body>
+    <a href="index.html">Back to Operations Flow</a>
     <h1>Deliverables</h1>
-    <p>This is the Deliverables page. Add more details about Deliverables here.</p>
+    <div id="graph"></div>
+    <script>
+        const graphDefinition = `
+        flowchart TB
+            Deliverables --> A1("Reports") & A2("Log files")
+        
+            A1 --> B1("Weekly")
+            A1 --> B2("Monthly")
+            A1 --> B3("End of Campaign")
+        
+            B1 & B2 --> C1("Delivery Reports")
+            B1 & B2 & B3 --> C2("App Reports")
+            A1 --> C3("Advanced Reports")
+        
+            C3 --> D1("QBR") & D2("Tune-In") & D3("Closure")
+        
+            A2 --> B4("Exposure Log files")
+            B4 --> D4("PMX, Crossix, Progressive")
+        `;
+
+        mermaid.initialize({
+            startOnLoad: true,
+            theme: 'neutral',
+            fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif'
+        });
+
+        document.addEventListener('DOMContentLoaded', function () {
+            const graphDiv = document.getElementById('graph');
+            
+            function renderGraph() {
+                mermaid.render('mermaid-graph', graphDefinition).then(result => {
+                    graphDiv.innerHTML = result.svg;
+                }).catch(error => {
+                    console.error('Error rendering the graph:', error);
+                    graphDiv.innerHTML = '<p>Error rendering the graph. Please try refreshing the page.</p>';
+                });
+            }
+
+            if (typeof mermaid !== 'undefined') {
+                renderGraph();
+            } else {
+                console.error('Mermaid library not loaded');
+                graphDiv.innerHTML = '<p>Error: Mermaid library not loaded. Please check your internet connection and try again.</p>';
+            }
+        });
+    </script>
 </body>
 </html>
