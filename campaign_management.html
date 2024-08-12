@@ -27,7 +27,7 @@
     <div id="graph"></div>
     <script>
         const graphDefinition = `
-        flowchart LR
+        graph LR
             subgraph CM["Campaign Management"]
                 direction TB
                 subgraph Set-up["Campaign Set-up"]
@@ -52,7 +52,6 @@
                 end
                 Set-up --> Monitoring --> Optimization --> Reporting
             end
-        
             MP("Media Planning") --> CM --> DV("Deliverables")
         `;
 
