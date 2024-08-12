@@ -1,27 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Media Planning</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+    <style>
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+            line-height: 1.6;
+            padding: 20px;
+            color: #333;
+        }
+        h1 { color: #2c3e50; }
+        a { color: #3498db; text-decoration: none; }
+        a:hover { text-decoration: underline; }
+    </style>
+</head>
+<body>
+    <a href="index.html">Back to Operations Flow</a>
+    <h1>Billing</h1>
+    <div id="graph"></div>
+    <script>
+        const graphDefinition = `
+        flowchart LR
+        
+            subgraph Billing1["To Clients"]
+                direction TB
+                A1("1P Billing") --- A2("3P Billing")
+            end
+        
+            subgraph Billing2["To LG Ads"]
+                direction TB
+                A3("3P Segment usage")
+                A3 --> LR("Liveramp/Experian")
+            end
+        
+            Deliverables("Deliverables") --> Billing1 --> Advertisers("Advertisers")
+            Deliverables --> Billing2 --> LG("LG Ads")
+        `;
 
-    <!DOCTYPE html>
-    <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Billing</title>
-        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
-        <style>
-            body {
-                font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
-                line-height: 1.6;
-                padding: 20px;
-                color: #333;
+        mermaid.initialize({
+            startOnLoad: true,
+            theme: 'neutral',
+            fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif'
+        });
+
+        document.addEventListener('DOMContentLoaded', function () {
+            const graphDiv = document.getElementById('graph');
+            
+            function renderGraph() {
+                mermaid.render('mermaid-graph', graphDefinition).then(result => {
+                    graphDiv.innerHTML = result.svg;
+                }).catch(error => {
+                    console.error('Error rendering the graph:', error);
+                    graphDiv.innerHTML = '<p>Error rendering the graph. Please try refreshing the page.</p>';
+                });
             }
-            h1 { color: #2c3e50; }
-            a { color: #3498db; text-decoration: none; }
-            a:hover { text-decoration: underline; }
-        </style>
-    </head>
-    <body>
-        <h1>Billing</h1>
-        <p>This is the Billing page. Add more details about Billing here.</p>
-        <a href="index.html">Back to Operations Flow</a>
-    </body>
-    </html>
-    
+
+            if (typeof mermaid !== 'undefined') {
+                renderGraph();
+            } else {
+                console.error('Mermaid library not loaded');
+                graphDiv.innerHTML = '<p>Error: Mermaid library not loaded. Please check your internet connection and try again.</p>';
+            }
+        });
+    </script>
+</body>
+</html>
