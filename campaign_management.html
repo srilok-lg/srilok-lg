@@ -39,33 +39,33 @@
     <script>
         const graphDefinition = `
         flowchart TB
-        
-            subgraph CM["Campaign Management"]
+            direction LR
+            subgraph Set-up["Campaign Set-up"]
                 direction LR
-                subgraph Set-up["Campaign Set-up"]
-                    direction LR
-                    campaign_info("Campaign Info") & placement_info("Placement Info") & creative_info("Creative Info") --> A1("Campaign Set-up")
-                end
-        
-                subgraph Monitoring
-                    direction TB
-                    MD("Steller") --> A2("Monitoring")
-                    Insights --> A2
-                end
-        
-                subgraph Optimization
-                    direction LR
-                    Bidding("Bidding") & Pacing("Pacing") & Targeting("Targeting") --> A3("Optimization")
-                end
-        
-                subgraph Reporting
-                    direction LR
-                    A4("Reporting") --> weekly("Weekly Delivery Reporting") & weekly_app("Weekly App Reporting") & eoc("End of Campaign Summary")
-                end
-                Set-up --> Monitoring --> Optimization --> Reporting
+                campaign_info("Campaign Info") & placement_info("Placement Info") & creative_info("Creative Info") --> A1("Campaign Set-up")
             end
         
-            MP("Media Planning") --> CM --> DV("Deliverables")
+            subgraph Monitoring
+                direction TB
+                MD("Steller") --> A2("Monitoring")
+                Insights --> A2
+            end
+        
+            subgraph Optimization
+                direction LR
+                Bidding("Bidding") & Pacing("Pacing") & Targeting("Targeting") --> A3("Optimization")
+            end
+        
+            subgraph Reporting
+                direction LR
+                A4("Reporting") --> weekly("Weekly Delivery Reporting") & weekly_app("Weekly App Reporting") & eoc("End of Campaign Summary")
+            end
+        
+            MP("Media Planning") --> Set-up
+            Set-up --> Monitoring
+            Monitoring --> Optimization
+            Optimization --> Reporting
+            Reporting --> DV("Deliverables")
         `;
 
         let mermaidConfig = {
