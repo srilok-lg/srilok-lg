@@ -27,30 +27,26 @@
     <div id="graph"></div>
     <script>
         const graphDefinition = `
-        graph LR
+        flowchart LR
             subgraph CM["Campaign Management"]
                 direction TB
-                subgraph Set-up["Campaign Set-up"]
-                    direction TB
+                subgraph Setup["Campaign Set-up"]
                     campaign_info("Campaign Info") & placement_info("Placement Info") & creative_info("Creative Info") --> A1("Campaign Set-up")
                 end
         
                 subgraph Monitoring
-                    direction TB
                     MD("Steller") --> A2("Monitoring")
                     Insights --> A2
                 end
         
                 subgraph Optimization
-                    direction TB
                     Bidding("Bidding") & Pacing("Pacing") & Targeting("Targeting") --> A3("Optimization")
                 end
         
                 subgraph Reporting
-                    direction TB
                     A4("Reporting") --> weekly("Weekly Delivery Reporting") & weekly_app("Weekly App Reporting") & eoc("End of Campaign Summary")
                 end
-                Set-up --> Monitoring --> Optimization --> Reporting
+                Setup --> Monitoring --> Optimization --> Reporting
             end
             MP("Media Planning") --> CM --> DV("Deliverables")
         `;
