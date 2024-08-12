@@ -32,9 +32,9 @@
 </head>
 <body>
     <a href="index.html">Back to Operations Flow</a>
-    <h1>Campaign Mangement</h1>
+    <h1>Campaign Management</h1>
     <div id="graph-container">
-        <div id="graph"></div>
+        <div id="graph" class="mermaid"></div>
     </div>
     <script>
         const graphDefinition = `
@@ -69,7 +69,7 @@
         `;
 
         let mermaidConfig = {
-            startOnLoad: false,
+            startOnLoad: true,
             theme: 'neutral',
             fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif',
             flowchart: {
@@ -83,8 +83,14 @@
 
         document.addEventListener('DOMContentLoaded', function () {
             if (typeof mermaid !== 'undefined') {
-                renderGraph();
-                window.addEventListener('resize', renderGraph);
+                mermaid.render("graphDiv", graphDefinition).then(function(result) {
+                    document.getElementById('graph').innerHTML = result.svg;
+                });
+                window.addEventListener('resize', function() {
+                    mermaid.render("graphDiv", graphDefinition).then(function(result) {
+                        document.getElementById('graph').innerHTML = result.svg;
+                    });
+                });
             } else {
                 console.error('Mermaid library not loaded');
                 document.getElementById('graph').innerHTML = '<p>Error: Mermaid library not loaded. Please check your internet connection and try again.</p>';
