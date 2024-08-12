@@ -1,27 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Media Planning</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+    <style>
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+            line-height: 1.6;
+            padding: 20px;
+            color: #333;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        h1 { color: #2c3e50; }
+        a { color: #3498db; text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        #graph { margin-top: 20px; margin-bottom: 20px; }
+    </style>
+</head>
+<body>
+    <a href="index.html">Back to Operations Flow</a>
+    <h1>Inventory</h1>
+    <div id="graph"></div>
+    <script>
+        const graphDefinition = `
+        flowchart TB
+            A1("Inventory") --> B1("LG") & B2("External")
+        
+            B1 --> C1("Native")
+            B1 & B2 --> C2("CTV")
+            B2 --> C3("Cross Screen")
+        
+            C1 --> D1("Ad Slots")
+            C2 --> D2("O&O") & D3("Ads Plus") & D4("Open Market")
+            C3 --> D4
+        `;
 
-    <!DOCTYPE html>
-    <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Inventory</title>
-        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
-        <style>
-            body {
-                font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
-                line-height: 1.6;
-                padding: 20px;
-                color: #333;
+        mermaid.initialize({
+            startOnLoad: true,
+            theme: 'neutral',
+            fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif'
+        });
+
+        document.addEventListener('DOMContentLoaded', function () {
+            const graphDiv = document.getElementById('graph');
+            
+            function renderGraph() {
+                mermaid.render('mermaid-graph', graphDefinition).then(result => {
+                    graphDiv.innerHTML = result.svg;
+                }).catch(error => {
+                    console.error('Error rendering the graph:', error);
+                    graphDiv.innerHTML = '<p>Error rendering the graph. Please try refreshing the page.</p>';
+                });
             }
-            h1 { color: #2c3e50; }
-            a { color: #3498db; text-decoration: none; }
-            a:hover { text-decoration: underline; }
-        </style>
-    </head>
-    <body>
-        <h1>Inventory</h1>
-        <p>This is the Inventory page. Add more details about Inventory here.</p>
-        <a href="index.html">Back to Operations Flow</a>
-    </body>
-    </html>
-    
+
+            if (typeof mermaid !== 'undefined') {
+                renderGraph();
+            } else {
+                console.error('Mermaid library not loaded');
+                graphDiv.innerHTML = '<p>Error: Mermaid library not loaded. Please check your internet connection and try again.</p>';
+            }
+        });
+    </script>
+</body>
+</html>
