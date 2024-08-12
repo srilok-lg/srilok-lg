@@ -17,6 +17,14 @@
             a { color: #3498db; text-decoration: none; }
             a:hover { text-decoration: underline; }
         </style>
+        <script>
+            mermaid.initialize({
+                startOnLoad: true,
+                theme: 'neutral',
+                fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif'
+            });
+        </script>
+        <a href="index.html">Back to Operations Flow</a>
     </head>
     <body>
         <h1>Media Planning</h1>
@@ -37,7 +45,32 @@
                 A1("Advertisers") --> MP
                 DB  --> CM("Campaign Management")
         </div>
-        <a href="index.html">Back to Operations Flow</a>
+        <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            function renderMermaid() {
+                var element = document.querySelector(".mermaid");
+                if (element && element.offsetWidth > 0) {
+                    var graphDefinition = element.textContent || element.innerText;
+                    mermaid.mermaidAPI.render('graphDiv', graphDefinition, function(svgCode) {
+                        element.innerHTML = svgCode;
+                    });
+                } else {
+                    // If the element is not ready yet, try again after a short delay
+                    setTimeout(renderMermaid, 100); // retry after 100ms
+                }
+            }
+
+            if (typeof mermaid !== 'undefined') {
+                renderMermaid();
+            } else {
+                // If mermaid is not loaded yet, wait for it
+                var script = document.querySelector('script[src*="mermaid"]');
+                if (script) {
+                    script.onload = renderMermaid;
+                }
+            }
+        });
+    </script>
     </body>
     </html>
     
