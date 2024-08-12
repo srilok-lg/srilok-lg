@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Campaign Management</title>
-    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+    <title>Media Planning</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
     <style>
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
@@ -18,73 +18,67 @@
         h1 { color: #2c3e50; }
         a { color: #3498db; text-decoration: none; }
         a:hover { text-decoration: underline; }
-        .mermaid {
-            margin-top: 20px;
-            margin-bottom: 20px;
-        }
+        #graph { margin-top: 20px; margin-bottom: 20px; }
     </style>
+</head>
+<body>
+    <a href="index.html">Back to Operations Flow</a>
+    <h1>Campaign Management</h1>
+    <div id="graph"></div>
     <script>
+        const graphDefinition = `
+        flowchart LR
+            subgraph CM["Campaign Management"]
+                direction TB
+                subgraph Set-up["Campaign Set-up"]
+                    direction TB
+                    campaign_info("Campaign Info") & placement_info("Placement Info") & creative_info("Creative Info") --> A1("Campaign Set-up")
+                end
+        
+                subgraph Monitoring
+                    direction TB
+                    MD("Steller") --> A2("Monitoring")
+                    Insights --> A2
+                end
+        
+                subgraph Optimization
+                    direction TB
+                    Bidding("Bidding") & Pacing("Pacing") & Targeting("Targeting") --> A3("Optimization")
+                end
+        
+                subgraph Reporting
+                    direction TB
+                    A4("Reporting") --> weekly("Weekly Delivery Reporting") & weekly_app("Weekly App Reporting") & eoc("End of Campaign Summary")
+                end
+                Set-up --> Monitoring --> Optimization --> Reporting
+            end
+        
+            MP("Media Planning") --> CM --> DV("Deliverables")
+        `;
+
         mermaid.initialize({
             startOnLoad: true,
             theme: 'neutral',
             fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif'
         });
-    </script>
-</head>
-<body>
-    <a href="index.html">Back to Operations Flow</a>
-    <div class="mermaid">
-    flowchart LR
-        subgraph CM["Campaign Management"]
-            direction TB
-            subgraph Set-up["Campaign Set-up"]
-                direction TB
-                campaign_info("Campaign Info") & placement_info("Placement Info") & creative_info("Creative Info") --> A1("Campaign Set-up")
-            end
-    
-            subgraph Monitoring
-                direction TB
-                MD("Steller") --> A2("Monitoring")
-                Insights --> A2
-            end
-    
-            subgraph Optimization
-                direction TB
-                Bidding("Bidding") & Pacing("Pacing") & Targeting("Targeting") --> A3("Optimization")
-            end
-    
-            subgraph Reporting
-                direction TB
-                A4("Reporting") --> weekly("Weekly Delivery Reporting") & weekly_app("Weekly App Reporting") & eoc("End of Campaign Summary")
-            end
-            Set-up --> Monitoring --> Optimization --> Reporting
-        end
-    
-        MP("Media Planning") --> CM --> DV("Deliverables")
 
-    <script>
         document.addEventListener('DOMContentLoaded', function () {
-            function renderMermaid() {
-                var element = document.querySelector(".mermaid");
-                if (element && element.offsetWidth > 0) {
-                    var graphDefinition = element.textContent || element.innerText;
-                    mermaid.mermaidAPI.render('graphDiv', graphDefinition, function(svgCode) {
-                        element.innerHTML = svgCode;
-                    });
-                } else {
-                    // If the element is not ready yet, try again after a short delay
-                    setTimeout(renderMermaid, 100); // retry after 100ms
-                }
+            const graphDiv = document.getElementById('graph');
+            
+            function renderGraph() {
+                mermaid.render('mermaid-graph', graphDefinition).then(result => {
+                    graphDiv.innerHTML = result.svg;
+                }).catch(error => {
+                    console.error('Error rendering the graph:', error);
+                    graphDiv.innerHTML = '<p>Error rendering the graph. Please try refreshing the page.</p>';
+                });
             }
 
             if (typeof mermaid !== 'undefined') {
-                renderMermaid();
+                renderGraph();
             } else {
-                // If mermaid is not loaded yet, wait for it
-                var script = document.querySelector('script[src*="mermaid"]');
-                if (script) {
-                    script.onload = renderMermaid;
-                }
+                console.error('Mermaid library not loaded');
+                graphDiv.innerHTML = '<p>Error: Mermaid library not loaded. Please check your internet connection and try again.</p>';
             }
         });
     </script>
