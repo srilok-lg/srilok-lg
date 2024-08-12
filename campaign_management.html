@@ -81,36 +81,6 @@
 
         mermaid.initialize(mermaidConfig);
 
-        function renderGraph() {
-            const graphContainer = document.getElementById('graph-container');
-            const graphDiv = document.getElementById('graph');
-            
-            // Clear previous content
-            graphDiv.innerHTML = '';
-            
-            // Set viewBox to control scaling
-            mermaidConfig.flowchart.useMaxWidth = true;
-            
-            mermaid.render('mermaid-graph', graphDefinition).then(result => {
-                graphDiv.innerHTML = result.svg;
-                
-                // Get the SVG element
-                const svg = graphDiv.querySelector('svg');
-                
-                // Set the SVG to fill the container while maintaining aspect ratio
-                svg.setAttribute('width', '100%');
-                svg.setAttribute('height', '100%');
-                svg.style.display = 'block';
-                
-                // Adjust viewBox to fit content
-                const bbox = svg.getBBox();
-                svg.setAttribute('viewBox', `${bbox.x} ${bbox.y} ${bbox.width} ${bbox.height}`);
-            }).catch(error => {
-                console.error('Error rendering the graph:', error);
-                graphDiv.innerHTML = '<p>Error rendering the graph. Please try refreshing the page.</p>';
-            });
-        }
-
         document.addEventListener('DOMContentLoaded', function () {
             if (typeof mermaid !== 'undefined') {
                 renderGraph();
