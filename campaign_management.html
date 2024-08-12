@@ -38,87 +38,36 @@
     <p>Campaign Management is a comprehensive process in advertising that involves planning, executing, monitoring, optimizing, and reporting on advertising campaigns. It consists of four main phases: Setup, Monitoring, Optimization, and Reporting.</p>
 
     <div class="mermaid">
-    graph TD
-        A1["SetUp"] --> A2["Monitoring"] --> A3["Optimization"] --> A4["Reporting"]
-    subgraph  
-        campaign_info["Campaign Info"] --> Mosaic/Beeswax
-        placement_info["Placement Info"] --> Mosaic/Beeswax
-        creative_info["Creative Info"] --> Mosaic/Beeswax
-        Salesforce --> campaign_info
-        IO --> campaign_info
-        Targeting_info["Targeting Info"] --> placement_info
-        IO --> placement_info
-        SSP --> placement_info
-        tags["Tags, Pixels"] --> creative_info
-        CTA --> creative_info
-        Mosaic/Beeswax --> A1
-    end
-
-    subgraph  
-        MD["Steller (Monitoring Dash)"] --> A2
-        Insights --> A2
-    end
-
-    subgraph  
-        Bidding --> A3
-        Pacing --> A3
-        Targeting --> A3
-        Modifiers --> A3
-    end
-
-    subgraph  
-        A4 --> weekly["Weekly Delivery Reporting"]
-        A4 --> weekly_app["Weekly App Reporting"]
-        A4 --> eoc["End of Campaign Summary"]
-    end
-    %% Setting hierarchy levels
-    classDef level1 fill:#f9d5e5,stroke:#333,stroke-width:2px;
-    classDef level2 fill:#eeac99,stroke:#333,stroke-width:2px;
-    classDef level3 fill:#e06377,stroke:#333,stroke-width:2px;
-    classDef level4 fill:#c83349,stroke:#333,stroke-width:2px;
+    flowchart TB
     
-    class A1,A2,A3,A4 level1;
-    class Bidding,Pacing,Modifiers,weekly,weekly_app,eoc,MD,Insights,Targeting,Mosaic/Beeswax level2;
-    class campaign_info,placement_info,creative_info level3;
-    class Salesforce,IO,Targeting_info,SSP,tags,CTA level4;
+        subgraph CM["Campaign Management"]
+            direction LR
+            subgraph Set-up["Campaign Set-up"]
+                direction LR
+                campaign_info("Campaign Info") & placement_info("Placement Info") & creative_info("Creative Info") --> A1("Campaign Set-up")
+            end
+    
+            subgraph Monitoring
+                direction TB
+                MD("Steller") --> A2("Monitoring")
+                Insights --> A2
+            end
+    
+            subgraph Optimization
+                direction LR
+                Bidding("Bidding") & Pacing("Pacing") & Targeting("Targeting") --> A3("Optimization")
+            end
+    
+            subgraph Reporting
+                direction LR
+                A4("Reporting") --> weekly("Weekly Delivery Reporting") & weekly_app("Weekly App Reporting") & eoc("End of Campaign Summary")
+            end
+            Set-up --> Monitoring --> Optimization --> Reporting
+        end
+    
+        MP("Media Planning") --> CM --> DV("Deliverables")
     </div>
-
-    <h2>Phases of Campaign Management</h2>
-
-    <h3>1. Setup</h3>
-    <p>In this initial phase, we gather and input all necessary information to launch the campaign:</p>
-    <ul>
-        <li><strong>Campaign Info:</strong> Derived from Salesforce and IO (Insertion Order), including campaign objectives, timeline, and budget.</li>
-        <li><strong>Placement Info:</strong> Includes Targeting Info, IO details, and SSP (Supply-Side Platform) information.</li>
-        <li><strong>Creative Info:</strong> Involves tags, pixels, and CTA (Click-Through-Action) elements.</li>
-        <li>All this information is fed into Mosaic/Beeswax systems for campaign setup.</li>
-    </ul>
-
-    <h3>2. Monitoring</h3>
-    <p>Once the campaign is live, we continuously monitor its performance:</p>
-    <ul>
-        <li><strong>Steller (Monitoring Dash):</strong> Provides real-time monitoring of campaign metrics.</li>
-        <li><strong>Insights:</strong> Offers deeper analysis of campaign performance data.</li>
-    </ul>
-
-    <h3>3. Optimization</h3>
-    <p>Based on monitoring data, we make adjustments to improve campaign performance:</p>
-    <ul>
-        <li><strong>Bidding:</strong> Adjusting bid strategies to optimize ad spend.</li>
-        <li><strong>Pacing:</strong> Ensuring the budget is spent evenly over the campaign duration.</li>
-        <li><strong>Targeting:</strong> Refining the audience to reach the most relevant users.</li>
-        <li><strong>Modifiers:</strong> Applying adjustments based on bid and delivery.</li>
-    </ul>
-
-    <h3>4. Reporting</h3>
-    <p>Regular reporting helps track campaign performance and inform future strategies:</p>
-    <ul>
-        <li><strong>Weekly Delivery Reporting:</strong> Regular updates on campaign progress.</li>
-        <li><strong>Weekly App Reporting:</strong> Specific reports for app-based campaigns.</li>
-        <li><strong>End of Campaign Summary:</strong> Comprehensive analysis of the entire campaign performance.</li>
-    </ul>
-
-    <p>Effective campaign management requires a deep understanding of these phases and the ability to adapt strategies based on real-time data and insights.</p>
+    
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             function renderMermaid() {
