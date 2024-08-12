@@ -32,44 +32,44 @@
 </head>
 <body>
     <a href="index.html">Back to Operations Flow</a>
-    <h1>Campaign Management</h1>
+    <h1>Campaign Mangement</h1>
     <div id="graph-container">
-        <div id="graph" class="mermaid"></div>
+        <div id="graph"></div>
     </div>
     <script>
         const graphDefinition = `
-        graph TB
-            direction LR
-            subgraph Set-up["Campaign Set-up"]
+        flowchart TB
+        
+            subgraph CM["Campaign Management"]
                 direction LR
-                campaign_info("Campaign Info") & placement_info("Placement Info") & creative_info("Creative Info") --> A1("Campaign Set-up")
+                subgraph Set-up["Campaign Set-up"]
+                    direction LR
+                    campaign_info("Campaign Info") & placement_info("Placement Info") & creative_info("Creative Info") --> A1("Campaign Set-up")
+                end
+        
+                subgraph Monitoring
+                    direction TB
+                    MD("Steller") --> A2("Monitoring")
+                    Insights --> A2
+                end
+        
+                subgraph Optimization
+                    direction LR
+                    Bidding("Bidding") & Pacing("Pacing") & Targeting("Targeting") --> A3("Optimization")
+                end
+        
+                subgraph Reporting
+                    direction LR
+                    A4("Reporting") --> weekly("Weekly Delivery Reporting") & weekly_app("Weekly App Reporting") & eoc("End of Campaign Summary")
+                end
+                Set-up --> Monitoring --> Optimization --> Reporting
             end
         
-            subgraph Monitoring
-                direction TB
-                MD("Steller") --> A2("Monitoring")
-                Insights --> A2
-            end
-        
-            subgraph Optimization
-                direction LR
-                Bidding("Bidding") & Pacing("Pacing") & Targeting("Targeting") --> A3("Optimization")
-            end
-        
-            subgraph Reporting
-                direction LR
-                A4("Reporting") --> weekly("Weekly Delivery Reporting") & weekly_app("Weekly App Reporting") & eoc("End of Campaign Summary")
-            end
-        
-            MP("Media Planning") --> Set-up
-            Set-up --> Monitoring
-            Monitoring --> Optimization
-            Optimization --> Reporting
-            Reporting --> DV("Deliverables")
+            MP("Media Planning") --> CM --> DV("Deliverables")
         `;
 
         let mermaidConfig = {
-            startOnLoad: true,
+            startOnLoad: false,
             theme: 'neutral',
             fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif',
             flowchart: {
@@ -81,16 +81,40 @@
 
         mermaid.initialize(mermaidConfig);
 
+        function renderGraph() {
+            const graphContainer = document.getElementById('graph-container');
+            const graphDiv = document.getElementById('graph');
+            
+            // Clear previous content
+            graphDiv.innerHTML = '';
+            
+            // Set viewBox to control scaling
+            mermaidConfig.flowchart.useMaxWidth = true;
+            
+            mermaid.render('mermaid-graph', graphDefinition).then(result => {
+                graphDiv.innerHTML = result.svg;
+                
+                // Get the SVG element
+                const svg = graphDiv.querySelector('svg');
+                
+                // Set the SVG to fill the container while maintaining aspect ratio
+                svg.setAttribute('width', '100%');
+                svg.setAttribute('height', '100%');
+                svg.style.display = 'block';
+                
+                // Adjust viewBox to fit content
+                const bbox = svg.getBBox();
+                svg.setAttribute('viewBox', `${bbox.x} ${bbox.y} ${bbox.width} ${bbox.height}`);
+            }).catch(error => {
+                console.error('Error rendering the graph:', error);
+                graphDiv.innerHTML = '<p>Error rendering the graph. Please try refreshing the page.</p>';
+            });
+        }
+
         document.addEventListener('DOMContentLoaded', function () {
             if (typeof mermaid !== 'undefined') {
-                mermaid.render("graphDiv", graphDefinition).then(function(result) {
-                    document.getElementById('graph').innerHTML = result.svg;
-                });
-                window.addEventListener('resize', function() {
-                    mermaid.render("graphDiv", graphDefinition).then(function(result) {
-                        document.getElementById('graph').innerHTML = result.svg;
-                    });
-                });
+                renderGraph();
+                window.addEventListener('resize', renderGraph);
             } else {
                 console.error('Mermaid library not loaded');
                 document.getElementById('graph').innerHTML = '<p>Error: Mermaid library not loaded. Please check your internet connection and try again.</p>';
