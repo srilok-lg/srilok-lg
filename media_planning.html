@@ -20,7 +20,23 @@
     </head>
     <body>
         <h1>Media Planning</h1>
-        <p>This is the Media Planning page. Add more details about Media Planning here.</p>
+        <div class="mermaid">
+            flowchart LR
+                subgraph MP["Media Planning"]
+                    direction TB
+                        B1("Sales") <--> C1("Account Management") <--> C2("Media Planning")
+                end
+            
+                subgraph DB["Databases"]
+                    direction TB
+                    B2[("Salesforce")] --> |Opportunity Details|B3[("Mosaic")]
+                end
+            
+                MP --> |Closed Won|DB
+                MP --> |Creates the campaign|DB
+                A1("Advertisers") --> MP
+                DB  --> CM("Campaign Management")
+        </div>
         <a href="index.html">Back to Operations Flow</a>
     </body>
     </html>
