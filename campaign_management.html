@@ -12,44 +12,71 @@
             line-height: 1.6;
             padding: 20px;
             color: #333;
-            max-width: 1000px;
             margin: 0 auto;
         }
         h1 { color: #2c3e50; }
         a { color: #3498db; text-decoration: none; }
         a:hover { text-decoration: underline; }
-        #graph { margin-top: 20px; margin-bottom: 20px; }
+        #graph-container {
+            width: 100%;
+            height: calc(100vh - 150px); /* Adjust based on your needs */
+            margin-top: 20px;
+            margin-bottom: 20px;
+            overflow: auto;
+        }
+        #graph {
+            width: 100%;
+            height: 100%;
+        }
     </style>
 </head>
 <body>
     <a href="index.html">Back to Operations Flow</a>
-    <h1>Campaign Management</h1>
-    <div id="graph"></div>
+    <h1>Campaign Mangement</h1>
+    <div id="graph-container">
+        <div id="graph"></div>
+    </div>
     <script>
         const graphDefinition = `
         flowchart LR
             subgraph CM["Campaign Management"]
                 direction TB
-                subgraph Setup["Campaign Set-up"]
+                subgraph Set-up["Campaign Set-up"]
+                    direction TB
                     campaign_info("Campaign Info") & placement_info("Placement Info") & creative_info("Creative Info") --> A1("Campaign Set-up")
                 end
         
                 subgraph Monitoring
+                    direction TB
                     MD("Steller") --> A2("Monitoring")
                     Insights --> A2
                 end
         
                 subgraph Optimization
+                    direction TB
                     Bidding("Bidding") & Pacing("Pacing") & Targeting("Targeting") --> A3("Optimization")
                 end
         
                 subgraph Reporting
+                    direction TB
                     A4("Reporting") --> weekly("Weekly Delivery Reporting") & weekly_app("Weekly App Reporting") & eoc("End of Campaign Summary")
                 end
-                Setup --> Monitoring --> Optimization --> Reporting
+                Set-up --> Monitoring --> Optimization --> Reporting
             end
+        
             MP("Media Planning") --> CM --> DV("Deliverables")
         `;
+
+        let mermaidConfig = {
+            startOnLoad: false,
+            theme: 'neutral',
+            fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif',
+            flowchart: {
+                useMaxWidth: true,
+                htmlLabels: true,
+                curve: 'basis'
+            }
+        };
 
         mermaid.initialize({
             startOnLoad: true,
