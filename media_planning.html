@@ -1,51 +1,50 @@
-
-    <!DOCTYPE html>
-    <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Media Planning</title>
-        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
-        <style>
-            body {
-                font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
-                line-height: 1.6;
-                padding: 20px;
-                color: #333;
-            }
-            h1 { color: #2c3e50; }
-            a { color: #3498db; text-decoration: none; }
-            a:hover { text-decoration: underline; }
-        </style>
-        <script>
-            mermaid.initialize({
-                startOnLoad: true,
-                theme: 'neutral',
-                fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif'
-            });
-        </script>
-        <a href="index.html">Back to Operations Flow</a>
-    </head>
-    <body>
-        <h1>Media Planning</h1>
-        <div class="mermaid">
-            flowchart LR
-                subgraph MP["Media Planning"]
-                    direction TB
-                        B1("Sales") <--> C1("Account Management") <--> C2("Media Planning")
-                end
-            
-                subgraph DB["Databases"]
-                    direction TB
-                    B2[("Salesforce")] --> |Opportunity Details|B3[("Mosaic")]
-                end
-            
-                MP --> |Closed Won|DB
-                MP --> |Creates the campaign|DB
-                A1("Advertisers") --> MP
-                DB  --> CM("Campaign Management")
-        </div>
-        <script>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Media Planning</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+            line-height: 1.6;
+            padding: 20px;
+            color: #333;
+        }
+        h1 { color: #2c3e50; }
+        a { color: #3498db; text-decoration: none; }
+        a:hover { text-decoration: underline; }
+    </style>
+    <script>
+        mermaid.initialize({
+            startOnLoad: true,
+            theme: 'neutral',
+            fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif'
+        });
+    </script>
+    <a href="index.html">Back to Operations Flow</a>
+</head>
+<body>
+    <h1>Media Planning</h1>
+    <div class="mermaid">
+        graph LR
+            subgraph MP["Media Planning"]
+                direction TB
+                    B1("Sales") <--> C1("Account Management") <--> C2("Media Planning")
+            end
+        
+            subgraph DB["Databases"]
+                direction TB
+                B2[("Salesforce")] --> |Opportunity Details|B3[("Mosaic")]
+            end
+        
+            MP --> |Closed Won|DB
+            MP --> |Creates the campaign|DB
+            A1("Advertisers") --> MP
+            DB  --> CM("Campaign Management")
+    </div>
+    <script>
         document.addEventListener('DOMContentLoaded', function () {
             function renderMermaid() {
                 var element = document.querySelector(".mermaid");
@@ -59,7 +58,7 @@
                     setTimeout(renderMermaid, 100); // retry after 100ms
                 }
             }
-
+    
             if (typeof mermaid !== 'undefined') {
                 renderMermaid();
             } else {
@@ -71,6 +70,6 @@
             }
         });
     </script>
-    </body>
-    </html>
-    
+</body>
+</html>
+
