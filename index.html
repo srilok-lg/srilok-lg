@@ -12,6 +12,7 @@
             margin: 0;
             padding: 0;
             overflow: hidden;
+            text-align:center;
         }
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
@@ -95,13 +96,12 @@
     </style>
 </head>
 <body>
-    <div class="controls">
-        <h1 id="graphTitle">Operations Flow</h1>
-        <label class="switch">
-            <input type="checkbox" id="graphToggle">
-            <span class="slider"></span>
-        </label>
-        <span class="switch-label" id="toggleLabel">Switch to Infrastructure Map</span>
+    <h1 id="graphTitle">Operations Flow</h1>
+    <label class="switch">
+        <input type="checkbox" id="graphToggle">
+        <span class="slider"></span>
+    </label>
+    <span class="switch-label" id="toggleLabel">Switch to Infrastructure Map</span>
     </div>
     <div class="graph-container">
         <div id="graphDiv"></div>
