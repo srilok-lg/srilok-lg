@@ -7,14 +7,29 @@
     <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
     <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+        }
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
             line-height: 1.6;
             padding: 20px;
             color: #333;
             margin: 0 auto;
+            display: flex;
+            flex-direction: column;
         }
-        h1 { color: #2c3e50; }
+        h1 { 
+            color: #2c3e50;
+            margin: 10px 0;
+           }
+        .controls {
+            padding: 10px;
+            text-align: center;
+        }
         .switch {
             position: relative;
             display: inline-block;
