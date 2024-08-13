@@ -69,15 +69,15 @@
     <p>These include Type of Billing, Need for any measurement study, Exact Targeting details and other placement/creative info.</p>
     <p>All these details get fed into the DSP (<a href="mosaic.html">Mosaic</a>).</p>
     <script>        
-        function goBackToInframap() {
-            if (window.parent !== window.self) {
-                // We're in an iframe
-                window.parent.postMessage({ action: 'navigateToInframap' }, '*');
-            } else {
-                // We're not in an iframe, navigate directly
-                window.location.href = 'index.html#infra';
-            }
+    function goBackToInframap() {
+        if (window.parent !== window.self) {
+            // We're in an iframe
+            window.parent.postMessage({ action: 'navigateToInframap' }, '*');
+        } else {
+            // We're not in an iframe, navigate directly
+            window.location.href = 'index.html#infra';
         }
+    }
     </script>
 </body>
 </html>
