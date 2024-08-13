@@ -59,15 +59,36 @@
             transform-origin: bottom left;
         }
     </style>
+    <style>
+    .page-link {
+        font-family: Inter, sans-serif;
+        font-size: 16px;
+        font-weight:normal;
+        color: #3498db;
+        text-decoration: none;
+        position: relative;
+        transition: transform 0.3s ease;
+        display: inline-block;
+    }
+
+    .page-link:hover {
+        font-weight:bold;
+    }
+
+    .page-link:hover:after {
+        transform-origin: bottom left;
+        font-weight:normal;
+    }
+    </style>
 </head>
 <body>
     <a href="#" class="back-link" onclick="goBackToInframap(); return false;">Back to Infrastructure Map</a>
 </body>
 <body>
     <h1>DAGs</h1>
-    <p><strong><a href='https://alphonsotv.atlassian.net/wiki/x/pIPxk'>Confluence Page</a></strong></p>
+    <p><a href='https://alphonsotv.atlassian.net/wiki/x/pIPxk' class="page-link">Confluence Page</a></p>
     <p>A DAG is a CRON job which runs/refreshes the segment according the set conditions.</p>
-    <p>DAGs for the segments are found on the <a href="https://segments.alphonso.tv/dags">DAG Portal</a>. DAGs are identified by the unique DAG ID <i>(A good point to note is a DAG ID is different from a Segment ID).</i></p>
+    <p>DAGs for the segments are found on the <a href="https://segments.alphonso.tv/dags" class="page-link">DAG Portal</a>. DAGs are identified by the unique DAG ID <i>(A good point to note is a DAG ID is different from a Segment ID).</i></p>
     <script>        
         function goBackToInframap() {
             if (window.parent !== window.self) {
