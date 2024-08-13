@@ -197,6 +197,20 @@
             
             renderGraph();
         });
+            
+            window.addEventListener('message', function(event) {
+                if (event.data.action === 'navigateToInframap') {
+                    document.getElementById('graphToggle').checked = true;
+                    document.getElementById('graphToggle').dispatchEvent(new Event('change'));
+                }
+            });
+            
+            window.addEventListener('load', function() {
+                if (window.location.hash === '#infra') {
+                    document.getElementById('graphToggle').checked = true;
+                    document.getElementById('graphToggle').dispatchEvent(new Event('change'));
+                }
+            });
     </script>
 </body>
 </html>
