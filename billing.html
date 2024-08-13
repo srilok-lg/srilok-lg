@@ -15,11 +15,54 @@
         }
         h1 { color: #2c3e50; }
         a { color: #3498db; text-decoration: none; }
-        a:hover { text-decoration: underline; }
+        a:hover { text-decoration: none; }
+    </style>
+</head>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Animated Back Link</title>
+    <style>
+        .back-link {
+            font-family: Arial, sans-serif;
+            font-size: 16px;
+            color: #3498db;
+            text-decoration: none;
+            position: relative;
+            transition: transform 0.3s ease;
+            display: inline-block;
+        }
+
+        .back-link:before {
+            content: "\2190"; /* Left arrow Unicode character */
+            margin-right: 5px;
+        }
+
+        .back-link:after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 2px;
+            bottom: 0;
+            left: 0;
+            background-color: #3498db;
+            transform: scaleX(0);
+            transform-origin: bottom right;
+            transition: transform 0.3s ease;
+        }
+
+        .back-link:hover {
+            transform: scale(1.05);
+        }
+
+        .back-link:hover:after {
+            transform: scaleX(1);
+            transform-origin: bottom left;
+        }
     </style>
 </head>
 <body>
-    <a href="index.html">Back to Operations Flow</a>
+    <a href="index.html" class="back-link">Back to Operations Flow</a>
     <h1>Billing</h1>
     <div id="graph"></div>
     <script>
