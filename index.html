@@ -101,8 +101,7 @@
 
         const infraTree = `
         graph TD
-            Salesforce --> Opportunities
-            Opportunities <--> A2["Campaign Parameters"]
+            Salesforce --> A2["Campaign Parameters"]
             C4["Segment Portal"] --> Segments
             C4 --> DAGs
             Segments --> A2
