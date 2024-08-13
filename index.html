@@ -129,6 +129,34 @@
             DAS --> Steller
             SSP_logs --> DAS
             SSP_logs["SSP Logs"] --> Elastic
+
+            click Salesforce "salesforce.html" "Go to Salesforce page"
+            click Opportunities "opportunities.html" "Go to Opportunities page"
+            click A2 "campaign_parameters.html" "Go to Campaign Parameters page"
+            click C4 "segment_portal.html" "Go to Segment Portal page"
+            click Segments "segments.html" "Go to Segments page"
+            click DAGs "dags.html" "Go to DAGs page"
+            click LG "lg.html" "Go to LG page"
+            click B5 "native_segments.html" "Go to Native Segments page"
+            click A1 "inventory.html" "Go to Inventory page"
+            click Data_p "data_partnerships.html" "Go to Data Partnerships page"
+            click B2 "ssp.html" "Go to SSP page"
+            click B1 "dsp.html" "Go to DSP page"
+            click C1 "mosaic.html" "Go to Mosaic page"
+            click C2 "beeswax.html" "Go to Beeswax page"
+            click C3 "peregrine.html" "Go to Peregrine page"
+            click SSP_logs "ssp_logs.html" "Go to SSP Logs page"
+            click PP "pixel_pinger.html" "Go to Pixel Pinger page"
+            click Programmatic "programmatic.html" "Go to Programmatic page"
+            click DAS "das.html" "Go to DAS page"
+            click Kasper "kasper.html" "Go to Kasper page"
+            click Insights "insights.html" "Go to Insights page"
+            click Reporting "reporting.html" "Go to Reporting page"
+            click Steller "steller.html" "Go to Steller page"
+            click Elastic "elastic.html" "Go to Elastic page"
+    
+            classDef clickable cursor:pointer;
+            class Salesforce,Opportunities,A2,C4,Segments,DAGs,LG,B5,A1,Data_p,B2,B1,C1,C2,C3,SSP_logs,PP,Programmatic,DAS,Kasper,Insights,Reporting,Steller,Elastic clickable;        
         `;
 
         let currentGraph = 'operations';
