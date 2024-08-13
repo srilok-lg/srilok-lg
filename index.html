@@ -63,17 +63,13 @@
             margin-left: 10px;
         }
         .graph-container {
-/*             flex-grow: 1;
-            display: flex; */
-            justify-content: center;
-            align-items: center;
             margin-top: 20px;
             margin-bottom: 20px;
             overflow-x:auto;
         }
         #graphDiv {
-            margin-top: 20px;
-            margin-bottom: 20px;
+            display: inline-block;
+            text-align: center;
         }
         .clickable:hover {
             cursor: pointer;
@@ -189,11 +185,13 @@
             const graphDefinition = currentGraph === 'operations' ? operationsFlow : infraTree;
             mermaid.render('mermaid-graph', graphDefinition).then(result => {
                 graphDiv.innerHTML = result.svg;
+                const svg = graphDiv.querySelector('svg');
+                svg.style.maxWidth = '100%';
+                svg.style.height = 'auto';
             });
         }
-
+        
         document.addEventListener('DOMContentLoaded', renderGraph);
-
         document.getElementById('graphToggle').addEventListener('change', function() {
             const graphTitle = document.getElementById('graphTitle');
             const toggleLabel = document.getElementById('toggleLabel');
