@@ -63,6 +63,7 @@
     .page-link {
         font-family: Inter, sans-serif;
         font-size: 16px;
+        font_style:none;
         color: #3498db;
         text-decoration: none;
         position: relative;
@@ -72,11 +73,13 @@
 
     .page-link:hover {
         transform: scale(1.05);
+        font_style:bold;
     }
 
     .page-link:hover:after {
         transform: scaleX(1);
         transform-origin: bottom left;
+        font_style:none;
     }
 </style>
 </head>
@@ -85,7 +88,7 @@
 </body>
 <body>
     <h1>Segments</h1>
-    <p><strong><a href='https://alphonsotv.atlassian.net/wiki/x/b4Hxk' class="page-link">Confluence Page</a></strong></p>
+    <p><a href='https://alphonsotv.atlassian.net/wiki/x/b4Hxk' class="page-link">Confluence Page</a></p>
     <p>User segments required for targeting are found on the <a href="https://segments.alphonso.tv/segments?">Segment Portal</a>.</p>
     <p>These include LG Native (TLAMP), ACR, Demographic, 3rd party(Liveramp, Experian) etc.</p>
     <p>All these details get fed into the targeting section of the placement tab in the Mosaic campaign page. Segments are identified by their unique Segment ID.</p>
