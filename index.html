@@ -101,33 +101,33 @@
 
         const infraTree = `
         graph TD
-            Salesforce --> A2["Campaign Parameters"]
-            C4["Segment Portal"] --> Segments
-            C4 --> DAGs
-            Segments --> A2
-            LG --> B5["Native segments"]
+            Salesforce("Salesforce") --> A2("Campaign Parameters")
+            C4("Segment Portal") --> Segments
+            C4 --> DAGs("DAGs")
+            Segments("Segments") --> A2
+            LG("LG") --> B5("Native segments")
             B5 --> C4
-            LG --> A1["Inventory"]
-            Data_p["Data Partnerhips"] --> A1
-            A1 --> |Internal & External| B2["SSP"]
-            A2 --> B1["DSP"]
-            B1 --> C1["Mosaic"]
+            LG --> A1("Inventory")
+            Data_p("Data Partnerhips") --> A1
+            A1 --> |Internal & External| B2("SSP")
+            A2 --> B1("DSP")
+            B1 --> C1("Mosaic")
             B1 --> C2["Beeswax"]
             B2 --> C2
-            B2 --> C3["Peregrine"]
-            C2 --> SSP_logs 
+            B2 --> C3("Peregrine")
+            C2 --> SSP_logs
             C3 --> SSP_logs
             C1 --> PP
             C2 --> PP
-            A1 <--> Programmatic
-            PP["Pixel Pinger"] --> DAS
-            DAS --> Kasper
-            Kasper <--> Mosaic
-            DAS --> Insights
-            Insights --> Reporting
-            DAS --> Steller
+            A1 <--> Programmatic("Programmatic")
+            PP("Pixel Pinger") --> DAS("DAS")
+            DAS --> Kasper("Kasper")
+            Kasper <--> Mosaic("Mosaic")
+            DAS --> Insights{"Insights")
+            Insights --> Reporting("Reporting")
+            DAS --> Steller("Steller")
             SSP_logs --> DAS
-            SSP_logs["SSP Logs"] --> Elastic
+            SSP_logs("SSP Logs") --> Elastic("Elastic")
 
             click Salesforce "salesforce.html" "Go to Salesforce page"
             click Opportunities "opportunities.html" "Go to Opportunities page"
