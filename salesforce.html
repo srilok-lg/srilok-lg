@@ -59,6 +59,26 @@
             transform-origin: bottom left;
         }
     </style>
+    <style>
+        .page-link {
+        font-family: Inter, sans-serif;
+        font-size: 16px;
+        font-weight:normal;
+        color: #3066BE;
+        text-decoration: none;
+        position: relative;
+        transition: transform 0.3s ease;
+        display: inline-block;
+    }
+
+    .page-link:hover {
+        text-decoration:underline;
+    }
+
+    .page-link:hover:after {
+        text-decoration:none;
+    }
+    </style>
 </head>
 <body>
     <a href="#" class="back-link" onclick="goBackToInframap(); return false;">Back to Infrastructure Map</a>
