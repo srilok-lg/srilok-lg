@@ -59,6 +59,26 @@
             transform-origin: bottom left;
         }
     </style>
+    <style>
+    .page-link {
+        font-family: Inter, sans-serif;
+        font-size: 16px;
+        font-weight:normal;
+        color: #3066BE;
+        text-decoration: none;
+        position: relative;
+        transition: transform 0.3s ease;
+        display: inline-block;
+    }
+
+    .page-link:hover {
+        text-decoration:underline;
+    }
+
+    .page-link:hover:after {
+        text-decoration: none;
+    }
+    </style>
 </head>
 <body>
     <a href="#" class="back-link" onclick="goBackToInframap(); return false;">Back to Infrastructure Map</a>
@@ -67,7 +87,7 @@
     <h1>Campaign Parameters</h1>
     <p>Campaign Parameters refer to the other information related to the sold opportunity which is not present on Salesforce.</p>
     <p>These include Type of Billing, Need for any measurement study, Exact Targeting details and other placement/creative info.</p>
-    <p>All these details get fed into the DSP (<a href="mosaic.html">Mosaic</a>).</p>
+    <p>All these details get fed into the DSP (<a href="mosaic.html" class="page-link">Mosaic</a>).</p>
     <script>        
         function goBackToInframap() {
             if (window.parent !== window.self) {
