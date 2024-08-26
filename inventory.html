@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Inventory Bento Flowchart</title>
+    <title>Inventory</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
     <style>
         body {
@@ -79,7 +79,6 @@
             flowchart.appendChild(div);
         });
 
-        // Add arrows (this is a simplified version, you might want to improve it)
         const arrows = [
             { from: 'inventory', to: 'lg' },
             { from: 'inventory', to: 'external' },
@@ -94,6 +93,37 @@
             { from: 'crossScreen', to: 'openMarket' },
         ];
 
+        function getIntersectionPoint(fromRect, toRect) {
+            const fromCenterX = fromRect.left + fromRect.width / 2;
+            const fromCenterY = fromRect.top + fromRect.height / 2;
+            const toCenterX = toRect.left + toRect.width / 2;
+            const toCenterY = toRect.top + toRect.height / 2;
+
+            const angle = Math.atan2(toCenterY - fromCenterY, toCenterX - fromCenterX);
+
+            let fromX, fromY, toX, toY;
+
+            // From box intersection
+            if (Math.abs(Math.cos(angle)) > Math.abs(Math.sin(angle))) {
+                fromX = fromCenterX + Math.sign(Math.cos(angle)) * fromRect.width / 2;
+                fromY = fromCenterY + Math.tan(angle) * (fromX - fromCenterX);
+            } else {
+                fromY = fromCenterY + Math.sign(Math.sin(angle)) * fromRect.height / 2;
+                fromX = fromCenterX + (fromY - fromCenterY) / Math.tan(angle);
+            }
+
+            // To box intersection
+            if (Math.abs(Math.cos(angle)) > Math.abs(Math.sin(angle))) {
+                toX = toCenterX - Math.sign(Math.cos(angle)) * toRect.width / 2;
+                toY = toCenterY + Math.tan(angle) * (toX - toCenterX);
+            } else {
+                toY = toCenterY - Math.sign(Math.sin(angle)) * toRect.height / 2;
+                toX = toCenterX + (toY - toCenterY) / Math.tan(angle);
+            }
+
+            return { fromX, fromY, toX, toY };
+        }
+
         arrows.forEach(arrow => {
             const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
             svg.style.position = 'absolute';
@@ -107,7 +137,22 @@
             path.setAttribute('stroke', '#000000');
             path.setAttribute('stroke-width', '2');
             path.setAttribute('fill', 'none');
+            path.setAttribute('marker-end', 'url(#arrowhead)');
             
+            const arrowhead = document.createElementNS("http://www.w3.org/2000/svg", "marker");
+            arrowhead.setAttribute('id', 'arrowhead');
+            arrowhead.setAttribute('markerWidth', '10');
+            arrowhead.setAttribute('markerHeight', '7');
+            arrowhead.setAttribute('refX', '9');
+            arrowhead.setAttribute('refY', '3.5');
+            arrowhead.setAttribute('orient', 'auto');
+
+            const polygon = document.createElementNS("http://www.w3.org/2000/svg", "polygon");
+            polygon.setAttribute('points', '0 0, 10 3.5, 0 7');
+            polygon.setAttribute('fill', '#000000');
+
+            arrowhead.appendChild(polygon);
+            svg.appendChild(arrowhead);
             svg.appendChild(path);
             flowchart.appendChild(svg);
 
@@ -119,12 +164,14 @@
                     const toRect = toElement.getBoundingClientRect();
                     const flowchartRect = flowchart.getBoundingClientRect();
 
-                    const fromX = fromRect.left + fromRect.width / 2 - flowchartRect.left;
-                    const fromY = fromRect.top + fromRect.height / 2 - flowchartRect.top;
-                    const toX = toRect.left + toRect.width / 2 - flowchartRect.left;
-                    const toY = toRect.top + toRect.height / 2 - flowchartRect.top;
+                    const { fromX, fromY, toX, toY } = getIntersectionPoint(fromRect, toRect);
 
-                    path.setAttribute('d', `M${fromX},${fromY} L${toX},${toY}`);
+                    const adjustedFromX = fromX - flowchartRect.left;
+                    const adjustedFromY = fromY - flowchartRect.top;
+                    const adjustedToX = toX - flowchartRect.left;
+                    const adjustedToY = toY - flowchartRect.top;
+
+                    path.setAttribute('d', `M${adjustedFromX},${adjustedFromY} L${adjustedToX},${adjustedToY}`);
                 }
             };
 
