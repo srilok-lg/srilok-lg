@@ -40,18 +40,42 @@
             transform: scale(1.05);
         }
         .back-link {
-            display: inline-block;
-            margin-bottom: 20px;
+            font-family: Arial, sans-serif;
+            font-size: 16px;
             color: #3498db;
             text-decoration: none;
+            position: relative;
+            transition: transform 0.3s ease;
+            display: inline-block;
         }
+
+        .back-link:before {
+            content: "\2190"; /* Left arrow Unicode character */
+            margin-right: 5px;
+        }
+
+        .back-link:after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 2px;
+            bottom: 0;
+            left: 0;
+            background-color: #3498db;
+            transform: scaleX(0);
+            transform-origin: bottom right;
+            transition: transform 0.3s ease;
+        }
+
         .back-link:hover {
-            text-decoration: underline;
+            transform: scale(1.05);
         }
     </style>
 </head>
 <body>
-    <a href="index.html" class="back-link">← Back to Main Flow</a>
+    <a href="#" class="back-link" onclick="goBackToInframap(); return false;">Back to Infrastructure Map</a>
+</body>
+<body>
     <h1>Inventory</h1>
     <div id="flowchart"></div>
     <script>
