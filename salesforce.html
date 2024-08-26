@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>salesforce</title>
+    <title>Salesforce</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
     <style>
         body {
@@ -79,6 +79,37 @@
         text-decoration:none;
     }
     </style>
+    <title>Apple-style Bento Box Link - Dark Theme</title>
+    <style>
+        .bento-link {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 200px;
+            height: 100px;
+            background-color: #333333;
+            border-radius: 20px;
+            text-decoration: none;
+            color: #ffffff;
+            font-weight: 500;
+            font-size: 16px;
+            text-align: center;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .bento-link:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+        }
+    
+        .bento-link::before {
+            font-size: 24px;
+            margin-bottom: 10px;
+            filter: invert(1);
+        }
+    </style>
 </head>
 <body>
     <a href="#" class="back-link" onclick="goBackToInframap(); return false;">Back to Infrastructure Map</a>
@@ -87,6 +118,7 @@
     <h1>Salesforce</h1>
     <p>Salesforce is used by Sales and Account Managers to keep track of the client opportunites.</p>
     <p>TechOps ticketing also lives on Salesforce to troubleshoot AM & Sales queries.</p>
+    <a href="https://lgads1.my.salesforce.com/" class="bento-link">Salesforce</a>
     <script>        
         function goBackToInframap() {
             if (window.parent !== window.self) {
