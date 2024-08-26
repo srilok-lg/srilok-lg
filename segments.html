@@ -79,6 +79,37 @@
             text-decoration: none;
         }
 </style>
+    <title>Apple-style Bento Box Link - Dark Theme</title>
+    <style>
+        .bento-link {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 200px;
+            height: 100px;
+            background-color: #333333;
+            border-radius: 20px;
+            text-decoration: none;
+            color: #ffffff;
+            font-weight: 500;
+            font-size: 16px;
+            text-align: center;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .bento-link:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+        }
+    
+        .bento-link::before {
+            font-size: 24px;
+            margin-bottom: 10px;
+            filter: invert(1);
+        }
+    </style>
 </head>
 <body>
     <a href="#" class="back-link" onclick="goBackToInframap(); return false;">Back to Infrastructure Map</a>
@@ -89,6 +120,7 @@
     <p>User segments required for targeting are found on the <a href="https://segments.alphonso.tv/segments?" class="page-link">Segment Portal</a>.</p>
     <p>These include LG Native (TLAMP), ACR, Demographic, 3rd party(Liveramp, Experian) etc.</p>
     <p>All these details get fed into the targeting section of the placement tab in the Mosaic campaign page. Segments are identified by their unique Segment ID.</p>
+    <p><a href="https://segments.alphonso.tv/segments?" class="bento-link">Segment Portal</a> <a href="https://connect.liveramp.com/?customer_id=514656" class="page-link">Liveramp Portal</a> </p>
     <script>        
         function goBackToInframap() {
             if (window.parent !== window.self) {
