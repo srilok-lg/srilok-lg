@@ -1,177 +1,212 @@
-import React, { useState, useEffect } from 'react';
-import { ChevronRight } from 'lucide-react';
-import { Switch } from './Switch'; // Assuming Switch component is in the same directory
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Graph Network</title>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+            line-height: 1.6;
+            padding: 20px;
+            color: #333;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        h1 { color: #2c3e50; }
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 60px;
+            height: 34px;
+            margin-bottom: 20px;
+        }
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 34px;
+        }
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 26px;
+            width: 26px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+        input:checked + .slider {
+            background-color: #2196F3;
+        }
+        input:checked + .slider:before {
+            transform: translateX(26px);
+        }
+        .switch-label {
+            display: inline-block;
+            vertical-align: middle;
+            margin-left: 10px;
+        }
+        #graphDiv {
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+        .clickable:hover {
+            cursor: pointer;
+            filter: drop-shadow(0 0 5px rgba(0,0,0,0.3));
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body>
+    <h1 id="graphTitle">Operations Flow</h1>
+    <label class="switch">
+        <input type="checkbox" id="graphToggle">
+        <span class="slider"></span>
+    </label>
+    <span class="switch-label" id="toggleLabel">Switch to Infrastructure Map</span>
+    <div id="graphDiv"></div>
+    <script>
+        const operationsFlow = `
+        graph TD
+            Advertisers("Advertisers") -->|Outreach/RFP| Media_Planning("Media Planning")
+            Media_Planning -->|Closed Won| Campaign_Management("Campaign Management")
+            Inventory("Inventory") <-->|Infra| Campaign_Management
+            Campaign_Management --> Deliverables("Deliverables")
+            Deliverables -->|KPIs achieved|Billing("Billing")
+            Billing -->|Invoice|Advertisers
 
-const bentoBoxes = {
-    operations: [
-        { id: 'advertisers', label: 'Advertisers', color: '#ffffff', next: [{ to: 'mediaPlanning', label: 'Outreach/RFP' }], gridArea: '1 / 1 / 2 / 2' },
-        { id: 'mediaPlanning', label: 'Media Planning', color: '#f2f2f7', next: [{ to: 'campaignManagement', label: 'Closed Won' }], gridArea: '2 / 1 / 3 / 2' },
-        // ... rest of the operations
-    ],
-    infra: [
-        { id: 'salesforce', label: 'Salesforce', color: '#ffffff', next: [{ to: 'campaignParameters', label: '' }], gridArea: '1 / 1 / 2 / 2' },
-        { id: 'campaignParameters', label: 'Campaign Parameters', color: '#f2f2f7', next: [], gridArea: '2 / 2 / 3 / 3' },
-        // ... rest of the infra
-    ]
-};
+            click Media_Planning "media_planning.html" "Go to Media Planning page"
+            click Campaign_Management "campaign_management.html" "Go to Campaign Management page"
+            click Inventory "inventory.html" "Go to Inventory page"
+            click Billing "billing.html" "Go to Billing page"
+            click Deliverables "deliverables.html" "Go to Deliverables page"
 
-const BentoBox = ({ id, label, color, isHovered, onHover, onClick, gridArea }) => {
-    return (
-        <div
-        id={id}
-        className="rounded-lg p-4 flex justify-center items-center shadow-sm hover:shadow-md transition-all duration-300 border border-gray-200 cursor-pointer z-10"
-        style={{
-        backgroundColor: color,
-        transform: isHovered ? 'scale(1.05)' : 'scale(1)',
-        gridArea: gridArea,
-        }}
-        onMouseEnter={() => onHover(id)}
-        onMouseLeave={() => onHover(null)}
-        onClick={() => onClick(id)}>
-        <span className="text-gray-800 font-medium text-center">
-          {label}
-        </span>
-      </div>
-    );
-  };
+            classDef clickable cursor:pointer;
+            class Media_Planning,Campaign_Management,Inventory,Billing,Deliverables clickable;
+        `;
 
-const Arrow = ({ start, end, label, bidirectional }) => {
-  const [path, setPath] = useState('');
-  const [labelPosition, setLabelPosition] = useState({ x: 0, y: 0 });
+        const infraTree = `
+        graph TD
+            Salesforce("Salesforce") --> A2("Campaign Parameters")
+            C4("Segment Portal") --> Segments
+            Segments("Segments") --> A2
+            LG("LG") --> B5("Native segments")
+            B5 --> C4
+            LG --> A1("Inventory")
+            Data_p("Data Partnerhips") --> A1
+            A1 --> |Internal & External| B2("SSP")
+            A2 --> B1("DSP")
+            B1 --> C1("Peregrine")
+            B1 --> C2("Beeswax")
+            B2 --> SSP_logs
+            C1 --> PP
+            C2 --> PP
+            A1 <--> Programmatic("Programmatic")
+            PP("Pixel Pinger") --> DAS("DAS")
+            DAS --> Kasper("Kasper")
+            Kasper <--> Mosaic("Mosaic")
+            DAS --> Insights("Insights")
+            Insights --> Reporting("Reporting")
+            DAS --> Steller("Steller")
+            SSP_logs --> DAS
+            SSP_logs("SSP Logs") --> Elastic("Elastic")
 
-  useEffect(() => {
-    const updateArrow = () => {
-      const startElement = document.getElementById(start);
-      const endElement = document.getElementById(end);
-      if (startElement && endElement) {
-        const startRect = startElement.getBoundingClientRect();
-        const endRect = endElement.getBoundingClientRect();
+            click Salesforce "salesforce.html" "Go to Salesforce page"
+            click Opportunities "opportunities.html" "Go to Opportunities page"
+            click A2 "campaign_parameters.html" "Go to Campaign Parameters page"
+            click C4 "segment_portal.html" "Go to Segment Portal page"
+            click Segments "segments.html" "Go to Segments page"
+            click DAGs "dags.html" "Go to DAGs page"
+            click LG "lg.html" "Go to LG page"
+            click B5 "native_segments.html" "Go to Native Segments page"
+            click A1 "inventory.html" "Go to Inventory page"
+            click Data_p "data_partnerships.html" "Go to Data Partnerships page"
+            click B2 "ssp.html" "Go to SSP page"
+            click B1 "dsp.html" "Go to DSP page"
+            click C1 "peregrine.html" "Go to Peregrine page"
+            click C2 "beeswax.html" "Go to Beeswax page"
+            click SSP_logs "ssp_logs.html" "Go to SSP Logs page"
+            click PP "pixel_pinger.html" "Go to Pixel Pinger page"
+            click Programmatic "programmatic.html" "Go to Programmatic page"
+            click DAS "das.html" "Go to DAS page"
+            click Kasper "kasper.html" "Go to Kasper page"
+            click Insights "insights.html" "Go to Insights page"
+            click Reporting "reporting.html" "Go to Reporting page"
+            click Steller "steller.html" "Go to Steller page"
+            click Elastic "elastic.html" "Go to Elastic page"
+    
+            classDef clickable cursor:pointer;
+            class Salesforce,Opportunities,A2,C4,Segments,DAGs,LG,B5,A1,Data_p,B2,B1,C1,C2,C3,SSP_logs,PP,Programmatic,DAS,Kasper,Insights,Reporting,Steller,Elastic clickable;        
+        `;
+
+        let currentGraph = 'operations';
         
-        const startX = startRect.left + startRect.width / 2;
-        const startY = startRect.top + startRect.height / 2;
-        const endX = endRect.left + endRect.width / 2;
-        const endY = endRect.top + endRect.height / 2;
-        
-        const angle = Math.atan2(endY - startY, endX - startX);
-        
-        const startRadius = Math.min(startRect.width, startRect.height) / 2;
-        const endRadius = Math.min(endRect.width, endRect.height) / 2;
-        const newStartX = startX + Math.cos(angle) * startRadius;
-        const newStartY = startY + Math.sin(angle) * startRadius;
-        const newEndX = endX - Math.cos(angle) * endRadius;
-        const newEndY = endY - Math.sin(angle) * endRadius;
-        
-        const midX = (newStartX + newEndX) / 2;
-        const midY = (newStartY + newEndY) / 2;
-        const curveFactor = 0.2;
-        const curveX = midX + (newEndY - newStartY) * curveFactor;
-        const curveY = midY - (newEndX - newStartX) * curveFactor;
-        
-        setPath(`M${newStartX},${newStartY} Q${curveX},${curveY} ${newEndX},${newEndY}`);
-        setLabelPosition({
-          x: curveX,
-          y: curveY
+        mermaid.initialize({ 
+            startOnLoad: true,
+            theme: 'neutral',
+            fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif',
+            flowchart: {
+                curve: 'basis',
+                nodeSpacing: 50,
+                rankSpacing: 50,
+            }
         });
-      }
-    };
 
-    updateArrow();
-    window.addEventListener('resize', updateArrow);
-    return () => window.removeEventListener('resize', updateArrow);
-  }, [start, end]);
+        function renderGraph() {
+            const graphDiv = document.getElementById('graphDiv');
+            const graphDefinition = currentGraph === 'operations' ? operationsFlow : infraTree;
+            mermaid.render('mermaid-graph', graphDefinition).then(result => {
+                graphDiv.innerHTML = result.svg;
+            });
+        }
 
-  return (
-    <g>
-      <defs>
-        <marker id={`arrowhead-${start}-${end}`} markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
-          <polygon points="0 0, 10 3.5, 0 7" fill="#000000" />
-        </marker>
-        {bidirectional && (
-          <marker id={`arrowhead-start-${start}-${end}`} markerWidth="10" markerHeight="7" refX="0" refY="3.5" orient="auto">
-            <polygon points="10 0, 0 3.5, 10 7" fill="#000000" />
-          </marker>
-        )}
-      </defs>
-      <path 
-        d={path} 
-        stroke="#000000" 
-        strokeWidth="2" 
-        fill="none" 
-        markerEnd={`url(#arrowhead-${start}-${end})`}
-        markerStart={bidirectional ? `url(#arrowhead-start-${start}-${end})` : ""}
-      />
-      <text x={labelPosition.x} y={labelPosition.y} textAnchor="middle" fill="#36454F" fontSize="12px">
-        {label}
-      </text>
-    </g>
-  );
-};
+        document.addEventListener('DOMContentLoaded', renderGraph);
 
-const BentoFlowchart = () => {
-  const [currentGraph, setCurrentGraph] = useState('operations');
-  const [hoveredBox, setHoveredBox] = useState(null);
-
-  const handleBoxClick = (id) => {
-    window.location.href = `${id}.html`;
-  };
-
-  const toggleGraph = () => {
-    setCurrentGraph(currentGraph === 'operations' ? 'infra' : 'operations');
-  };
-
-  useEffect(() => {
-    const handleHashChange = () => {
-      if (window.location.hash === '#infra') {
-        setCurrentGraph('infra');
-      }
-    };
-
-    window.addEventListener('load', handleHashChange);
-    window.addEventListener('hashchange', handleHashChange);
-
-    return () => {
-      window.removeEventListener('load', handleHashChange);
-      window.removeEventListener('hashchange', handleHashChange);
-    };
-  }, []);
-
-  return (
-    <div className="p-4 max-w-7xl mx-auto">
-      <h1 className="text-2xl font-bold text-gray-800 mb-4">
-        {currentGraph === 'operations' ? 'Operations Flow' : 'Infrastructure Map'}
-      </h1>
-      <div className="flex items-center mb-4">
-        <Switch id="graphToggle" onCheckedChange={toggleGraph} />
-        <label htmlFor="graphToggle" className="ml-2">
-          Switch to {currentGraph === 'operations' ? 'Infrastructure Map' : 'Operations Flow'}
-        </label>
-      </div>
-      <div className="relative" style={{
-        display: 'grid',
-        gridTemplateColumns: 'repeat(4, 1fr)',
-        gridTemplateRows: currentGraph === 'operations' ? 'repeat(5, 1fr)' : 'repeat(8, 1fr)',
-        gap: '1rem',
-        height: currentGraph === 'operations' ? '600px' : '1000px'
-      }}>
-        <svg className="absolute top-0 left-0 w-full h-full" style={{zIndex: 0}}>
-          {Object.values(bentoBoxes[currentGraph]).flatMap(box => 
-            box.next.map(({ to, label, bidirectional }) => (
-              <Arrow key={`${box.id}-${to}`} start={box.id} end={to} label={label} bidirectional={bidirectional} />
-            ))
-          )}
-        </svg>
-        {Object.values(bentoBoxes[currentGraph]).map((box) => (
-          <BentoBox
-            key={box.id}
-            {...box}
-            isHovered={hoveredBox === box.id}
-            onHover={setHoveredBox}
-            onClick={handleBoxClick}
-          />
-        ))}
-      </div>
-    </div>
-  );
-};
-
-export default BentoFlowchart;
+        document.getElementById('graphToggle').addEventListener('change', function() {
+            const graphTitle = document.getElementById('graphTitle');
+            const toggleLabel = document.getElementById('toggleLabel');
+            
+            if (this.checked) {
+                currentGraph = 'infra';
+                graphTitle.textContent = 'Infrastructure Map';
+                toggleLabel.textContent = 'Switch to Operations Flow';
+            } else {
+                currentGraph = 'operations';
+                graphTitle.textContent = 'Operations Flow';
+                toggleLabel.textContent = 'Switch to Infrastructure Map';
+            }
+            
+            renderGraph();
+        });
+            
+            window.addEventListener('message', function(event) {
+                if (event.data.action === 'navigateToInframap') {
+                    document.getElementById('graphToggle').checked = true;
+                    document.getElementById('graphToggle').dispatchEvent(new Event('change'));
+                }
+            });
+            
+            window.addEventListener('load', function() {
+                if (window.location.hash === '#infra') {
+                    document.getElementById('graphToggle').checked = true;
+                    document.getElementById('graphToggle').dispatchEvent(new Event('change'));
+                }
+            });
+    </script>
+</body>
+</html>
