@@ -1,109 +1,128 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Media Planning</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
-    <style>
-        body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
-            line-height: 1.6;
-            padding: 20px;
-            color: #333;
-        }
-        h1 { color: #2c3e50; }
-        a { color: #3498db; text-decoration: none; }
-        a:hover { text-decoration: none; }
-    </style>
-</head>
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Animated Back Link</title>
-    <style>
-        .back-link {
-            font-family: Arial, sans-serif;
-            font-size: 16px;
-            color: #3498db;
-            text-decoration: none;
-            position: relative;
-            transition: transform 0.3s ease;
-            display: inline-block;
-        }
+import React, { useState, useRef, useEffect } from 'react';
 
-        .back-link:before {
-            content: "\2190"; /* Left arrow Unicode character */
-            margin-right: 5px;
-        }
+const bentoBoxes = [
+  { id: 'inventory', label: 'Inventory', color: '#ffffff', next: [{ to: 'lg', label: '' }, { to: 'external', label: '' }] },
+  { id: 'lg', label: 'LG', color: '#f2f2f7', next: [{ to: 'native', label: '' }, { to: 'ctv', label: '' }] },
+  { id: 'external', label: 'External', color: '#fef5ea', next: [{ to: 'ctv', label: '' }, { to: 'crossScreen', label: '' }] },
+  { id: 'native', label: 'Native', color: '#e5f8ff', next: [{ to: 'adSlots', label: '' }] },
+  { id: 'ctv', label: 'CTV', color: '#e8f3ec', next: [{ to: 'oo', label: '' }, { to: 'adsPlus', label: '' }, { to: 'openMarket', label: '' }] },
+  { id: 'crossScreen', label: 'Cross Screen', color: '#ffffff', next: [{ to: 'openMarket', label: '' }] },
+  { id: 'adSlots', label: 'Ad Slots', color: '#f2f2f7', next: [] },
+  { id: 'oo', label: 'O&O', color: '#fef5ea', next: [] },
+  { id: 'adsPlus', label: 'Ads Plus', color: '#e5f8ff', next: [] },
+  { id: 'openMarket', label: 'Open Market', color: '#e8f3ec', next: [] },
+];
 
-        .back-link:after {
-            content: '';
-            position: absolute;
-            width: 100%;
-            height: 2px;
-            bottom: 0;
-            left: 0;
-            background-color: #3498db;
-            transform: scaleX(0);
-            transform-origin: bottom right;
-            transition: transform 0.3s ease;
-        }
+const BentoBox = ({ id, label, color, isHovered, onHover }) => (
+  <div
+    id={id}
+    style={{
+      backgroundColor: color,
+      borderRadius: '15px',
+      padding: '20px',
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+      boxShadow: isHovered ? '0px 4px 8px rgba(0, 0, 0, 0.2)' : 'none',
+      transform: isHovered ? 'scale(1.05)' : 'scale(1)',
+      transition: 'all 0.3s ease',
+      border: '1px solid #000000',
+      width: '100%',
+      height: '100%',
+    }}
+    onMouseEnter={() => onHover(id)}
+    onMouseLeave={() => onHover(null)}
+  >
+    <span style={{ color: '#36454F', fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, sans-serif', fontWeight: '500', textAlign: 'center' }}>
+      {label}
+    </span>
+  </div>
+);
 
-        .back-link:hover {
-            transform: scale(1.05);
-        }
+const Arrow = ({ start, end, label }) => {
+  const arrowRef = useRef(null);
+  const [path, setPath] = useState('');
 
-        .back-link:hover:after {
-            transform: scaleX(1);
-            transform-origin: bottom left;
-        }
-    </style>
-</head>
-<body>
-    <a href="index.html" class="back-link">Back to Operations Flow</a>
-    <h1>Inventory</h1>
-    <div id="graph"></div>
-    <script>
-        const graphDefinition = `
-        flowchart TB
-            A1("Inventory") --> B1("LG") & B2("External")
+  useEffect(() => {
+    const updateArrow = () => {
+      const startElement = document.getElementById(start);
+      const endElement = document.getElementById(end);
+      if (startElement && endElement && arrowRef.current) {
+        const startRect = startElement.getBoundingClientRect();
+        const endRect = endElement.getBoundingClientRect();
+        const startX = startRect.left + startRect.width / 2;
+        const startY = startRect.top + startRect.height / 2;
+        const endX = endRect.left + endRect.width / 2;
+        const endY = endRect.top + endRect.height / 2;
         
-            B1 --> C1("Native")
-            B1 & B2 --> C2("CTV")
-            B2 --> C3("Cross Screen")
+        const dx = endX - startX;
+        const dy = endY - startY;
+        const angle = Math.atan2(dy, dx);
         
-            C1 --> D1("Ad Slots")
-            C2 --> D2("O&O") & D3("Ads Plus") & D4("Open Market")
-            C3 --> D4
-        `;
+        const startOffsetX = Math.cos(angle) * (startRect.width / 2);
+        const startOffsetY = Math.sin(angle) * (startRect.height / 2);
+        const endOffsetX = -Math.cos(angle) * (endRect.width / 2);
+        const endOffsetY = -Math.sin(angle) * (endRect.height / 2);
 
-        mermaid.initialize({
-            startOnLoad: true,
-            theme: 'neutral',
-            fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif'
-        });
+        const newPath = `M${startX + startOffsetX},${startY + startOffsetY} L${endX + endOffsetX},${endY + endOffsetY}`;
+        setPath(newPath);
+      }
+    };
 
-        document.addEventListener('DOMContentLoaded', function () {
-            const graphDiv = document.getElementById('graph');
-            
-            function renderGraph() {
-                mermaid.render('mermaid-graph', graphDefinition).then(result => {
-                    graphDiv.innerHTML = result.svg;
-                }).catch(error => {
-                    console.error('Error rendering the graph:', error);
-                    graphDiv.innerHTML = '<p>Error rendering the graph. Please try refreshing the page.</p>';
-                });
-            }
+    updateArrow();
+    window.addEventListener('resize', updateArrow);
+    return () => window.removeEventListener('resize', updateArrow);
+  }, [start, end]);
 
-            if (typeof mermaid !== 'undefined') {
-                renderGraph();
-            } else {
-                console.error('Mermaid library not loaded');
-                graphDiv.innerHTML = '<p>Error: Mermaid library not loaded. Please check your internet connection and try again.</p>';
-            }
-        });
-    </script>
-</body>
-</html>
+  return (
+    <svg ref={arrowRef} style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', pointerEvents: 'none' }}>
+      <defs>
+        <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+          <polygon points="0 0, 10 3.5, 0 7" fill="#000000" />
+        </marker>
+      </defs>
+      <path 
+        d={path} 
+        stroke="#000000" 
+        strokeWidth="2" 
+        fill="none" 
+        markerEnd="url(#arrowhead)"
+      />
+    </svg>
+  );
+};
+
+const InventoryBentoFlowchart = () => {
+  const [hoveredBox, setHoveredBox] = useState(null);
+
+  return (
+    <div style={{ 
+      width: '100%', 
+      height: '100vh', 
+      position: 'relative', 
+      display: 'grid', 
+      gridTemplateColumns: 'repeat(5, 1fr)', 
+      gridTemplateRows: 'repeat(4, 1fr)', 
+      gap: '20px', 
+      padding: '20px'
+    }}>
+      <div style={{ gridColumn: '3 / 4', gridRow: '1 / 2' }}><BentoBox {...bentoBoxes.find(box => box.id === 'inventory')} isHovered={hoveredBox === 'inventory'} onHover={setHoveredBox} /></div>
+      <div style={{ gridColumn: '2 / 3', gridRow: '2 / 3' }}><BentoBox {...bentoBoxes.find(box => box.id === 'lg')} isHovered={hoveredBox === 'lg'} onHover={setHoveredBox} /></div>
+      <div style={{ gridColumn: '4 / 5', gridRow: '2 / 3' }}><BentoBox {...bentoBoxes.find(box => box.id === 'external')} isHovered={hoveredBox === 'external'} onHover={setHoveredBox} /></div>
+      <div style={{ gridColumn: '1 / 2', gridRow: '3 / 4' }}><BentoBox {...bentoBoxes.find(box => box.id === 'native')} isHovered={hoveredBox === 'native'} onHover={setHoveredBox} /></div>
+      <div style={{ gridColumn: '3 / 4', gridRow: '3 / 4' }}><BentoBox {...bentoBoxes.find(box => box.id === 'ctv')} isHovered={hoveredBox === 'ctv'} onHover={setHoveredBox} /></div>
+      <div style={{ gridColumn: '5 / 6', gridRow: '3 / 4' }}><BentoBox {...bentoBoxes.find(box => box.id === 'crossScreen')} isHovered={hoveredBox === 'crossScreen'} onHover={setHoveredBox} /></div>
+      <div style={{ gridColumn: '1 / 2', gridRow: '4 / 5' }}><BentoBox {...bentoBoxes.find(box => box.id === 'adSlots')} isHovered={hoveredBox === 'adSlots'} onHover={setHoveredBox} /></div>
+      <div style={{ gridColumn: '2 / 3', gridRow: '4 / 5' }}><BentoBox {...bentoBoxes.find(box => box.id === 'oo')} isHovered={hoveredBox === 'oo'} onHover={setHoveredBox} /></div>
+      <div style={{ gridColumn: '3 / 4', gridRow: '4 / 5' }}><BentoBox {...bentoBoxes.find(box => box.id === 'adsPlus')} isHovered={hoveredBox === 'adsPlus'} onHover={setHoveredBox} /></div>
+      <div style={{ gridColumn: '4 / 5', gridRow: '4 / 5' }}><BentoBox {...bentoBoxes.find(box => box.id === 'openMarket')} isHovered={hoveredBox === 'openMarket'} onHover={setHoveredBox} /></div>
+      {bentoBoxes.flatMap(box => 
+        box.next.map(({ to, label }) => (
+          <Arrow key={`${box.id}-${to}`} start={box.id} end={to} label={label} />
+        ))
+      )}
+    </div>
+  );
+};
+
+export default InventoryBentoFlowchart;
