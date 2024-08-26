@@ -22,18 +22,20 @@
             display: grid;
             grid-template-columns: repeat(5, 1fr);
             grid-template-rows: repeat(4, 1fr);
-            gap: 40px; /* Increased gap to make arrows appear longer */
-            padding: 40px; /* Increased padding to create more space around the edges */
+            gap: 40px;
+            padding: 40px;
         }
         .bento-box {
-            border-radius: 10px; /* Slightly reduced border-radius */
-            padding: 10px; /* Reduced padding to make boxes smaller */
+            border-radius: 10px;
+            padding: 10px;
             display: flex;
             justify-content: center;
             align-items: center;
             border: 1px solid #000000;
             transition: all 0.3s ease;
-            font-size: 14px; /* Reduced font size to fit smaller boxes */
+            font-family: 'Inter', sans-serif; /* Changed to Inter */
+            font-size: 28px; /* Doubled from 14px to 28px */
+            font-weight: 700; /* Added bold weight for better visibility */
         }
         .bento-box:hover {
             box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
@@ -50,7 +52,7 @@
         }
 
         .back-link:before {
-            content: "\2190"; /* Left arrow Unicode character */
+            content: "\2190";
             margin-right: 5px;
         }
 
@@ -69,7 +71,6 @@
 
         .back-link:hover {
             transform: scale(1.05);
-
         }
 
         .back-link:hover:after {
@@ -80,22 +81,17 @@
 </head>
 <body>
     <a href="#" class="back-link" onclick="goBackToInframap(); return false;">Back to Infrastructure Map</a>
-    <script>        
-        function goBackToInframap() {
-            if (window.parent !== window.self) {
-                // We're in an iframe
-                window.parent.postMessage({ action: 'navigateToInframap' }, '*');
-            } else {
-                // We're not in an iframe, navigate directly
-                window.location.href = 'index.html#infra';
-            }
-        }
-    </script>
-</body>
-<body>
     <h1>Inventory</h1>
     <div id="flowchart"></div>
     <script>
+        function goBackToInframap() {
+            if (window.parent !== window.self) {
+                window.parent.postMessage({ action: 'navigateToInframap' }, '*');
+            } else {
+                window.location.href = 'index.html#infra';
+            }
+        }
+        
         const bentoBoxes = [
             { id: 'inventory', label: 'Inventory', color: '#ffffff', gridArea: '1 / 3 / 2 / 4' },
             { id: 'lg', label: 'LG', color: '#f2f2f7', gridArea: '2 / 2 / 3 / 3' },
