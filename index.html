@@ -1,261 +1,177 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Graph Network</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/17.0.2/umd/react.production.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/17.0.2/umd/react-dom.production.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.26.0/babel.min.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
-    <style>
-        body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
-            line-height: 1.6;
-            padding: 20px;
-            color: #333;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-        h1 { color: #2c3e50; }
-        .switch {
-            position: relative;
-            display: inline-block;
-            width: 60px;
-            height: 34px;
-            margin-bottom: 20px;
-        }
-        .switch input {
-            opacity: 0;
-            width: 0;
-            height: 0;
-        }
-        .slider {
-            position: absolute;
-            cursor: pointer;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-color: #ccc;
-            transition: .4s;
-            border-radius: 34px;
-        }
-        .slider:before {
-            position: absolute;
-            content: "";
-            height: 26px;
-            width: 26px;
-            left: 4px;
-            bottom: 4px;
-            background-color: white;
-            transition: .4s;
-            border-radius: 50%;
-        }
-        input:checked + .slider {
-            background-color: #2196F3;
-        }
-        input:checked + .slider:before {
-            transform: translateX(26px);
-        }
-        .switch-label {
-            display: inline-block;
-            vertical-align: middle;
-            margin-left: 10px;
-        }
-        #root {
-            margin-top: 20px;
-            margin-bottom: 20px;
-        }
-    </style>
-</head>
-<body>
-    <h1 id="graphTitle">Operations Flow</h1>
-    <label class="switch">
-        <input type="checkbox" id="graphToggle">
-        <span class="slider"></span>
-    </label>
-    <span class="switch-label" id="toggleLabel">Switch to Infrastructure Map</span>
-    <div id="root"></div>
+import React, { useState, useEffect } from 'react';
+import { ChevronRight } from 'lucide-react';
+import { Switch } from './Switch'; // Assuming Switch component is in the same directory
 
-    <script type="text/babel">
-        const operationsFlowData = [
-            { id: 'advertisers', label: 'Advertisers', color: '#ffffff', next: [{ to: 'mediaPlanning', label: 'Outreach/RFP' }] },
-            { id: 'mediaPlanning', label: 'Media Planning', color: '#f2f2f7', next: [{ to: 'campaignManagement', label: 'Closed Won' }] },
-            { id: 'inventory', label: 'Inventory', color: '#fef5ea', next: [{ to: 'campaignManagement', label: 'Infra', bidirectional: true }] },
-            { id: 'campaignManagement', label: 'Campaign Management', color: '#e5f8ff', next: [{ to: 'deliverables', label: 'Execute' }] },
-            { id: 'deliverables', label: 'Deliverables', color: '#e8f3ec', next: [{ to: 'billing', label: 'KPIs achieved' }] },
-            { id: 'billing', label: 'Billing', color: '#ffffff', next: [{ to: 'advertisers', label: 'Invoice' }] },
-        ];
+const bentoBoxes = {
+    operations: [
+        { id: 'advertisers', label: 'Advertisers', color: '#ffffff', next: [{ to: 'mediaPlanning', label: 'Outreach/RFP' }], gridArea: '1 / 1 / 2 / 2' },
+        { id: 'mediaPlanning', label: 'Media Planning', color: '#f2f2f7', next: [{ to: 'campaignManagement', label: 'Closed Won' }], gridArea: '2 / 1 / 3 / 2' },
+        // ... rest of the operations
+    ],
+    infra: [
+        { id: 'salesforce', label: 'Salesforce', color: '#ffffff', next: [{ to: 'campaignParameters', label: '' }], gridArea: '1 / 1 / 2 / 2' },
+        { id: 'campaignParameters', label: 'Campaign Parameters', color: '#f2f2f7', next: [], gridArea: '2 / 2 / 3 / 3' },
+        // ... rest of the infra
+    ]
+};
 
-        const infrastructureMapData = [
-            { id: 'salesforce', label: 'Salesforce', color: '#ffffff', next: [{ to: 'campaignParameters', label: '' }] },
-            { id: 'segmentPortal', label: 'Segment Portal', color: '#f2f2f7', next: [{ to: 'segments', label: '' }] },
-            { id: 'segments', label: 'Segments', color: '#fef5ea', next: [{ to: 'campaignParameters', label: '' }] },
-            { id: 'lg', label: 'LG', color: '#e5f8ff', next: [{ to: 'nativeSegments', label: '' }, { to: 'inventory', label: '' }] },
-            { id: 'nativeSegments', label: 'Native segments', color: '#e8f3ec', next: [{ to: 'segmentPortal', label: '' }] },
-            { id: 'dataPartnerships', label: 'Data Partnerships', color: '#ffffff', next: [{ to: 'inventory', label: '' }] },
-            { id: 'inventory', label: 'Inventory', color: '#f2f2f7', next: [{ to: 'ssp', label: 'Internal & External' }, { to: 'programmatic', label: '', bidirectional: true }] },
-            { id: 'campaignParameters', label: 'Campaign Parameters', color: '#fef5ea', next: [{ to: 'dsp', label: '' }] },
-            { id: 'ssp', label: 'SSP', color: '#e5f8ff', next: [{ to: 'sspLogs', label: '' }] },
-            { id: 'dsp', label: 'DSP', color: '#e8f3ec', next: [{ to: 'peregrine', label: '' }, { to: 'beeswax', label: '' }] },
-            { id: 'peregrine', label: 'Peregrine', color: '#ffffff', next: [{ to: 'pixelPinger', label: '' }] },
-            { id: 'beeswax', label: 'Beeswax', color: '#f2f2f7', next: [{ to: 'pixelPinger', label: '' }] },
-            { id: 'sspLogs', label: 'SSP Logs', color: '#fef5ea', next: [{ to: 'das', label: '' }, { to: 'elastic', label: '' }] },
-            { id: 'pixelPinger', label: 'Pixel Pinger', color: '#e5f8ff', next: [{ to: 'das', label: '' }] },
-            { id: 'programmatic', label: 'Programmatic', color: '#e8f3ec', next: [] },
-            { id: 'das', label: 'DAS', color: '#ffffff', next: [{ to: 'kasper', label: '' }, { to: 'insights', label: '' }, { to: 'steller', label: '' }] },
-            { id: 'kasper', label: 'Kasper', color: '#f2f2f7', next: [{ to: 'mosaic', label: '', bidirectional: true }] },
-            { id: 'mosaic', label: 'Mosaic', color: '#fef5ea', next: [] },
-            { id: 'insights', label: 'Insights', color: '#e5f8ff', next: [{ to: 'reporting', label: '' }] },
-            { id: 'reporting', label: 'Reporting', color: '#e8f3ec', next: [] },
-            { id: 'steller', label: 'Steller', color: '#ffffff', next: [] },
-            { id: 'elastic', label: 'Elastic', color: '#f2f2f7', next: [] },
-        ];
+const BentoBox = ({ id, label, color, isHovered, onHover, onClick, gridArea }) => {
+    return (
+        <div
+        id={id}
+        className="rounded-lg p-4 flex justify-center items-center shadow-sm hover:shadow-md transition-all duration-300 border border-gray-200 cursor-pointer z-10"
+        style={{
+        backgroundColor: color,
+        transform: isHovered ? 'scale(1.05)' : 'scale(1)',
+        gridArea: gridArea,
+        }}
+        onMouseEnter={() => onHover(id)}
+        onMouseLeave={() => onHover(null)}
+        onClick={() => onClick(id)}>
+        <span className="text-gray-800 font-medium text-center">
+          {label}
+        </span>
+      </div>
+    );
+  };
 
-        const BentoBox = ({ id, label, color, isHovered, onHover, onClick }) => (
-            <div
-                id={id}
-                style={{
-                    backgroundColor: color,
-                    borderRadius: '15px',
-                    padding: '20px',
-                    display: 'flex',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    boxShadow: isHovered ? '0px 4px 8px rgba(0, 0, 0, 0.2)' : 'none',
-                    transform: isHovered ? 'scale(1.05)' : 'scale(1)',
-                    transition: 'all 0.3s ease',
-                    border: '1px solid #000000',
-                    width: '100%',
-                    height: '100%',
-                    cursor: 'pointer',
-                }}
-                onMouseEnter={() => onHover(id)}
-                onMouseLeave={() => onHover(null)}
-                onClick={() => onClick(id)}
-            >
-                <span style={{ color: '#36454F', fontFamily: 'San Francisco, -apple-system, BlinkMacSystemFont, sans-serif', fontWeight: '500', textAlign: 'center' }}>
-                    {label}
-                </span>
-            </div>
-        );
+const Arrow = ({ start, end, label, bidirectional }) => {
+  const [path, setPath] = useState('');
+  const [labelPosition, setLabelPosition] = useState({ x: 0, y: 0 });
 
-        const Arrow = ({ start, end, label, bidirectional }) => {
-            const arrowRef = React.useRef(null);
-            const [path, setPath] = React.useState('');
-            const [labelPosition, setLabelPosition] = React.useState({ x: 0, y: 0 });
+  useEffect(() => {
+    const updateArrow = () => {
+      const startElement = document.getElementById(start);
+      const endElement = document.getElementById(end);
+      if (startElement && endElement) {
+        const startRect = startElement.getBoundingClientRect();
+        const endRect = endElement.getBoundingClientRect();
+        
+        const startX = startRect.left + startRect.width / 2;
+        const startY = startRect.top + startRect.height / 2;
+        const endX = endRect.left + endRect.width / 2;
+        const endY = endRect.top + endRect.height / 2;
+        
+        const angle = Math.atan2(endY - startY, endX - startX);
+        
+        const startRadius = Math.min(startRect.width, startRect.height) / 2;
+        const endRadius = Math.min(endRect.width, endRect.height) / 2;
+        const newStartX = startX + Math.cos(angle) * startRadius;
+        const newStartY = startY + Math.sin(angle) * startRadius;
+        const newEndX = endX - Math.cos(angle) * endRadius;
+        const newEndY = endY - Math.sin(angle) * endRadius;
+        
+        const midX = (newStartX + newEndX) / 2;
+        const midY = (newStartY + newEndY) / 2;
+        const curveFactor = 0.2;
+        const curveX = midX + (newEndY - newStartY) * curveFactor;
+        const curveY = midY - (newEndX - newStartX) * curveFactor;
+        
+        setPath(`M${newStartX},${newStartY} Q${curveX},${curveY} ${newEndX},${newEndY}`);
+        setLabelPosition({
+          x: curveX,
+          y: curveY
+        });
+      }
+    };
 
-            React.useEffect(() => {
-                const updateArrow = () => {
-                    const startElement = document.getElementById(start);
-                    const endElement = document.getElementById(end);
-                    if (startElement && endElement && arrowRef.current) {
-                        const startRect = startElement.getBoundingClientRect();
-                        const endRect = endElement.getBoundingClientRect();
-                        const startX = startRect.left + startRect.width / 2;
-                        const startY = startRect.top + startRect.height / 2;
-                        const endX = endRect.left + endRect.width / 2;
-                        const endY = endRect.top + endRect.height / 2;
-                        
-                        const dx = endX - startX;
-                        const dy = endY - startY;
-                        const angle = Math.atan2(dy, dx);
-                        
-                        const startOffsetX = Math.cos(angle) * (startRect.width / 2);
-                        const startOffsetY = Math.sin(angle) * (startRect.height / 2);
-                        const endOffsetX = -Math.cos(angle) * (endRect.width / 2);
-                        const endOffsetY = -Math.sin(angle) * (endRect.height / 2);
+    updateArrow();
+    window.addEventListener('resize', updateArrow);
+    return () => window.removeEventListener('resize', updateArrow);
+  }, [start, end]);
 
-                        const newPath = `M${startX + startOffsetX},${startY + startOffsetY} L${endX + endOffsetX},${endY + endOffsetY}`;
-                        setPath(newPath);
+  return (
+    <g>
+      <defs>
+        <marker id={`arrowhead-${start}-${end}`} markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+          <polygon points="0 0, 10 3.5, 0 7" fill="#000000" />
+        </marker>
+        {bidirectional && (
+          <marker id={`arrowhead-start-${start}-${end}`} markerWidth="10" markerHeight="7" refX="0" refY="3.5" orient="auto">
+            <polygon points="10 0, 0 3.5, 10 7" fill="#000000" />
+          </marker>
+        )}
+      </defs>
+      <path 
+        d={path} 
+        stroke="#000000" 
+        strokeWidth="2" 
+        fill="none" 
+        markerEnd={`url(#arrowhead-${start}-${end})`}
+        markerStart={bidirectional ? `url(#arrowhead-start-${start}-${end})` : ""}
+      />
+      <text x={labelPosition.x} y={labelPosition.y} textAnchor="middle" fill="#36454F" fontSize="12px">
+        {label}
+      </text>
+    </g>
+  );
+};
 
-                        setLabelPosition({
-                            x: (startX + endX) / 2,
-                            y: (startY + endY) / 2 - 10
-                        });
-                    }
-                };
+const BentoFlowchart = () => {
+  const [currentGraph, setCurrentGraph] = useState('operations');
+  const [hoveredBox, setHoveredBox] = useState(null);
 
-                updateArrow();
-                window.addEventListener('resize', updateArrow);
-                return () => window.removeEventListener('resize', updateArrow);
-            }, [start, end]);
+  const handleBoxClick = (id) => {
+    window.location.href = `${id}.html`;
+  };
 
-            return (
-                <svg ref={arrowRef} style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', pointerEvents: 'none' }}>
-                    <defs>
-                        <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
-                            <polygon points="0 0, 10 3.5, 0 7" fill="#000000" />
-                        </marker>
-                        {bidirectional && (
-                            <marker id="arrowhead-start" markerWidth="10" markerHeight="7" refX="0" refY="3.5" orient="auto">
-                                <polygon points="10 0, 0 3.5, 10 7" fill="#000000" />
-                            </marker>
-                        )}
-                    </defs>
-                    <path 
-                        d={path} 
-                        stroke="#000000" 
-                        strokeWidth="2" 
-                        fill="none" 
-                        markerEnd="url(#arrowhead)"
-                        markerStart={bidirectional ? "url(#arrowhead-start)" : ""}
-                    />
-                    <text x={labelPosition.x} y={labelPosition.y} textAnchor="middle" fill="#36454F" fontSize="12px" fontFamily="San Francisco, -apple-system, BlinkMacSystemFont, sans-serif">
-                        {label}
-                    </text>
-                </svg>
-            );
-        };
+  const toggleGraph = () => {
+    setCurrentGraph(currentGraph === 'operations' ? 'infra' : 'operations');
+  };
 
-        const AppleBentoFlowchart = ({ data }) => {
-            const [hoveredBox, setHoveredBox] = React.useState(null);
+  useEffect(() => {
+    const handleHashChange = () => {
+      if (window.location.hash === '#infra') {
+        setCurrentGraph('infra');
+      }
+    };
 
-            const handleBoxClick = (id) => {
-                window.location.href = `${id.toLowerCase()}.html`;
-            };
+    window.addEventListener('load', handleHashChange);
+    window.addEventListener('hashchange', handleHashChange);
 
-            return (
-                <div style={{ 
-                    width: '100%', 
-                    height: '80vh', 
-                    position: 'relative', 
-                    display: 'grid', 
-                    gridTemplateColumns: 'repeat(6, 1fr)', 
-                    gridTemplateRows: 'repeat(6, 1fr)', 
-                    gap: '20px', 
-                    padding: '20px'
-                }}>
-                    {data.map((box, index) => (
-                        <div key={box.id} style={{ gridColumn: `${(index % 6) + 1} / ${(index % 6) + 2}`, gridRow: `${Math.floor(index / 6) + 1} / ${Math.floor(index / 6) + 2}` }}>
-                            <BentoBox 
-                                id={box.id} 
-                                label={box.label} 
-                                color={box.color} 
-                                isHovered={hoveredBox === box.id} 
-                                onHover={setHoveredBox}
-                                onClick={handleBoxClick}
-                            />
-                        </div>
-                    ))}
-                    {data.flatMap(box => 
-                        box.next.map(({ to, label, bidirectional }) => (
-                            <Arrow key={`${box.id}-${to}`} start={box.id} end={to} label={label} bidirectional={bidirectional} />
-                        ))
-                    )}
-                </div>
-            );
-        };
+    return () => {
+      window.removeEventListener('load', handleHashChange);
+      window.removeEventListener('hashchange', handleHashChange);
+    };
+  }, []);
 
-        const App = () => {
-            const [currentGraph, setCurrentGraph] = React.useState('operations');
+  return (
+    <div className="p-4 max-w-7xl mx-auto">
+      <h1 className="text-2xl font-bold text-gray-800 mb-4">
+        {currentGraph === 'operations' ? 'Operations Flow' : 'Infrastructure Map'}
+      </h1>
+      <div className="flex items-center mb-4">
+        <Switch id="graphToggle" onCheckedChange={toggleGraph} />
+        <label htmlFor="graphToggle" className="ml-2">
+          Switch to {currentGraph === 'operations' ? 'Infrastructure Map' : 'Operations Flow'}
+        </label>
+      </div>
+      <div className="relative" style={{
+        display: 'grid',
+        gridTemplateColumns: 'repeat(4, 1fr)',
+        gridTemplateRows: currentGraph === 'operations' ? 'repeat(5, 1fr)' : 'repeat(8, 1fr)',
+        gap: '1rem',
+        height: currentGraph === 'operations' ? '600px' : '1000px'
+      }}>
+        <svg className="absolute top-0 left-0 w-full h-full" style={{zIndex: 0}}>
+          {Object.values(bentoBoxes[currentGraph]).flatMap(box => 
+            box.next.map(({ to, label, bidirectional }) => (
+              <Arrow key={`${box.id}-${to}`} start={box.id} end={to} label={label} bidirectional={bidirectional} />
+            ))
+          )}
+        </svg>
+        {Object.values(bentoBoxes[currentGraph]).map((box) => (
+          <BentoBox
+            key={box.id}
+            {...box}
+            isHovered={hoveredBox === box.id}
+            onHover={setHoveredBox}
+            onClick={handleBoxClick}
+          />
+        ))}
+      </div>
+    </div>
+  );
+};
 
-            React.useEffect(() => {
-                const handleToggle = (event) => {
-                    setCurrentGraph(event.target.checked ? 'infra' : 'operations');
-                };
-
-                document.getElementById('graph')
-            })
-        }
+export default BentoFlowchart;
