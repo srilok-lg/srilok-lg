@@ -3,106 +3,133 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Media Planning</title>
+    <title>Inventory Bento Flowchart</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
     <style>
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
             line-height: 1.6;
             padding: 20px;
             color: #333;
+            max-width: 1200px;
+            margin: 0 auto;
         }
         h1 { color: #2c3e50; }
-        a { color: #3498db; text-decoration: none; }
-        a:hover { text-decoration: none; }
-    </style>
-</head>
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Animated Back Link</title>
-    <style>
-        .back-link {
-            font-family: Arial, sans-serif;
-            font-size: 16px;
-            color: #3498db;
-            text-decoration: none;
-            position: relative;
-            transition: transform 0.3s ease;
-            display: inline-block;
-        }
-
-        .back-link:before {
-            content: "\2190"; /* Left arrow Unicode character */
-            margin-right: 5px;
-        }
-
-        .back-link:after {
-            content: '';
-            position: absolute;
+        #flowchart {
             width: 100%;
-            height: 2px;
-            bottom: 0;
-            left: 0;
-            background-color: #3498db;
-            transform: scaleX(0);
-            transform-origin: bottom right;
-            transition: transform 0.3s ease;
+            height: 80vh;
+            position: relative;
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            grid-template-rows: repeat(4, 1fr);
+            gap: 20px;
+            padding: 20px;
         }
-
-        .back-link:hover {
+        .bento-box {
+            border-radius: 15px;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border: 1px solid #000000;
+            transition: all 0.3s ease;
+        }
+        .bento-box:hover {
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
             transform: scale(1.05);
         }
-
-        .back-link:hover:after {
-            transform: scaleX(1);
-            transform-origin: bottom left;
+        .back-link {
+            display: inline-block;
+            margin-bottom: 20px;
+            color: #3498db;
+            text-decoration: none;
+        }
+        .back-link:hover {
+            text-decoration: underline;
         }
     </style>
 </head>
 <body>
-    <a href="index.html" class="back-link">Back to Operations Flow</a>
-    <h1>Inventory</h1>
-    <div id="graph"></div>
+    <a href="index.html" class="back-link">← Back to Main Flow</a>
+    <h1>Inventory Bento Flowchart</h1>
+    <div id="flowchart"></div>
     <script>
-        const graphDefinition = `
-        flowchart TB
-            A1("Inventory") --> B1("LG") & B2("External")
-        
-            B1 --> C1("Native")
-            B1 & B2 --> C2("CTV")
-            B2 --> C3("Cross Screen")
-        
-            C1 --> D1("Ad Slots")
-            C2 --> D2("O&O") & D3("Ads Plus") & D4("Open Market")
-            C3 --> D4
-        `;
+        const bentoBoxes = [
+            { id: 'inventory', label: 'Inventory', color: '#ffffff', gridArea: '1 / 3 / 2 / 4' },
+            { id: 'lg', label: 'LG', color: '#f2f2f7', gridArea: '2 / 2 / 3 / 3' },
+            { id: 'external', label: 'External', color: '#fef5ea', gridArea: '2 / 4 / 3 / 5' },
+            { id: 'native', label: 'Native', color: '#e5f8ff', gridArea: '3 / 1 / 4 / 2' },
+            { id: 'ctv', label: 'CTV', color: '#e8f3ec', gridArea: '3 / 3 / 4 / 4' },
+            { id: 'crossScreen', label: 'Cross Screen', color: '#ffffff', gridArea: '3 / 5 / 4 / 6' },
+            { id: 'adSlots', label: 'Ad Slots', color: '#f2f2f7', gridArea: '4 / 1 / 5 / 2' },
+            { id: 'oo', label: 'O&O', color: '#fef5ea', gridArea: '4 / 2 / 5 / 3' },
+            { id: 'adsPlus', label: 'Ads Plus', color: '#e5f8ff', gridArea: '4 / 3 / 5 / 4' },
+            { id: 'openMarket', label: 'Open Market', color: '#e8f3ec', gridArea: '4 / 4 / 5 / 5' },
+        ];
 
-        mermaid.initialize({
-            startOnLoad: true,
-            theme: 'neutral',
-            fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif'
+        const flowchart = document.getElementById('flowchart');
+
+        bentoBoxes.forEach(box => {
+            const div = document.createElement('div');
+            div.id = box.id;
+            div.className = 'bento-box';
+            div.style.backgroundColor = box.color;
+            div.style.gridArea = box.gridArea;
+            div.textContent = box.label;
+            flowchart.appendChild(div);
         });
 
-        document.addEventListener('DOMContentLoaded', function () {
-            const graphDiv = document.getElementById('graph');
-            
-            function renderGraph() {
-                mermaid.render('mermaid-graph', graphDefinition).then(result => {
-                    graphDiv.innerHTML = result.svg;
-                }).catch(error => {
-                    console.error('Error rendering the graph:', error);
-                    graphDiv.innerHTML = '<p>Error rendering the graph. Please try refreshing the page.</p>';
-                });
-            }
+        // Add arrows (this is a simplified version, you might want to improve it)
+        const arrows = [
+            { from: 'inventory', to: 'lg' },
+            { from: 'inventory', to: 'external' },
+            { from: 'lg', to: 'native' },
+            { from: 'lg', to: 'ctv' },
+            { from: 'external', to: 'ctv' },
+            { from: 'external', to: 'crossScreen' },
+            { from: 'native', to: 'adSlots' },
+            { from: 'ctv', to: 'oo' },
+            { from: 'ctv', to: 'adsPlus' },
+            { from: 'ctv', to: 'openMarket' },
+            { from: 'crossScreen', to: 'openMarket' },
+        ];
 
-            if (typeof mermaid !== 'undefined') {
-                renderGraph();
-            } else {
-                console.error('Mermaid library not loaded');
-                graphDiv.innerHTML = '<p>Error: Mermaid library not loaded. Please check your internet connection and try again.</p>';
-            }
+        arrows.forEach(arrow => {
+            const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+            svg.style.position = 'absolute';
+            svg.style.top = '0';
+            svg.style.left = '0';
+            svg.style.width = '100%';
+            svg.style.height = '100%';
+            svg.style.pointerEvents = 'none';
+            
+            const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+            path.setAttribute('stroke', '#000000');
+            path.setAttribute('stroke-width', '2');
+            path.setAttribute('fill', 'none');
+            
+            svg.appendChild(path);
+            flowchart.appendChild(svg);
+
+            const updateArrow = () => {
+                const fromElement = document.getElementById(arrow.from);
+                const toElement = document.getElementById(arrow.to);
+                if (fromElement && toElement) {
+                    const fromRect = fromElement.getBoundingClientRect();
+                    const toRect = toElement.getBoundingClientRect();
+                    const flowchartRect = flowchart.getBoundingClientRect();
+
+                    const fromX = fromRect.left + fromRect.width / 2 - flowchartRect.left;
+                    const fromY = fromRect.top + fromRect.height / 2 - flowchartRect.top;
+                    const toX = toRect.left + toRect.width / 2 - flowchartRect.left;
+                    const toY = toRect.top + toRect.height / 2 - flowchartRect.top;
+
+                    path.setAttribute('d', `M${fromX},${fromY} L${toX},${toY}`);
+                }
+            };
+
+            updateArrow();
+            window.addEventListener('resize', updateArrow);
         });
     </script>
 </body>
