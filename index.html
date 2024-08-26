@@ -119,9 +119,7 @@
             A1 <--> Programmatic("Programmatic")
             PP("Pixel Pinger") --> DAS("DAS")
             DAS --> Kasper("Kasper")
-            Kasper <--> Mosaic("Mosaic")
             DAS --> Insights("Insights")
-            Insights --> Reporting("Reporting")
             DAS --> Steller("Steller")
             SSP_logs --> DAS
             SSP_logs("SSP Logs") --> Elastic("Elastic")
@@ -146,7 +144,6 @@
             click DAS "das.html" "Go to DAS page"
             click Kasper "kasper.html" "Go to Kasper page"
             click Insights "insights.html" "Go to Insights page"
-            click Reporting "reporting.html" "Go to Reporting page"
             click Steller "steller.html" "Go to Steller page"
             click Elastic "elastic.html" "Go to Elastic page"
     
