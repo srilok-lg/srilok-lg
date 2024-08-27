@@ -12,14 +12,27 @@
             line-height: 1.6;
             padding: 20px;
             color: #333;
-            max-width: 1200px;
-            margin: 0 auto;
+            margin: 0;
+        }
+
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background-color: white;
+            padding: 10px 20px;
+            z-index: 1000;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
 
         h1 {
             color: #2c3e50;
-            display: inline-block; /* Keep title inline */
-            margin-right: 20px; /* Space between title and switch */
+            margin: 0;
+            margin-right: 20px;
         }
 
         .switch {
@@ -27,7 +40,7 @@
             display: inline-block;
             width: 60px;
             height: 34px;
-            vertical-align: middle; /* Align with title */
+            vertical-align: middle;
         }
 
         .switch input {
@@ -75,8 +88,10 @@
         }
 
         #graphDiv {
-            margin-top: 20px;
-            margin-bottom: 20px;
+            margin-top: 80px;
+            width: 100%;
+            height: calc(100vh - 100px);
+            overflow: auto;
         }
 
         .clickable:hover {
@@ -87,7 +102,7 @@
     </style>
 </head>
 <body>
-    <div style="display: flex; align-items: center;">
+    <div class="header">
         <h1 id="graphTitle">Operations Flow</h1>
         <label class="switch">
             <input type="checkbox" id="graphToggle">
@@ -95,8 +110,6 @@
         </label>
         <span class="switch-label" id="toggleLabel">Switch to Infrastructure Map</span>
     </div>
-    <!-- <a href="new_operations_flow.html">New Operations page</a> 
-    <a href="operations2.html">Operations 2</a>  -->
     <div id="graphDiv"></div>
     <script type="module">
         const infraTree = `
@@ -144,7 +157,7 @@
             click Insights "insights.html" "Go to Insights page"
             click Steller "steller.html" "Go to Steller page"
             click Elastic "elastic.html" "Go to Elastic page"
-    
+
             classDef clickable cursor:pointer;
             class Salesforce,Opportunities,A2,C4,Segments,DAGs,B5,A1,Data_p,B2,B1,C1,C2,C3,SSP_logs,PP,Programmatic,DAS,Kasper,Insights,Reporting,Steller,Elastic clickable;        
         `;
@@ -169,11 +182,17 @@
                     .then(response => response.text())
                     .then(data => {
                         graphDiv.innerHTML = data;
+                        // Add this line to make the content fit the screen
+                        graphDiv.firstChild.style.width = '100%';
+                        graphDiv.firstChild.style.height = '100%';
                     })
                     .catch(error => console.error('Error loading new_operations_flow.html:', error));
             } else {
                 mermaid.render('mermaid-graph', infraTree).then(result => {
                     graphDiv.innerHTML = result.svg;
+                    // Add this line to make the content fit the screen
+                    graphDiv.firstChild.style.width = '100%';
+                    graphDiv.firstChild.style.height = '100%';
                 });
             }
         }
@@ -183,7 +202,7 @@
         document.getElementById('graphToggle').addEventListener('change', function() {
             const graphTitle = document.getElementById('graphTitle');
             const toggleLabel = document.getElementById('toggleLabel');
-            
+
             if (this.checked) {
                 currentGraph = 'infra';
                 graphTitle.textContent = 'Infrastructure Map';
@@ -193,7 +212,7 @@
                 graphTitle.textContent = 'Operations Flow';
                 toggleLabel.textContent = 'Switch to Infrastructure Map';
             }
-            
+
             renderGraph();
         });
     </script>
