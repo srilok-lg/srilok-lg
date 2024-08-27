@@ -68,11 +68,11 @@
             margin-right: 5px;
         }
         .back-link:after {
-            content: '';
+            content: 'Back to Infrastructure Map';
             position: absolute;
             width: 100%;
             height: 2px;
-            bottom: 0;
+            bottom: -3px;
             left: 0;
             background-color: #3498db;
             transform: scaleX(0);
@@ -87,31 +87,29 @@
             transform-origin: bottom left;
         }
         .page-link {
-        font-family: Inter, sans-serif;
-        font-size: 16px;
-        font-weight:normal;
-        color: #3066BE;
-        text-decoration: none;
-        position: relative;
-        transition: transform 0.3s ease;
-        display: inline-block;
-        }
-
-        .page-link:hover {
-    /*         font-weight:bold; */
-            text-decoration:underline;
-            }
-
-        .page-link:hover:after {
-    /*         transform-origin: bottom left;
-            font-weight:normal; */
+            font-family: Inter, sans-serif;
+            font-size: 16px;
+            font-weight: normal;
+            color: #3066BE;
             text-decoration: none;
-            }
+            position: relative;
+            transition: transform 0.3s ease;
+            display: inline-block;
+        }
+        .page-link:hover {
+            text-decoration: underline;
+        }
+        .page-link:hover:after {
+            text-decoration: none;
+        }
+        .container > p {
+            margin: 0;
+        }
     </style>
 </head>
 <body>
     <div class="container">
-        <a href="#" class="back-link" onclick="goBackToInframap(); return false;">Back to Infrastructure Map</a>
+        <a href="#" class="back-link" onclick="goBackToInframap(); return false;"></a>
         <h1>Inventory</h1>
         <p><a href='https://alphonsotv.atlassian.net/wiki/x/AYDmeQ' class="page-link">Confluence Page</a></p>
         <p>The following flow-chart depicts the types of inventory across various devices and some overlaps too.</p>
