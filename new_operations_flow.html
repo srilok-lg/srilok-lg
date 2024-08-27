@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ad Tech Flow Diagram</title>
+    <title>Ad Tech Flow Diagram with Final Adjustments</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -18,71 +18,148 @@
             max-width: 100%;
             height: auto;
         }
+        .clickable-group {
+            transition: all 0.3s ease;
+        }
+        .clickable-group:hover {
+            transform: scale(1.02);
+        }
+        .clickable-group:hover rect {
+            filter: drop-shadow(0px 0px 5px rgba(0,0,0,0.3));
+        }
     </style>
 </head>
 <body>
-    <svg width="900" height="400" viewBox="0 0 900 400">
+    <svg width="1000" height="400" viewBox="0 0 1000 400">
         <defs>
-            <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="0" refY="3.5" orient="auto">
-                <polygon points="0 0, 10 3.5, 0 7" />
+            <marker id="arrowhead-black" markerWidth="10" markerHeight="7" refX="0" refY="3.5" orient="auto">
+                <polygon points="0 0, 10 3.5, 0 7" fill="black"/>
+            </marker>
+            <marker id="arrowhead-orange" markerWidth="10" markerHeight="7" refX="0" refY="3.5" orient="auto">
+                <polygon points="0 0, 10 3.5, 0 7" fill="#FF7043"/>
+            </marker>
+            <marker id="arrowhead-green" markerWidth="10" markerHeight="7" refX="0" refY="3.5" orient="auto">
+                <polygon points="0 0, 10 3.5, 0 7" fill="#8BC34A"/>
             </marker>
         </defs>
 
-        <!-- Boxes -->
-        <rect x="10" y="150" width="100" height="100" fill="white" stroke="black" />
-        <text x="60" y="205" text-anchor="middle">Advertisers</text>
+        <!-- Left side boxes (unchanged) -->
+        <a href="advertisers.html" class="clickable-group">
+            <g>
+                <rect x="10" y="150" width="100" height="100" fill="white" stroke="black" rx="10" ry="10" />
+                <text x="60" y="205" text-anchor="middle">Advertisers</text>
+            </g>
+        </a>
 
-        <rect x="150" y="50" width="400" height="300" fill="none" stroke="black" stroke-dasharray="5,5" />
+        <rect x="150" y="50" width="400" height="300" fill="none" stroke="black" stroke-dasharray="5,5" rx="10" ry="10" />
         
-        <rect x="170" y="70" width="150" height="70" fill="#FFEB3B" stroke="black" />
-        <text x="245" y="110" text-anchor="middle">Salesforce</text>
+        <a href="salesforce.html" class="clickable-group">
+            <g>
+                <rect x="170" y="70" width="150" height="70" fill="#FFEB3B" stroke="black" rx="10" ry="10" />
+                <text x="245" y="110" text-anchor="middle">Salesforce</text>
+            </g>
+        </a>
         
-        <rect x="170" y="200" width="150" height="130" fill="#FFEB3B" stroke="black" />
-        <text x="245" y="235" text-anchor="middle">Mosaic</text>
-        <rect x="190" y="250" width="50" height="30" fill="white" stroke="black" />
-        <text x="215" y="270" text-anchor="middle" font-size="10">Data</text>
-        <rect x="250" y="250" width="50" height="30" fill="white" stroke="black" />
-        <text x="275" y="270" text-anchor="middle" font-size="10">Tools</text>
+        <a href="mosaic.html" class="clickable-group">
+            <g>
+                <rect x="170" y="200" width="150" height="130" fill="#FFEB3B" stroke="black" rx="10" ry="10" />
+                <text x="245" y="235" text-anchor="middle">Mosaic</text>
+                <a href="mosaic-data.html" class="clickable-group">
+                    <g>
+                        <rect x="190" y="250" width="50" height="30" fill="white" stroke="black" rx="5" ry="5" />
+                        <text x="215" y="270" text-anchor="middle" font-size="10">Data</text>
+                    </g>
+                </a>
+                <a href="mosaic-tools.html" class="clickable-group">
+                    <g>
+                        <rect x="250" y="250" width="50" height="30" fill="white" stroke="black" rx="5" ry="5" />
+                        <text x="275" y="270" text-anchor="middle" font-size="10">Tools</text>
+                    </g>
+                </a>
+            </g>
+        </a>
         
-        <rect x="380" y="70" width="150" height="70" fill="#8BC34A" stroke="black" />
-        <text x="455" y="110" text-anchor="middle">Programmatic</text>
+        <a href="programmatic.html" class="clickable-group">
+            <g>
+                <rect x="380" y="70" width="150" height="70" fill="#8BC34A" stroke="black" rx="10" ry="10" />
+                <text x="455" y="110" text-anchor="middle">Programmatic</text>
+            </g>
+        </a>
         
-        <rect x="380" y="200" width="150" height="50" fill="#FF7043" stroke="black" />
-        <text x="455" y="230" text-anchor="middle">Peregrine</text>
+        <a href="peregrine.html" class="clickable-group">
+            <g>
+                <rect x="380" y="200" width="150" height="50" fill="#FF7043" stroke="black" rx="10" ry="10" />
+                <text x="455" y="230" text-anchor="middle">Peregrine</text>
+            </g>
+        </a>
         
-        <rect x="380" y="260" width="150" height="50" fill="#FF7043" stroke="black" />
-        <text x="455" y="290" text-anchor="middle">Beeswax</text>
+        <a href="beeswax.html" class="clickable-group">
+            <g>
+                <rect x="380" y="260" width="150" height="50" fill="#FF7043" stroke="black" rx="10" ry="10" />
+                <text x="455" y="290" text-anchor="middle">Beeswax</text>
+            </g>
+        </a>
         
-        <rect x="580" y="150" width="100" height="100" fill="white" stroke="black" />
-        <text x="630" y="185" text-anchor="middle">SSP</text>
-        <text x="630" y="205" text-anchor="middle">Ad</text>
-        <text x="630" y="225" text-anchor="middle">Exchange</text>
+        <!-- Right side boxes (unchanged) -->
+        <a href="ssp-ad-exchange.html" class="clickable-group">
+            <g>
+                <rect x="580" y="50" width="100" height="300" fill="white" stroke="black" rx="10" ry="10" />
+                <text x="630" y="185" text-anchor="middle">SSP</text>
+                <text x="630" y="205" text-anchor="middle">Ad</text>
+                <text x="630" y="225" text-anchor="middle">Exchange</text>
+            </g>
+        </a>
         
-        <rect x="710" y="50" width="100" height="50" fill="white" stroke="black" />
-        <text x="760" y="80" text-anchor="middle">Inventory</text>
+        <a href="inventory1.html" class="clickable-group">
+            <g>
+                <rect x="710" y="50" width="100" height="50" fill="white" stroke="black" rx="10" ry="10" />
+                <text x="760" y="80" text-anchor="middle">Inventory</text>
+            </g>
+        </a>
         
-        <rect x="710" y="150" width="100" height="100" fill="white" stroke="black" />
-        <text x="760" y="205" text-anchor="middle">Publisher</text>
+        <a href="inventory2.html" class="clickable-group">
+            <g>
+                <rect x="840" y="50" width="100" height="50" fill="white" stroke="black" rx="10" ry="10" />
+                <text x="890" y="80" text-anchor="middle">Inventory</text>
+            </g>
+        </a>
         
-        <rect x="710" y="260" width="100" height="70" fill="white" stroke="black" />
-        <text x="760" y="290" text-anchor="middle">Users</text>
-        <text x="760" y="310" text-anchor="middle">LG TV HH</text>
+        <a href="publisher.html" class="clickable-group">
+            <g>
+                <rect x="710" y="150" width="100" height="100" fill="white" stroke="black" rx="10" ry="10" />
+                <text x="760" y="205" text-anchor="middle">Publisher</text>
+            </g>
+        </a>
+        
+        <a href="users.html" class="clickable-group">
+            <g>
+                <rect x="840" y="150" width="100" height="200" fill="white" stroke="black" rx="10" ry="10" />
+                <text x="890" y="240" text-anchor="middle">Users</text>
+                <text x="890" y="260" text-anchor="middle">LG TV HH</text>
+            </g>
+        </a>
 
-        <!-- Arrows -->
-        <line x1="110" y1="200" x2="150" y2="200" stroke="black" marker-end="url(#arrowhead)" />
-        <line x1="320" y1="105" x2="380" y2="105" stroke="black" marker-end="url(#arrowhead)" />
-        <line x1="245" y1="140" x2="245" y2="200" stroke="black" marker-end="url(#arrowhead)" />
-        <line x1="320" y1="265" x2="380" y2="225" stroke="black" marker-end="url(#arrowhead)" />
-        <line x1="320" y1="265" x2="380" y2="285" stroke="black" marker-end="url(#arrowhead)" />
-        <line x1="530" y1="225" x2="580" y2="200" stroke="red" marker-end="url(#arrowhead)" />
-        <line x1="530" y1="285" x2="580" y2="200" stroke="red" marker-end="url(#arrowhead)" />
-        <line x1="680" y1="200" x2="710" y2="200" stroke="black" marker-end="url(#arrowhead)" />
-        <line x1="760" y1="100" x2="760" y2="150" stroke="black" marker-end="url(#arrowhead)" />
-        <line x1="760" y1="250" x2="760" y2="260" stroke="black" marker-end="url(#arrowhead)" />
+        <!-- Updated Arrows -->
+        <line x1="110" y1="200" x2="150" y2="200" stroke="black" marker-end="url(#arrowhead-black)" />
+        <line x1="320" y1="105" x2="380" y2="105" stroke="black" marker-end="url(#arrowhead-black)" />
+        <line x1="245" y1="140" x2="245" y2="200" stroke="black" marker-end="url(#arrowhead-black)" />
+        <line x1="320" y1="265" x2="380" y2="225" stroke="black" marker-end="url(#arrowhead-black)" />
+        <line x1="320" y1="265" x2="380" y2="285" stroke="black" marker-end="url(#arrowhead-black)" />
+        <line x1="530" y1="225" x2="580" y2="225" stroke="#FF7043" marker-end="url(#arrowhead-orange)" />
+        <line x1="530" y1="285" x2="580" y2="285" stroke="#FF7043" marker-end="url(#arrowhead-orange)" />
         
-        <!-- Curved arrows -->
-        <path d="M530,105 Q580,75 630,150" fill="none" stroke="green" stroke-dasharray="5,5" marker-end="url(#arrowhead)" />
-        <path d="M680,200 Q720,230 760,260" fill="none" stroke="green" stroke-dasharray="5,5" marker-end="url(#arrowhead)" />
+        <!-- Existing dependencies -->
+        <line x1="760" y1="100" x2="760" y2="150" stroke="black" marker-end="url(#arrowhead-black)" />
+        <path d="M890,100 Q890,125 890,150" fill="none" stroke="black" marker-end="url(#arrowhead-black)" />
+        
+        <!-- Updated arrows from SSP Ad Exchange to Users LG TV HH -->
+        <path d="M680,240 Q760,240 840,260" fill="none" stroke="#8BC34A" marker-end="url(#arrowhead-green)" />
+        <path d="M680,280 Q760,280 840,300" fill="none" stroke="#FF7043" marker-end="url(#arrowhead-orange)" />
+        
+        <!-- Other arrows -->
+        <line x1="680" y1="200" x2="710" y2="200" stroke="black" marker-end="url(#arrowhead-black)" />
+        <line x1="810" y1="200" x2="840" y2="200" stroke="black" marker-end="url(#arrowhead-black)" />
+        <path d="M530,105 Q555,105 580,150" fill="none" stroke="#8BC34A" marker-end="url(#arrowhead-green)" />
     </svg>
 </body>
 </html>
