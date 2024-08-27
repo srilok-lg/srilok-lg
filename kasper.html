@@ -3,8 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kasper</title>
+    <title>Programmatic</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/react@17/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
     <style>
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
@@ -12,16 +16,14 @@
             padding: 20px;
             color: #333;
         }
-        h1 { color: #2c3e50; }
+        h1 { 
+            color: #2c3e50; 
+            font-size: 2.5rem; 
+            font-weight: bold;
+            margin-bottom: 1rem;
+        }
         a { color: #3498db; text-decoration: none; }
         a:hover { text-decoration: none; }
-    </style>
-</head>
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Animated Back Link</title>
-    <style>
         .back-link {
             font-family: Arial, sans-serif;
             font-size: 16px;
@@ -30,13 +32,12 @@
             position: relative;
             transition: transform 0.3s ease;
             display: inline-block;
+            margin-bottom: 1rem;
         }
-
         .back-link:before {
-            content: "\2190"; /* Left arrow Unicode character */
+            content: "\2190";
             margin-right: 5px;
         }
-
         .back-link:after {
             content: '';
             position: absolute;
@@ -49,42 +50,26 @@
             transform-origin: bottom right;
             transition: transform 0.3s ease;
         }
-
         .back-link:hover {
             transform: scale(1.05);
-
         }
-
         .back-link:hover:after {
             transform: scaleX(1);
             transform-origin: bottom left;
         }
-    </style>
-    <style>
-    .page-link {
-        font-family: Inter, sans-serif;
-        font-size: 16px;
-        font-weight:normal;
-        color: #3066BE;
-        text-decoration: none;
-        position: relative;
-        transition: transform 0.3s ease;
-        display: inline-block;
-    }
-
-    .page-link:hover {
-/*         font-weight:bold; */
-        text-decoration:underline;
-    }
-
-    .page-link:hover:after {
-/*         transform-origin: bottom left;
-        font-weight:normal; */
-        text-decoration: none;
-    }
-    </style>
-    <title>Apple-style Bento Box Link - Dark Theme</title>
-    <style>
+        .page-link {
+            font-family: Inter, sans-serif;
+            font-size: 16px;
+            font-weight:normal;
+            color: #3066BE;
+            text-decoration: none;
+            position: relative;
+            transition: transform 0.3s ease;
+            display: inline-block;
+        }
+        .page-link:hover {
+            text-decoration:underline;
+        }
         .bento-link {
             display: flex;
             justify-content: center;
@@ -102,26 +87,91 @@
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             transition: all 0.3s ease;
         }
-
         .bento-link:hover {
             transform: scale(1.05);
             box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
         }
-    
         .bento-link::before {
             font-size: 24px;
             margin-bottom: 10px;
             filter: invert(1);
         }
+        .content-section {
+            margin-bottom: 2rem;
+        }
     </style>
 </head>
 <body>
     <a href="#" class="back-link" onclick="goBackToInframap(); return false;">Back to Infrastructure Map</a>
-</body>
-<body>
-    <h1>Kasper</h1>     
-    <p>Kasper is an internal tool which helps to reduce human touch points for campaign pacing, reduce over/under delivery and increase Campaigns per Campaign Specialist.</p>
-    <p> RB Management is one of the major use-cases of Kasper.</p>
+    <h1>Programmatic</h1>     
+    <div class="content-section">
+        <p><a href='https://alphonsotv.atlassian.net/wiki/x/AYAdew' class="page-link">Confluence Page</a></p>
+    </div>
+    <div class="content-section">
+        <p>Programmatic allows for the automation of media buying. It allows advertisers via their trading desks to have more control into overall R/F across partners, to optimize towards greater results, and ultimately to understand the consumer journey more holistically (especially when paired with ACR-based analytics).</p>
+    </div>
+    <div class="content-section" style="display: flex; gap: 24px;">
+        <a href='https://lgads1.lightning.force.com/lightning/r/Report/00O5Y00000ClxUSUAZ/view?queryScope=userFolders' class="bento-link"> LG Ads Programmatic Revenue Tracker </a>
+        <a href='https://docs.google.com/document/d/1Is9jUe5LZus67W9HffLRRsA2LeoDzvU0KoM2pkz0J0w/edit#bookmark=id.uza3chm3zjb2' class="bento-link"> LG Ads Programmatic Playbook </a>    
+    </div>
+    
+    <div id="workflow-graph" class="content-section"></div>
+
+    <script type="text/babel">
+        const WorkflowStep = ({ title, description, icon: Icon }) => (
+            <div className="flex flex-col items-center p-4 bg-gray-800 rounded-lg shadow-lg">
+                <Icon className="w-12 h-12 mb-2 text-blue-400" />
+                <h3 className="text-lg font-semibold text-white mb-1">{title}</h3>
+                <p className="text-sm text-gray-300 text-center">{description}</p>
+            </div>
+        );
+
+        const WorkflowArrow = () => (
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-8 h-8 text-gray-500">
+                <path d="M5 12h14M12 5l7 7-7 7"/>
+            </svg>
+        );
+
+        const ProgrammaticBidWorkflow = () => (
+            <div className="bg-gray-900 p-8 rounded-xl">
+                <h2 className="text-2xl font-bold text-white mb-6">Programmatic Bid Workflow: How it Comes Together</h2>
+                <div className="flex flex-wrap justify-center items-center gap-4">
+                    <WorkflowStep
+                        title="LG Channels Viewer"
+                        description="Content Plays"
+                        icon={() => <svg className="w-12 h-12 text-yellow-400" viewBox="0 0 24 24" fill="currentColor"><path d="M21 3H3c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h5v2h8v-2h5c1.1 0 1.99-.9 1.99-2L23 5c0-1.1-.9-2-2-2zm0 14H3V5h18v12z"/></svg>}
+                    />
+                    <WorkflowArrow />
+                    <WorkflowStep
+                        title="SSAI"
+                        description="Ad-Calls Sent to Ad Server"
+                        icon={() => <svg className="w-12 h-12 text-red-400" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 14H5v-2h7v2zm7-4H5v-2h14v2zm0-4H5V7h14v2z"/></svg>}
+                    />
+                    <WorkflowArrow />
+                    <WorkflowStep
+                        title="Ad Server"
+                        description="Ad-Call Passed to SSP"
+                        icon={() => <svg className="w-12 h-12 text-green-400" viewBox="0 0 24 24" fill="currentColor"><path d="M4 13h6c.55 0 1-.45 1-1V4c0-.55-.45-1-1-1H4c-.55 0-1 .45-1 1v8c0 .55.45 1 1 1zm0 8h6c.55 0 1-.45 1-1v-4c0-.55-.45-1-1-1H4c-.55 0-1 .45-1 1v4c0 .55.45 1 1 1zm10 0h6c.55 0 1-.45 1-1v-8c0-.55-.45-1-1-1h-6c-.55 0-1 .45-1 1v8c0 .55.45 1 1 1zM13 4v4c0 .55.45 1 1 1h6c.55 0 1-.45 1-1V4c0-.55-.45-1-1-1h-6c-.55 0-1 .45-1 1z"/></svg>}
+                    />
+                    <WorkflowArrow />
+                    <WorkflowStep
+                        title="SSP Magnite"
+                        description="Receives Ad-Call and Ingests >> Evaluates Match >> Sends Bid Request to DSP"
+                        icon={() => <svg className="w-12 h-12 text-purple-400" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>}
+                    />
+                    <WorkflowArrow />
+                    <WorkflowStep
+                        title="DSP"
+                        description="BEESWAX, Google DCM and More"
+                        icon={() => <svg className="w-12 h-12 text-blue-400" viewBox="0 0 24 24" fill="currentColor"><path d="M12 8c-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4-1.79-4-4-4zm8.94 3c-.46-4.17-3.77-7.48-7.94-7.94V1h-2v2.06C6.83 3.52 3.52 6.83 3.06 11H1v2h2.06c.46 4.17 3.77 7.48 7.94 7.94V23h2v-2.06c4.17-.46 7.48-3.77 7.94-7.94H23v-2h-2.06zM12 19c-3.87 0-7-3.13-7-7s3.13-7 7-7 7 3.13 7 7-3.13 7-7 7z"/></svg>}
+                    />
+                </div>
+            </div>
+        );
+
+        ReactDOM.render(<ProgrammaticBidWorkflow />, document.getElementById('workflow-graph'));
+    </script>
+
     <script>        
         function goBackToInframap() {
             if (window.parent !== window.self) {
@@ -135,4 +185,3 @@
     </script>
 </body>
 </html>
-    
