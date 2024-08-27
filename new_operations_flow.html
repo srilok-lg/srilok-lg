@@ -4,10 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ad Tech Flow Diagram</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/17.0.2/umd/react.production.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/17.0.2/umd/react-dom.production.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.26.0/babel.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/recharts/2.1.9/recharts.min.js"></script>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -18,145 +14,75 @@
             margin: 0;
             background-color: #f0f0f0;
         }
-        #root {
-            width: 100%;
-            max-width: 900px;
+        svg {
+            max-width: 100%;
+            height: auto;
         }
     </style>
 </head>
 <body>
-    <div id="root"></div>
+    <svg width="900" height="400" viewBox="0 0 900 400">
+        <defs>
+            <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="0" refY="3.5" orient="auto">
+                <polygon points="0 0, 10 3.5, 0 7" />
+            </marker>
+        </defs>
 
-    <script type="text/babel">
-        const { LineChart, Line, XAxis, YAxis, ResponsiveContainer } = Recharts;
+        <!-- Boxes -->
+        <rect x="10" y="150" width="100" height="100" fill="white" stroke="black" />
+        <text x="60" y="205" text-anchor="middle">Advertisers</text>
 
-        const AdTechFlowDiagram = () => {
-            const dummyData = [{ name: 'dummy', value: 0 }];
+        <rect x="150" y="50" width="400" height="300" fill="none" stroke="black" stroke-dasharray="5,5" />
+        
+        <rect x="170" y="70" width="150" height="70" fill="#FFEB3B" stroke="black" />
+        <text x="245" y="110" text-anchor="middle">Salesforce</text>
+        
+        <rect x="170" y="200" width="150" height="130" fill="#FFEB3B" stroke="black" />
+        <text x="245" y="235" text-anchor="middle">Mosaic</text>
+        <rect x="190" y="250" width="50" height="30" fill="white" stroke="black" />
+        <text x="215" y="270" text-anchor="middle" font-size="10">Data</text>
+        <rect x="250" y="250" width="50" height="30" fill="white" stroke="black" />
+        <text x="275" y="270" text-anchor="middle" font-size="10">Tools</text>
+        
+        <rect x="380" y="70" width="150" height="70" fill="#8BC34A" stroke="black" />
+        <text x="455" y="110" text-anchor="middle">Programmatic</text>
+        
+        <rect x="380" y="200" width="150" height="50" fill="#FF7043" stroke="black" />
+        <text x="455" y="230" text-anchor="middle">Peregrine</text>
+        
+        <rect x="380" y="260" width="150" height="50" fill="#FF7043" stroke="black" />
+        <text x="455" y="290" text-anchor="middle">Beeswax</text>
+        
+        <rect x="580" y="150" width="100" height="100" fill="white" stroke="black" />
+        <text x="630" y="185" text-anchor="middle">SSP</text>
+        <text x="630" y="205" text-anchor="middle">Ad</text>
+        <text x="630" y="225" text-anchor="middle">Exchange</text>
+        
+        <rect x="710" y="50" width="100" height="50" fill="white" stroke="black" />
+        <text x="760" y="80" text-anchor="middle">Inventory</text>
+        
+        <rect x="710" y="150" width="100" height="100" fill="white" stroke="black" />
+        <text x="760" y="205" text-anchor="middle">Publisher</text>
+        
+        <rect x="710" y="260" width="100" height="70" fill="white" stroke="black" />
+        <text x="760" y="290" text-anchor="middle">Users</text>
+        <text x="760" y="310" text-anchor="middle">LG TV HH</text>
 
-            const Arrow = ({ start, end, color = 'black', dashed = false, curved = false }) => {
-                const path = curved
-                    ? `M${start.x},${start.y} Q${(start.x + end.x) / 2},${Math.min(start.y, end.y) - 30} ${end.x},${end.y}`
-                    : `M${start.x},${start.y} L${end.x},${end.y}`;
-                return (
-                    <g>
-                        <defs>
-                            <marker
-                                id={`arrowhead-${color}`}
-                                markerWidth="10"
-                                markerHeight="7"
-                                refX="9"
-                                refY="3.5"
-                                orient="auto"
-                            >
-                                <polygon points="0 0, 10 3.5, 0 7" fill={color} />
-                            </marker>
-                        </defs>
-                        <path
-                            d={path}
-                            stroke={color}
-                            strokeWidth="1.5"
-                            fill="none"
-                            markerEnd={`url(#arrowhead-${color})`}
-                            strokeDasharray={dashed ? "5,5" : "none"}
-                        />
-                    </g>
-                );
-            };
-
-            const Box = ({ x, y, width, height, color = "white", stroke = "black", dashed = false, children }) => (
-                <g>
-                    <rect
-                        x={x}
-                        y={y}
-                        width={width}
-                        height={height}
-                        fill={color}
-                        stroke={stroke}
-                        strokeWidth="1.5"
-                        strokeDasharray={dashed ? "5,5" : "none"}
-                    />
-                    {children}
-                </g>
-            );
-
-            const Text = ({ x, y, children, anchor = "middle", fontSize = 12 }) => (
-                <text x={x} y={y} textAnchor={anchor} fontSize={fontSize} fill="black">
-                    {children}
-                </text>
-            );
-
-            return (
-                <ResponsiveContainer width="100%" height={400}>
-                    <LineChart data={dummyData} margin={{ top: 5, right: 20, bottom: 5, left: 0 }}>
-                        <XAxis hide={true} />
-                        <YAxis hide={true} />
-                        <Line type="monotone" dataKey="value" stroke="#8884d8" strokeWidth={0} />
-
-                        {/* Boxes */}
-                        <Box x={10} y={150} width={100} height={100}>
-                            <Text x={60} y={200}>Advertisers</Text>
-                        </Box>
-
-                        <Box x={150} y={50} width={400} height={300} dashed={true}>
-                            <Box x={170} y={70} width={150} height={70} color="#FFEB3B">
-                                <Text x={245} y={105}>Salesforce</Text>
-                            </Box>
-                            <Box x={170} y={200} width={150} height={130} color="#FFEB3B">
-                                <Text x={245} y={230}>Mosaic</Text>
-                                <Box x={190} y={250} width={50} height={30}>
-                                    <Text x={215} y={270} fontSize={10}>Data</Text>
-                                </Box>
-                                <Box x={250} y={250} width={50} height={30}>
-                                    <Text x={275} y={270} fontSize={10}>Tools</Text>
-                                </Box>
-                            </Box>
-                            <Box x={380} y={70} width={150} height={70} color="#8BC34A">
-                                <Text x={455} y={105}>Programmatic</Text>
-                            </Box>
-                            <Box x={380} y={200} width={150} height={50} color="#FF7043">
-                                <Text x={455} y={225}>Peregrine</Text>
-                            </Box>
-                            <Box x={380} y={260} width={150} height={50} color="#FF7043">
-                                <Text x={455} y={285}>Beeswax</Text>
-                            </Box>
-                        </Box>
-
-                        <Box x={580} y={150} width={100} height={100}>
-                            <Text x={630} y={185}>SSP</Text>
-                            <Text x={630} y={205}>Ad</Text>
-                            <Text x={630} y={225}>Exchange</Text>
-                        </Box>
-
-                        <Box x={710} y={50} width={100} height={50}>
-                            <Text x={760} y={75}>Inventory</Text>
-                        </Box>
-                        <Box x={710} y={150} width={100} height={100}>
-                            <Text x={760} y={200}>Publisher</Text>
-                        </Box>
-                        <Box x={710} y={260} width={100} height={70}>
-                            <Text x={760} y={285}>Users</Text>
-                            <Text x={760} y={315}>LG TV HH</Text>
-                        </Box>
-
-                        {/* Arrows */}
-                        <Arrow start={{x: 110, y: 200}} end={{x: 150, y: 200}} />
-                        <Arrow start={{x: 320, y: 105}} end={{x: 380, y: 105}} />
-                        <Arrow start={{x: 245, y: 140}} end={{x: 245, y: 200}} />
-                        <Arrow start={{x: 320, y: 265}} end={{x: 380, y: 225}} />
-                        <Arrow start={{x: 320, y: 265}} end={{x: 380, y: 285}} />
-                        <Arrow start={{x: 530, y: 225}} end={{x: 580, y: 200}} color="red" />
-                        <Arrow start={{x: 530, y: 285}} end={{x: 580, y: 200}} color="red" />
-                        <Arrow start={{x: 680, y: 200}} end={{x: 710, y: 200}} />
-                        <Arrow start={{x: 760, y: 100}} end={{x: 760, y: 150}} />
-                        <Arrow start={{x: 760, y: 250}} end={{x: 760, y: 260}} />
-                        <Arrow start={{x: 530, y: 105}} end={{x: 630, y: 150}} color="green" dashed={true} curved={true} />
-                        <Arrow start={{x: 680, y: 200}} end={{x: 760, y: 260}} color="green" dashed={true} curved={true} />
-                    </LineChart>
-                </ResponsiveContainer>
-            );
-        };
-
-        ReactDOM.render(<AdTechFlowDiagram />, document.getElementById('root'));
-    </script>
+        <!-- Arrows -->
+        <line x1="110" y1="200" x2="150" y2="200" stroke="black" marker-end="url(#arrowhead)" />
+        <line x1="320" y1="105" x2="380" y2="105" stroke="black" marker-end="url(#arrowhead)" />
+        <line x1="245" y1="140" x2="245" y2="200" stroke="black" marker-end="url(#arrowhead)" />
+        <line x1="320" y1="265" x2="380" y2="225" stroke="black" marker-end="url(#arrowhead)" />
+        <line x1="320" y1="265" x2="380" y2="285" stroke="black" marker-end="url(#arrowhead)" />
+        <line x1="530" y1="225" x2="580" y2="200" stroke="red" marker-end="url(#arrowhead)" />
+        <line x1="530" y1="285" x2="580" y2="200" stroke="red" marker-end="url(#arrowhead)" />
+        <line x1="680" y1="200" x2="710" y2="200" stroke="black" marker-end="url(#arrowhead)" />
+        <line x1="760" y1="100" x2="760" y2="150" stroke="black" marker-end="url(#arrowhead)" />
+        <line x1="760" y1="250" x2="760" y2="260" stroke="black" marker-end="url(#arrowhead)" />
+        
+        <!-- Curved arrows -->
+        <path d="M530,105 Q580,75 630,150" fill="none" stroke="green" stroke-dasharray="5,5" marker-end="url(#arrowhead)" />
+        <path d="M680,200 Q720,230 760,260" fill="none" stroke="green" stroke-dasharray="5,5" marker-end="url(#arrowhead)" />
+    </svg>
 </body>
 </html>
