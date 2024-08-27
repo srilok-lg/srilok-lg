@@ -6,24 +6,34 @@
     <title>Inventory</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
     <style>
-        body {
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            overflow: hidden;
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
             line-height: 1.6;
-            padding: 20px;
             color: #333;
-            max-width: 1200px;
-            margin: 0 auto;
         }
-        h1 { color: #2c3e50; }
+        .container {
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        h1 { 
+            color: #2c3e50; 
+            margin: 0 0 10px 0;
+        }
         #flowchart {
-            width: 100%;
-            height: 80vh;
+            flex-grow: 1;
             position: relative;
             display: grid;
             grid-template-columns: repeat(5, 1fr);
             grid-template-rows: repeat(4, 1fr);
-            gap: 40px;
-            padding: 40px;
+            gap: 4vh;
+            padding: 4vh;
         }
         .bento-box {
             border-radius: 10px;
@@ -34,8 +44,11 @@
             border: 1px solid #000000;
             transition: all 0.3s ease;
             font-family: 'Inter', sans-serif;
-            font-size: 20px; /* Adjusted to 20px as requested */
-            font-weight: 600; /* Semi-bold weight */
+            font-size: 1.8vh;
+            font-weight: 600;
+            width: 80%;
+            height: 80%;
+            margin: auto;
         }
         .bento-box:hover {
             box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
@@ -49,13 +62,12 @@
             position: relative;
             transition: transform 0.3s ease;
             display: inline-block;
+            margin-bottom: 10px;
         }
-
         .back-link:before {
             content: "\2190";
             margin-right: 5px;
         }
-
         .back-link:after {
             content: '';
             position: absolute;
@@ -68,11 +80,9 @@
             transform-origin: bottom right;
             transition: transform 0.3s ease;
         }
-
         .back-link:hover {
             transform: scale(1.05);
         }
-
         .back-link:hover:after {
             transform: scaleX(1);
             transform-origin: bottom left;
@@ -80,9 +90,14 @@
     </style>
 </head>
 <body>
-    <a href="#" class="back-link" onclick="goBackToInframap(); return false;">Back to Infrastructure Map</a>
-    <h1>Inventory</h1>
-    <div id="flowchart"></div>
+    <div class="container">
+        <a href="#" class="back-link" onclick="goBackToInframap(); return false;">Back to Infrastructure Map</a>
+        <h1>Inventory</h1>
+        <p><a href='https://alphonsotv.atlassian.net/wiki/x/AYDmeQ' class="page-link">Confluence Page</a></p>
+        <p>The following flow-chart depicts the types of inventory across various devices and some overlaps too.</p>
+
+        <div id="flowchart"></div>
+    </div>
     <script>
         function goBackToInframap() {
             if (window.parent !== window.self) {
@@ -91,7 +106,7 @@
                 window.location.href = 'index.html#infra';
             }
         }
-        
+
         const bentoBoxes = [
             { id: 'inventory', label: 'Inventory', color: '#ffffff', gridArea: '1 / 3 / 2 / 4' },
             { id: 'lg', label: 'LG', color: '#f2f2f7', gridArea: '2 / 2 / 3 / 3' },
@@ -170,13 +185,13 @@
             svg.style.width = '100%';
             svg.style.height = '100%';
             svg.style.pointerEvents = 'none';
-            
+
             const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
             path.setAttribute('stroke', '#000000');
             path.setAttribute('stroke-width', '2');
             path.setAttribute('fill', 'none');
             path.setAttribute('marker-end', 'url(#arrowhead)');
-            
+
             const arrowhead = document.createElementNS("http://www.w3.org/2000/svg", "marker");
             arrowhead.setAttribute('id', 'arrowhead');
             arrowhead.setAttribute('markerWidth', '10');
