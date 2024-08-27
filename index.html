@@ -15,19 +15,27 @@
             max-width: 1200px;
             margin: 0 auto;
         }
-        h1 { color: #2c3e50; }
+
+        h1 {
+            color: #2c3e50;
+            display: inline-block; /* Keep title inline */
+            margin-right: 20px; /* Space between title and switch */
+        }
+
         .switch {
             position: relative;
             display: inline-block;
             width: 60px;
             height: 34px;
-            margin-bottom: 20px;
+            vertical-align: middle; /* Align with title */
         }
+
         .switch input {
             opacity: 0;
             width: 0;
             height: 0;
         }
+
         .slider {
             position: absolute;
             cursor: pointer;
@@ -39,6 +47,7 @@
             transition: .4s;
             border-radius: 34px;
         }
+
         .slider:before {
             position: absolute;
             content: "";
@@ -50,21 +59,26 @@
             transition: .4s;
             border-radius: 50%;
         }
+
         input:checked + .slider {
             background-color: #2196F3;
         }
+
         input:checked + .slider:before {
             transform: translateX(26px);
         }
+
         .switch-label {
             display: inline-block;
             vertical-align: middle;
             margin-left: 10px;
         }
+
         #graphDiv {
             margin-top: 20px;
             margin-bottom: 20px;
         }
+
         .clickable:hover {
             cursor: pointer;
             filter: drop-shadow(0 0 5px rgba(0,0,0,0.3));
@@ -73,15 +87,17 @@
     </style>
 </head>
 <body>
-    <h1 id="graphTitle">Operations Flow</h1>
-    <label class="switch">
-        <input type="checkbox" id="graphToggle">
-        <span class="slider"></span>
-    </label>
-    <span class="switch-label" id="toggleLabel">Switch to Infrastructure Map</span>
-    <div id="graphDiv"></div>
+    <div style="display: flex; align-items: center;">
+        <h1 id="graphTitle">Operations Flow</h1>
+        <label class="switch">
+            <input type="checkbox" id="graphToggle">
+            <span class="slider"></span>
+        </label>
+        <span class="switch-label" id="toggleLabel">Switch to Infrastructure Map</span>
+    </div>
     <!-- <a href="new_operations_flow.html">New Operations page</a> 
     <a href="operations2.html">Operations 2</a>  -->
+    <div id="graphDiv"></div>
     <script type="module">
         const infraTree = `
         graph TD
