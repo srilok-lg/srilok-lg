@@ -82,18 +82,7 @@
     <div id="graphDiv"></div>
     <!-- <a href="new_operations_flow.html">New Operations page</a> 
     <a href="operations2.html">Operations 2</a>  -->
-    <script>
-        function loadFileContent() 
-        {
-            fetch('new_operations_flow.html')
-                .then(response => response.text())
-                .then(data => {
-                    document.getElementById('fileContent').innerHTML = data;
-                })
-                .catch(error => console.error('Error loading file.html:', error));
-        }
-        const operationsFlow = document.getElementById('fileContent');
-
+    <script type="module">
         const infraTree = `
         graph TD
             Salesforce("Salesforce") --> A2("Campaign Parameters")
@@ -145,7 +134,7 @@
         `;
 
         let currentGraph = 'operations';
-        
+
         mermaid.initialize({ 
             startOnLoad: true,
             theme: 'neutral',
@@ -159,10 +148,18 @@
 
         function renderGraph() {
             const graphDiv = document.getElementById('graphDiv');
-            const graphDefinition = currentGraph === 'operations' ? operationsFlow : infraTree;
-            mermaid.render('mermaid-graph', graphDefinition).then(result => {
-                graphDiv.innerHTML = result.svg;
-            });
+            if (currentGraph === 'operations') {
+                fetch('new_operations_flow.html')
+                    .then(response => response.text())
+                    .then(data => {
+                        graphDiv.innerHTML = data;
+                    })
+                    .catch(error => console.error('Error loading new_operations_flow.html:', error));
+            } else {
+                mermaid.render('mermaid-graph', infraTree).then(result => {
+                    graphDiv.innerHTML = result.svg;
+                });
+            }
         }
 
         document.addEventListener('DOMContentLoaded', renderGraph);
@@ -183,20 +180,6 @@
             
             renderGraph();
         });
-            
-            window.addEventListener('message', function(event) {
-                if (event.data.action === 'navigateToInframap') {
-                    document.getElementById('graphToggle').checked = true;
-                    document.getElementById('graphToggle').dispatchEvent(new Event('change'));
-                }
-            });
-            
-            window.addEventListener('load', function() {
-                if (window.location.hash === '#infra') {
-                    document.getElementById('graphToggle').checked = true;
-                    document.getElementById('graphToggle').dispatchEvent(new Event('change'));
-                }
-            });
     </script>
 </body>
 </html>
