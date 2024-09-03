@@ -178,46 +178,104 @@
         function renderGraph() {
             const graphDiv = document.getElementById('graphDiv');
             if (currentGraph === 'operations') {
-                const operationsFlow = `
-                <svg width="800" height="600" xmlns="http://www.w3.org/2000/svg">
-                    <!-- Managed Service Box -->
-                    <rect x="150" y="100" width="500" height="400" fill="none" stroke="#000" stroke-dasharray="5,5" />
-                    <text x="400" y="120" text-anchor="middle" font-family="Arial" font-size="16">Managed Service</text>
+                fetch('new_operations_flow.html')
+                    .then(response => response.text())
+                    .then(data => {
+                        // Modify the SVG content here
+                        const parser = new DOMParser();
+                        const doc = parser.parseFromString(data, 'text/html');
+                        const svg = doc.querySelector('svg');
 
-                    <!-- Advertisers -->
-                    <rect x="50" y="250" width="120" height="60" fill="#f0f0f0" stroke="#000" />
-                    <text x="110" y="285" text-anchor="middle" font-family="Arial" font-size="14">Advertisers</text>
+                        // Add "Managed Service" text to the dotted box
+                        const managedServiceText = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+                        managedServiceText.setAttribute('x', '400');
+                        managedServiceText.setAttribute('y', '120');
+                        managedServiceText.setAttribute('text-anchor', 'middle');
+                        managedServiceText.setAttribute('font-family', 'Arial');
+                        managedServiceText.setAttribute('font-size', '16');
+                        managedServiceText.textContent = 'Managed Service';
+                        svg.appendChild(managedServiceText);
 
-                    <!-- Media Planning -->
-                    <rect x="250" y="250" width="120" height="60" fill="#f0f0f0" stroke="#000" />
-                    <text x="310" y="285" text-anchor="middle" font-family="Arial" font-size="14">Media Planning</text>
+                        // Remove arrow from Advertisers to dotted box
+                        const arrowToRemove = svg.querySelector('path[d="M170 280 H240"]');
+                        if (arrowToRemove) arrowToRemove.remove();
 
-                    <!-- Mosaic -->
-                    <rect x="450" y="250" width="120" height="60" fill="#f0f0f0" stroke="#000" />
-                    <text x="510" y="285" text-anchor="middle" font-family="Arial" font-size="14">Mosaic</text>
+                        // Add Media Planning box
+                        const mediaPlanningRect = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+                        mediaPlanningRect.setAttribute('x', '250');
+                        mediaPlanningRect.setAttribute('y', '250');
+                        mediaPlanningRect.setAttribute('width', '120');
+                        mediaPlanningRect.setAttribute('height', '60');
+                        mediaPlanningRect.setAttribute('fill', '#f0f0f0');
+                        mediaPlanningRect.setAttribute('stroke', '#000');
+                        svg.appendChild(mediaPlanningRect);
 
-                    <!-- Reporting -->
-                    <rect x="450" y="400" width="120" height="60" fill="#f0f0f0" stroke="#000" />
-                    <text x="510" y="435" text-anchor="middle" font-family="Arial" font-size="14">Reporting</text>
+                        const mediaPlanningText = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+                        mediaPlanningText.setAttribute('x', '310');
+                        mediaPlanningText.setAttribute('y', '285');
+                        mediaPlanningText.setAttribute('text-anchor', 'middle');
+                        mediaPlanningText.setAttribute('font-family', 'Arial');
+                        mediaPlanningText.setAttribute('font-size', '14');
+                        mediaPlanningText.textContent = 'Media Planning';
+                        svg.appendChild(mediaPlanningText);
 
-                    <!-- Arrows -->
-                    <path d="M170 280 H250" fill="none" stroke="#000" marker-end="url(#arrowhead)" />
-                    <path d="M370 280 H450" fill="none" stroke="#000" marker-end="url(#arrowhead)" />
-                    <path d="M510 310 V400" fill="none" stroke="#000" marker-end="url(#arrowhead)" />
-                    <path d="M450 430 H110 V310" fill="none" stroke="#000" marker-end="url(#arrowhead)" />
+                        // Add arrow from Advertisers to Media Planning
+                        const arrowToMediaPlanning = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+                        arrowToMediaPlanning.setAttribute('d', 'M170 280 H250');
+                        arrowToMediaPlanning.setAttribute('fill', 'none');
+                        arrowToMediaPlanning.setAttribute('stroke', '#000');
+                        arrowToMediaPlanning.setAttribute('marker-end', 'url(#arrowhead)');
+                        svg.appendChild(arrowToMediaPlanning);
 
-                    <!-- Arrow marker definition -->
-                    <defs>
-                        <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="0" refY="3.5" orient="auto">
-                            <polygon points="0 0, 10 3.5, 0 7" />
-                        </marker>
-                    </defs>
-                </svg>
-                `;
-                graphDiv.innerHTML = operationsFlow;
-                // Add this line to make the content fit the screen
-                graphDiv.firstChild.style.width = '100%';
-                graphDiv.firstChild.style.height = '100%';
+                        // Add arrow from Media Planning to Mosaic
+                        const arrowToMosaic = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+                        arrowToMosaic.setAttribute('d', 'M370 280 H450');
+                        arrowToMosaic.setAttribute('fill', 'none');
+                        arrowToMosaic.setAttribute('stroke', '#000');
+                        arrowToMosaic.setAttribute('marker-end', 'url(#arrowhead)');
+                        svg.appendChild(arrowToMosaic);
+
+                        // Add Reporting box
+                        const reportingRect = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+                        reportingRect.setAttribute('x', '450');
+                        reportingRect.setAttribute('y', '400');
+                        reportingRect.setAttribute('width', '120');
+                        reportingRect.setAttribute('height', '60');
+                        reportingRect.setAttribute('fill', '#f0f0f0');
+                        reportingRect.setAttribute('stroke', '#000');
+                        svg.appendChild(reportingRect);
+
+                        const reportingText = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+                        reportingText.setAttribute('x', '510');
+                        reportingText.setAttribute('y', '435');
+                        reportingText.setAttribute('text-anchor', 'middle');
+                        reportingText.setAttribute('font-family', 'Arial');
+                        reportingText.setAttribute('font-size', '14');
+                        reportingText.textContent = 'Reporting';
+                        svg.appendChild(reportingText);
+
+                        // Add arrow from Mosaic to Reporting
+                        const arrowToReporting = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+                        arrowToReporting.setAttribute('d', 'M510 310 V400');
+                        arrowToReporting.setAttribute('fill', 'none');
+                        arrowToReporting.setAttribute('stroke', '#000');
+                        arrowToReporting.setAttribute('marker-end', 'url(#arrowhead)');
+                        svg.appendChild(arrowToReporting);
+
+                        // Add arrow from Reporting to Advertisers
+                        const arrowToAdvertisers = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+                        arrowToAdvertisers.setAttribute('d', 'M450 430 H110 V310');
+                        arrowToAdvertisers.setAttribute('fill', 'none');
+                        arrowToAdvertisers.setAttribute('stroke', '#000');
+                        arrowToAdvertisers.setAttribute('marker-end', 'url(#arrowhead)');
+                        svg.appendChild(arrowToAdvertisers);
+
+                        graphDiv.innerHTML = svg.outerHTML;
+                        // Add this line to make the content fit the screen
+                        graphDiv.firstChild.style.width = '100%';
+                        graphDiv.firstChild.style.height = '100%';
+                    })
+                    .catch(error => console.error('Error loading new_operations_flow.html:', error));
             } else {
                 mermaid.render('mermaid-graph', infraTree).then(result => {
                     graphDiv.innerHTML = result.svg;
