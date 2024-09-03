@@ -178,15 +178,46 @@
         function renderGraph() {
             const graphDiv = document.getElementById('graphDiv');
             if (currentGraph === 'operations') {
-                fetch('new_operations_flow.html')
-                    .then(response => response.text())
-                    .then(data => {
-                        graphDiv.innerHTML = data;
-                        // Add this line to make the content fit the screen
-                        graphDiv.firstChild.style.width = '100%';
-                        graphDiv.firstChild.style.height = '100%';
-                    })
-                    .catch(error => console.error('Error loading new_operations_flow.html:', error));
+                const operationsFlow = `
+                <svg width="800" height="600" xmlns="http://www.w3.org/2000/svg">
+                    <!-- Managed Service Box -->
+                    <rect x="150" y="100" width="500" height="400" fill="none" stroke="#000" stroke-dasharray="5,5" />
+                    <text x="400" y="120" text-anchor="middle" font-family="Arial" font-size="16">Managed Service</text>
+
+                    <!-- Advertisers -->
+                    <rect x="50" y="250" width="120" height="60" fill="#f0f0f0" stroke="#000" />
+                    <text x="110" y="285" text-anchor="middle" font-family="Arial" font-size="14">Advertisers</text>
+
+                    <!-- Media Planning -->
+                    <rect x="250" y="250" width="120" height="60" fill="#f0f0f0" stroke="#000" />
+                    <text x="310" y="285" text-anchor="middle" font-family="Arial" font-size="14">Media Planning</text>
+
+                    <!-- Mosaic -->
+                    <rect x="450" y="250" width="120" height="60" fill="#f0f0f0" stroke="#000" />
+                    <text x="510" y="285" text-anchor="middle" font-family="Arial" font-size="14">Mosaic</text>
+
+                    <!-- Reporting -->
+                    <rect x="450" y="400" width="120" height="60" fill="#f0f0f0" stroke="#000" />
+                    <text x="510" y="435" text-anchor="middle" font-family="Arial" font-size="14">Reporting</text>
+
+                    <!-- Arrows -->
+                    <path d="M170 280 H250" fill="none" stroke="#000" marker-end="url(#arrowhead)" />
+                    <path d="M370 280 H450" fill="none" stroke="#000" marker-end="url(#arrowhead)" />
+                    <path d="M510 310 V400" fill="none" stroke="#000" marker-end="url(#arrowhead)" />
+                    <path d="M450 430 H110 V310" fill="none" stroke="#000" marker-end="url(#arrowhead)" />
+
+                    <!-- Arrow marker definition -->
+                    <defs>
+                        <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="0" refY="3.5" orient="auto">
+                            <polygon points="0 0, 10 3.5, 0 7" />
+                        </marker>
+                    </defs>
+                </svg>
+                `;
+                graphDiv.innerHTML = operationsFlow;
+                // Add this line to make the content fit the screen
+                graphDiv.firstChild.style.width = '100%';
+                graphDiv.firstChild.style.height = '100%';
             } else {
                 mermaid.render('mermaid-graph', infraTree).then(result => {
                     graphDiv.innerHTML = result.svg;
@@ -217,5 +248,4 @@
         });
     </script>
 </body>
-
 </html>
