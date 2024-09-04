@@ -21,10 +21,12 @@
         .clickable-group {
             transition: all 0.3s ease;
         }
-        .clickable-group:hover {
-            transform: scale(1.02);
+        .clickable-group rect {
+            transition: all 0.3s ease;
+            transform-origin: center;
         }
         .clickable-group:hover rect {
+            transform: scale(1.02);
             filter: drop-shadow(0px 0px 5px rgba(0,0,0,0.3));
         }
         .clickable-arrow {
@@ -213,8 +215,4 @@
         </a>
         <a href="native_flow.html" class="clickable-arrow">
             <line x1="930" y1="290" x2="1085" y2="290" stroke="#FF7043" stroke-width="2" marker-end="url(#arrowhead-orange)" />
-            <line x1="1085" y1="290" x2="1240" y2="290" stroke="#FF7043" stroke-width="2" marker-start="url(#arrowhead-orange)" />
-        </a>
-    </svg>
-</body>
-</html>
+            <line x1="1085" y1="290" x2="1240" y2="
