@@ -20,13 +20,13 @@
         }
         .clickable-group {
             transition: all 0.3s ease;
+             transform-origin: center;
         }
-        .clickable-group rect {
-            transition: all 0.3s ease;
+        .clickable-group: hover {
+            transform: scale(1.02);
             transform-origin: center;
         }
         .clickable-group:hover rect {
-            transform: scale(1.02);
             filter: drop-shadow(0px 0px 5px rgba(0,0,0,0.3));
         }
         .clickable-arrow {
