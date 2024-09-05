@@ -1,27 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reporting Flow</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/17.0.2/umd/react.development.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/17.0.2/umd/react-dom.development.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.26.0/babel.min.js"></script>
+    <style>
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+            line-height: 1.6;
+            padding: 20px;
+            color: #333;
+        }
+        h1 { color: #2c3e50; }
+        a { color: #3498db; text-decoration: none; }
+        a:hover { text-decoration: underline; }
 
-    <!DOCTYPE html>
-    <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>reporting</title>
-        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
-        <style>
-            body {
-                font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
-                line-height: 1.6;
-                padding: 20px;
-                color: #333;
+        .back-link {
+            font-family: Inter, sans-serif;
+            font-size: 16px;
+            color: #3498db;
+            text-decoration: none;
+            position: relative;
+            transition: transform 0.3s ease;
+            display: inline-block;
+            margin-bottom: 20px;
+        }
+
+        .back-link:before {
+            content: "\2190";
+            margin-right: 5px;
+        }
+
+        .back-link:after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 2px;
+            bottom: 0;
+            left: 0;
+            background-color: #3498db;
+            transform: scaleX(0);
+            transform-origin: bottom right;
+            transition: transform 0.3s ease;
+        }
+
+        .back-link:hover {
+            transform: scale(1.05);
+        }
+
+        .back-link:hover:after {
+            transform: scaleX(1);
+            transform-origin: bottom left;
+        }
+    </style>
+</head>
+<body>
+    <a href="#" class="back-link" onclick="goBackToInframap(); return false;">Back to Infrastructure Map</a>
+    <h1>Reporting Flow</h1>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const FlowchartBox = ({ id, text, x, y, width = 150, height = 50, onClick }) => {
+            const [isHovered, setIsHovered] = React.useState(false);
+
+            return (
+                <div
+                    style={{
+                        position: 'absolute',
+                        left: x,
+                        top: y,
+                        width: width,
+                        height: height,
+                        border: '2px solid #333',
+                        borderRadius: '5px',
+                        display: 'flex',
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        backgroundColor: isHovered ? '#f0f0f0' : '#fff',
+                        fontSize: '14px',
+                        textAlign: 'center',
+                        padding: '5px',
+                        cursor: 'pointer',
+                        transition: 'all 0.3s',
+                        transform: isHovered ? 'scale(1.1)' : 'scale(1)',
+                        zIndex: isHovered ? 10 : 1,
+                    }}
+                    onClick={() => onClick(id)}
+                    onMouseEnter={() => setIsHovered(true)}
+                    onMouseLeave={() => setIsHovered(false)}
+                >
+                    {text}
+                </div>
+            );
+        };
+
+        const FlowchartBox2 = ({ id, text, x, y, width = 100, height = 50, onClick }) => {
+            const [isHovered, setIsHovered] = React.useState(false);
+
+            return (
+                <div
+                    style={{
+                        position: 'absolute',
+                        left: x,
+                        top: y,
+                        width: width,
+                        height: height,
+                        border: '2px solid #333',
+                        borderRadius: '5px',
+                        display: 'flex',
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        backgroundColor: isHovered ? '#f0f0f0' : '#fff',
+                        fontSize: '14px',
+                        textAlign: 'center',
+                        padding: '5px',
+                        cursor: 'pointer',
+                        transition: 'all 0.3s',
+                        transform: isHovered ? 'scale(1.1)' : 'scale(1)',
+                        zIndex: isHovered ? 10 : 1,
+                    }}
+                    onClick={() => onClick(id)}
+                    onMouseEnter={() => setIsHovered(true)}
+                    onMouseLeave={() => setIsHovered(false)}
+                >
+                    {text}
+                </div>
+            );
+        };
+
+        const Arrow = ({ start, end, label, color = '#333' }) => {
+            const dx = end.x - start.x;
+            const dy = end.y - start.y;
+            const angle = Math.atan2(dy, dx);
+            const length = Math.sqrt(dx * dx + dy * dy);
+
+            const arrowHead = (
+                <polygon
+                    points="0,-5 10,0 0,5"
+                    fill={color}
+                    transform={`translate(${end.x},${end.y}) rotate(${angle * 180 / Math.PI})`}
+                />
+            );
+
+            return (
+                <svg style={{ position: 'absolute', left: 0, top: 0, width: '100%', height: '100%', pointerEvents: 'none' }}>
+                    <line
+                        x1={start.x}
+                        y1={start.y}
+                        x2={end.x}
+                        y2={end.y}
+                        stroke={color}
+                        strokeWidth={2}
+                    />
+                    {arrowHead}
+                    {label && (
+                        <text
+                            x={(start.x + end.x) / 2}
+                            y={(start.y + end.y) / 2}
+                            textAnchor="middle"
+                            fill="#000"
+                            fontSize="12"
+                            backgroundColor="#fff"
+                        >
+                            <tspan x={(start.x + end.x) / 2} dy="-5" style={{backgroundColor: '#fff', padding: '0 3px'}}>{label}</tspan>
+                        </text>
+                    )}
+                </svg>
+            );
+        };
+
+        const Flowchart = () => {
+            const handleBoxClick = (id) => {
+                console.log(`Box ${id} clicked`);
+                // You can add more functionality here, such as opening a modal or navigating to a new page
+            };
+
+            return (
+                <div style={{ position: 'relative', width: '1000px', height: '600px', border: '1px solid #ccc' }}>
+                    <FlowchartBox id="A1" text="Mosaic Check" x={20} y={20} onClick={handleBoxClick} />
+                    <FlowchartBox id="A2" text="Reporting task" x={270} y={20} onClick={handleBoxClick} />
+                    <FlowchartBox id="A3" text="Insights" x={520} y={20} onClick={handleBoxClick} />
+                    <FlowchartBox2 id="A4" text="Standard Reports" x={485} y={150} onClick={handleBoxClick} />
+                    <FlowchartBox2 id="A5" text="Advanced Reports" x={605} y={150} onClick={handleBoxClick} />
+                    <FlowchartBox id="A6" text="Dropbox" x={520} y={270} onClick={handleBoxClick} />
+
+                    <FlowchartBox2 id="B1" text="LGE" x={270} y={150} width={150} height={50} onClick={handleBoxClick} />
+                    <FlowchartBox id="C1" text="Pixel Logs" x={50} y={150} width={100} height={50} onClick={handleBoxClick} />
+                    <FlowchartBox id="C2" text="ADP data" x={270} y={270} onClick={handleBoxClick} />
+
+                    <Arrow start={{x: 180, y: 50}} end={{x: 260, y: 50}} />
+                    <Arrow start={{x: 400, y: 50}} end={{x: 510, y: 50}} />
+
+                    <Arrow start={{x: 300, y: 80}} end={{x: 300, y: 137}} label="Data requests" color="#0066cc" />
+                    <Arrow start={{x: 400, y: 150}} end={{x: 400, y: 97}} label="Final attributed data" color="#cc6600" />
+
+                    <Arrow start={{x: 160, y: 180}} end={{x: 260, y: 180}} label="exposure dump"/>
+                    <Arrow start={{x: 350, y: 270}} end={{x: 350, y: 225}} />
+
+                    <Arrow start={{x: 540, y: 50}} end={{x: 540, y: 135}} color="#009900" />
+                    <Arrow start={{x: 660, y: 50}} end={{x: 660, y: 135}} color="#990000" />
+                    
+                    <Arrow start={{x: 540, y: 170}} end={{x: 590, y: 260}} />
+                    <Arrow start={{x: 660, y: 170}} end={{x: 610, y: 260}} />
+
+                    <div style={{
+                        position: 'absolute',
+                        left: 30,
+                        top: 130,
+                        width: 420,
+                        height: 220,
+                        border: '2px dashed #666',
+                        borderRadius: '10px',
+                        pointerEvents: 'none',
+                        zIndex: -1,
+                    }} />
+                    <div style={{
+                        position: 'absolute',
+                        left: 90,
+                        top: 300,
+                        backgroundColor: '#fff',
+                        padding: '0 5px',
+                        fontSize: '14px',
+                    }}>
+                        Reporting Flow
+                    </div>
+                </div>
+            );
+        };
+
+        // Render the Flowchart component
+        ReactDOM.render(<Flowchart />, document.getElementById('root'));
+    </script>
+
+    <script>        
+        function goBackToInframap() {
+            if (window.parent !== window.self) {
+                // We're in an iframe
+                window.parent.postMessage({ action: 'navigateToInframap' }, '*');
+            } else {
+                // We're not in an iframe, navigate directly
+                window.location.href = 'index.html#infra';
             }
-            h1 { color: #2c3e50; }
-            a { color: #3498db; text-decoration: none; }
-            a:hover { text-decoration: underline; }
-        </style>
-    </head>
-    <body>
-        <h1>reporting</h1>
-        <p>This is the reporting page. Add more details about reporting here.</p>
-        <a href="index.html">Back to Graph Network</a>
-    </body>
-    </html>
-    
+        }
+    </script>
+</body>
+</html>
