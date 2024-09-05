@@ -9,13 +9,25 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/17.0.2/umd/react-dom.development.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.26.0/babel.min.js"></script>
     <style>
-        body {
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
             line-height: 1.6;
-            padding: 20px;
             color: #333;
         }
-        h1 { color: #2c3e50; }
+        #root {
+            width: 100%;
+            height: calc(100% - 80px);
+            overflow: hidden;
+        }
+        h1 { 
+            color: #2c3e50;
+            margin: 20px 0;
+            padding: 0 20px;
+        }
         a { color: #3498db; text-decoration: none; }
         a:hover { text-decoration: underline; }
 
@@ -27,6 +39,7 @@
             position: relative;
             transition: transform 0.3s ease;
             display: inline-block;
+            margin: 20px;
         }
 
         .back-link:before {
@@ -63,51 +76,17 @@
     <div id="root"></div>
 
     <script type="text/babel">
-        const FlowchartBox = ({ id, text, x, y, width = 150, height = 50, onClick }) => {
+        const FlowchartBox = ({ id, text, x, y, width, height, onClick }) => {
             const [isHovered, setIsHovered] = React.useState(false);
 
             return (
                 <div
                     style={{
                         position: 'absolute',
-                        left: x,
-                        top: y,
-                        width: width,
-                        height: height,
-                        border: '2px solid #333',
-                        borderRadius: '5px',
-                        display: 'flex',
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                        backgroundColor: isHovered ? '#f0f0f0' : '#fff',
-                        fontSize: '14px',
-                        textAlign: 'center',
-                        padding: '5px',
-                        cursor: 'pointer',
-                        transition: 'all 0.3s',
-                        transform: isHovered ? 'scale(1.1)' : 'scale(1)',
-                        zIndex: isHovered ? 10 : 1,
-                    }}
-                    onClick={() => onClick(id)}
-                    onMouseEnter={() => setIsHovered(true)}
-                    onMouseLeave={() => setIsHovered(false)}
-                >
-                    {text}
-                </div>
-            );
-        };
-
-        const FlowchartBox2 = ({ id, text, x, y, width = 100, height = 50, onClick }) => {
-            const [isHovered, setIsHovered] = React.useState(false);
-
-            return (
-                <div
-                    style={{
-                        position: 'absolute',
-                        left: x,
-                        top: y,
-                        width: width,
-                        height: height,
+                        left: `${x}%`,
+                        top: `${y}%`,
+                        width: `${width}%`,
+                        height: `${height}%`,
                         border: '2px solid #333',
                         borderRadius: '5px',
                         display: 'flex',
@@ -134,38 +113,36 @@
         const Arrow = ({ start, end, label, color = '#333' }) => {
             const dx = end.x - start.x;
             const dy = end.y - start.y;
-            const angle = Math.atan2(dy, dx);
+            const angle = Math.atan2(dy, dx) * 180 / Math.PI;
             const length = Math.sqrt(dx * dx + dy * dy);
-
-            const arrowHead = (
-                <polygon
-                    points="0,-5 10,0 0,5"
-                    fill={color}
-                    transform={`translate(${end.x},${end.y}) rotate(${angle * 180 / Math.PI})`}
-                />
-            );
 
             return (
                 <svg style={{ position: 'absolute', left: 0, top: 0, width: '100%', height: '100%', pointerEvents: 'none' }}>
+                    <defs>
+                        <marker id={`arrowhead-${color}`} markerWidth="10" markerHeight="7" 
+                        refX="0" refY="3" orient="auto">
+                            <polygon points="0 0, 6 3, 0 6" fill={color} />
+                        </marker>
+                    </defs>
                     <line
-                        x1={start.x}
-                        y1={start.y}
-                        x2={end.x}
-                        y2={end.y}
+                        x1={`${start.x}%`}
+                        y1={`${start.y}%`}
+                        x2={`${end.x}%`}
+                        y2={`${end.y}%`}
                         stroke={color}
                         strokeWidth={2}
+                        markerEnd={`url(#arrowhead-${color})`}
                     />
-                    {arrowHead}
                     {label && (
                         <text
-                            x={(start.x + end.x) / 2}
-                            y={(start.y + end.y) / 2}
+                            x={`${(start.x + end.x) / 2}%`}
+                            y={`${(start.y + end.y) / 2}%`}
                             textAnchor="middle"
                             fill="#000"
                             fontSize="12"
                             backgroundColor="#fff"
                         >
-                            <tspan x={(start.x + end.x) / 2} dy="-5" style={{backgroundColor: '#fff', padding: '0 3px'}}>{label}</tspan>
+                            <tspan x={`${(start.x + end.x) / 2}%`} dy="-5" style={{backgroundColor: '#fff', padding: '0 3px'}}>{label}</tspan>
                         </text>
                     )}
                 </svg>
@@ -179,39 +156,39 @@
             };
 
             return (
-                <div style={{ position: 'relative', width: '1000px', height: '600px', border: '1px solid #ccc' }}>
-                    <FlowchartBox id="A1" text="Mosaic Check" x={20} y={20} onClick={handleBoxClick} />
-                    <FlowchartBox id="A2" text="Reporting task" x={270} y={20} onClick={handleBoxClick} />
-                    <FlowchartBox id="A3" text="Insights" x={520} y={20} onClick={handleBoxClick} />
-                    <FlowchartBox2 id="A4" text="Standard Reports" x={485} y={150} onClick={handleBoxClick} />
-                    <FlowchartBox2 id="A5" text="Advanced Reports" x={605} y={150} onClick={handleBoxClick} />
-                    <FlowchartBox id="A6" text="Dropbox" x={520} y={270} onClick={handleBoxClick} />
+                <div style={{ position: 'relative', width: '100%', height: '100%' }}>
+                    <FlowchartBox id="A1" text="Mosaic Check" x={3} y={3} width={15} height={8} onClick={handleBoxClick} />
+                    <FlowchartBox id="A2" text="Reporting task" x={27} y={3} width={15} height={8} onClick={handleBoxClick} />
+                    <FlowchartBox id="A3" text="Insights" x={52} y={3} width={15} height={8} onClick={handleBoxClick} />
+                    <FlowchartBox id="A4" text="Standard Reports" x={48.5} y={25} width={10} height={8} onClick={handleBoxClick} />
+                    <FlowchartBox id="A5" text="Advanced Reports" x={60.5} y={25} width={10} height={8} onClick={handleBoxClick} />
+                    <FlowchartBox id="A6" text="Dropbox" x={52} y={45} width={15} height={8} onClick={handleBoxClick} />
 
-                    <FlowchartBox2 id="B1" text="LGE" x={270} y={150} width={150} height={50} onClick={handleBoxClick} />
-                    <FlowchartBox id="C1" text="Pixel Logs" x={50} y={150} width={100} height={50} onClick={handleBoxClick} />
-                    <FlowchartBox id="C2" text="ADP data" x={270} y={270} onClick={handleBoxClick} />
+                    <FlowchartBox id="B1" text="LGE" x={27} y={25} width={15} height={8} onClick={handleBoxClick} />
+                    <FlowchartBox id="C1" text="Pixel Logs" x={5} y={25} width={10} height={8} onClick={handleBoxClick} />
+                    <FlowchartBox id="C2" text="ADP data" x={27} y={45} width={15} height={8} onClick={handleBoxClick} />
 
-                    <Arrow start={{x: 180, y: 50}} end={{x: 260, y: 50}} />
-                    <Arrow start={{x: 400, y: 50}} end={{x: 510, y: 50}} />
+                    <Arrow start={{x: 17, y: 8.5}} end={{x: 26, y: 8.5}} />
+                    <Arrow start={{x: 42, y: 8.5}} end={{x: 51, y: 8.5}} />
 
-                    <Arrow start={{x: 300, y: 80}} end={{x: 300, y: 137}} label="Data requests" color="#0066cc" />
-                    <Arrow start={{x: 400, y: 150}} end={{x: 400, y: 97}} label="Final attributed data" color="#cc6600" />
+                    <Arrow start={{x: 30, y: 13.5}} end={{x: 30, y: 22.5}} label="Data requests" color="#0066cc" />
+                    <Arrow start={{x: 40, y: 25}} end={{x: 40, y: 16}} label="Final attributed data" color="#cc6600" />
 
-                    <Arrow start={{x: 160, y: 180}} end={{x: 260, y: 180}} label="exposure dump"/>
-                    <Arrow start={{x: 350, y: 270}} end={{x: 350, y: 225}} />
+                    <Arrow start={{x: 16, y: 30}} end={{x: 26, y: 30}} label="exposure dump"/>
+                    <Arrow start={{x: 35, y: 45}} end={{x: 35, y: 37.5}} />
 
-                    <Arrow start={{x: 540, y: 50}} end={{x: 540, y: 135}} color="#009900" />
-                    <Arrow start={{x: 660, y: 50}} end={{x: 660, y: 135}} color="#990000" />
+                    <Arrow start={{x: 55.5, y: 11}} end={{x: 55.5, y: 22}} color="#009900" />
+                    <Arrow start={{x: 64.5, y: 11}} end={{x: 64.5, y: 22}} color="#990000" />
                     
-                    <Arrow start={{x: 540, y: 170}} end={{x: 590, y: 260}} />
-                    <Arrow start={{x: 660, y: 170}} end={{x: 610, y: 260}} />
+                    <Arrow start={{x: 52.5, y: 33}} end={{x: 59, y: 43}} color="#009900"/>
+                    <Arrow start={{x: 67.5, y: 33}} end={{x: 61, y: 43}} color="#990000"/>
 
                     <div style={{
                         position: 'absolute',
-                        left: 30,
-                        top: 130,
-                        width: 420,
-                        height: 220,
+                        left: '3%',
+                        top: '22%',
+                        width: '42%',
+                        height: '36%',
                         border: '2px dashed #666',
                         borderRadius: '10px',
                         pointerEvents: 'none',
@@ -219,8 +196,8 @@
                     }} />
                     <div style={{
                         position: 'absolute',
-                        left: 90,
-                        top: 300,
+                        left: '5%',
+                        top: '20%',
                         backgroundColor: '#fff',
                         padding: '0 5px',
                         fontSize: '14px',
