@@ -100,6 +100,7 @@
                         transition: 'all 0.3s',
                         transform: isHovered ? 'scale(1.1)' : 'scale(1)',
                         zIndex: isHovered ? 10 : 1,
+                        boxShadow: isHovered ? '0 4px 8px rgba(0,0,0,0.2)' : 'none',
                     }}
                     onClick={() => onClick(id)}
                     onMouseEnter={() => setIsHovered(true)}
