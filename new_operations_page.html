@@ -3,185 +3,156 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Advertiser to User Flow</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    <title>Graph Network</title>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                },
+            },
+        }
+    </script>
     <style>
-        body {
-            font-family: 'Inter', sans-serif;
-            line-height: 1.6;
-            padding: 20px;
-            color: #333;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-        h1 { color: #2c3e50; }
-        #flowchart {
-            width: 100%;
-            height: 80vh;
-            position: relative;
-            display: grid;
-            grid-template-columns: repeat(5, 1fr);
-            grid-template-rows: repeat(4, 1fr);
-            gap: 20px;
-            padding: 20px;
-        }
-        .bento-box {
-            border-radius: 10px;
-            padding: 10px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            border: 1px solid #000000;
-            transition: all 0.3s ease;
-            font-family: 'Inter', sans-serif;
-            font-size: 16px;
-            font-weight: 600;
-            text-align: center;
-        }
-        .bento-box:hover {
-            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
-            transform: scale(1.05);
-        }
-        .subgraph {
-            border: 2px dashed #666;
-            border-radius: 15px;
-            padding: 10px;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-around;
-            align-items: center;
-        }
-        .subgraph-title {
-            font-size: 14px;
-            font-weight: 600;
-            margin-bottom: 10px;
-        }
-        .back-link {
-            font-family: Inter, sans-serif;
-            font-size: 16px;
-            color: #3498db;
-            text-decoration: none;
-            position: relative;
-            transition: transform 0.3s ease;
-            display: inline-block;
-        }
-        .back-link:before {
-            content: "\2190";
-            margin-right: 5px;
-        }
-        .back-link:hover {
-            transform: scale(1.05);
-        }
+        .mermaid .node rect { fill: #f3f4f6; stroke: #d1d5db; }
+        .mermaid .node text { fill: #1f2937; }
+        .mermaid .edgePath path { stroke: #9ca3af; }
+        .mermaid .clickable:hover rect { fill: #e5e7eb; cursor: pointer; }
     </style>
 </head>
-<body>
-    <a href="#" class="back-link" onclick="goBackToInframap(); return false;">Back to Infrastructure Map</a>
-    <h1>Advertiser to User Flow</h1>
-    <section class="flex flex-col items-start px-20 pt-32 bg-black pb-[540px] max-md:px-5 max-md:py-24">
-  <div class="flex flex-col items-end w-full max-w-[2240px] max-md:max-w-full">
-    <h1 class="self-start text-7xl font-bold text-white max-md:max-w-full max-md:text-4xl">
-      Operations Flow
-    </h1>
-    <div class="flex flex-col mt-80 max-w-full w-[510px] max-md:mt-10">
-      <div class="px-16 py-7 text-2xl font-bold text-center whitespace-nowrap bg-white rounded-xl shadow-[0px_4px_4px_rgba(255,255,255,0.25)] text-zinc-900 max-md:px-5 max-md:max-w-full">
-        Inventory
-      </div>
-      <div class="flex gap-10 self-center ml-6 max-w-full w-[328px]">
-        <div class="flex flex-1 gap-2">
-          <div class="shrink-0 border-white border-solid border-[3px] h-[60px] w-[3px]"></div>
-          <div class="shrink-0 border-white border-solid border-[3px] h-[60px] w-[3px]"></div>
-        </div>
-        <div class="flex flex-1 gap-2">
-          <div class="shrink-0 border-white border-solid border-[3px] h-[60px] w-[3px]"></div>
-          <div class="shrink-0 border-white border-solid border-[3px] h-[60px] w-[3px]"></div>
-        </div>
-      </div>
-    </div>
-    <div class="flex flex-wrap font-bold text-center">
-      <div class="px-6 py-44 text-2xl whitespace-nowrap bg-white rounded-xl shadow-[0px_4px_4px_rgba(255,255,255,0.25)] text-zinc-900 max-md:px-5 max-md:py-24">
-        Advertisers
-      </div>
-      <div class="flex flex-col max-md:max-w-full">
-        <div class="flex flex-wrap items-center text-2xl text-white">
-          <img loading="lazy" src="https://cdn.builder.io/api/v1/image/assets/TEMP/d5ef1d0bb846c14adf9e2ae710f640657edaec2b019bd148ecb317afeee2410c?placeholderIfAbsent=true&apiKey=89fbf65af6ec4d8dbfb8d4e5d6b1cc0d" alt="" class="object-contain shrink-0 self-stretch my-auto max-w-full aspect-[6.67] w-[120px]" />
-          <div class="self-stretch px-14 py-8 whitespace-nowrap bg-blue-600 rounded-xl shadow-[0px_4px_4px_rgba(255,255,255,0.25)] max-md:px-5">
-            Salesforce
-          </div>
-          <img loading="lazy" src="https://cdn.builder.io/api/v1/image/assets/TEMP/d5ef1d0bb846c14adf9e2ae710f640657edaec2b019bd148ecb317afeee2410c?placeholderIfAbsent=true&apiKey=89fbf65af6ec4d8dbfb8d4e5d6b1cc0d" alt="" class="object-contain shrink-0 self-stretch my-auto max-w-full aspect-[6.67] w-[120px]" />
-          <div class="self-stretch px-12 py-3.5 bg-blue-600 rounded-xl shadow-[0px_4px_4px_rgba(255,255,255,0.25)] max-md:px-5">
-            Sales Engineering
-          </div>
-          <img loading="lazy" src="https://cdn.builder.io/api/v1/image/assets/TEMP/d5ef1d0bb846c14adf9e2ae710f640657edaec2b019bd148ecb317afeee2410c?placeholderIfAbsent=true&apiKey=89fbf65af6ec4d8dbfb8d4e5d6b1cc0d" alt="" class="object-contain shrink-0 self-stretch my-auto max-w-full aspect-[6.67] w-[120px]" />
-          <div class="self-stretch px-10 py-7 whitespace-nowrap bg-green-500 rounded-xl shadow-[0px_4px_4px_rgba(255,255,255,0.25)] max-md:px-5">
-            Programmatic
-          </div>
-          <img loading="lazy" src="https://cdn.builder.io/api/v1/image/assets/TEMP/32efa56dc227c17e4785e4183b094aab87a104d5158c2c2c0bd960bae1c00e71?placeholderIfAbsent=true&apiKey=89fbf65af6ec4d8dbfb8d4e5d6b1cc0d" alt="" class="object-contain shrink-0 self-stretch my-auto max-w-full aspect-[6.67] w-[120px]" />
-        </div>
-        <div class="flex flex-wrap items-end whitespace-nowrap">
-          <img loading="lazy" src="https://cdn.builder.io/api/v1/image/assets/TEMP/1820e7c0b424562f06f56b7c874f99a90944ddac704b61f7639f548dae2fde8c?placeholderIfAbsent=true&apiKey=89fbf65af6ec4d8dbfb8d4e5d6b1cc0d" alt="" class="object-contain shrink-0 mt-64 max-w-full aspect-[6.67] w-[120px] max-md:mt-10" />
-          <div class="px-16 py-7 mt-52 text-2xl text-white bg-rose-500 rounded-xl shadow-[0px_4px_4px_rgba(255,255,255,0.25)] max-md:px-5 max-md:mt-10">
-            Reporting
-          </div>
-          <img loading="lazy" src="https://cdn.builder.io/api/v1/image/assets/TEMP/1820e7c0b424562f06f56b7c874f99a90944ddac704b61f7639f548dae2fde8c?placeholderIfAbsent=true&apiKey=89fbf65af6ec4d8dbfb8d4e5d6b1cc0d" alt="" class="object-contain shrink-0 mt-64 max-w-full aspect-[6.67] w-[120px] max-md:mt-10" />
-          <div class="flex flex-col self-stretch">
-            <img loading="lazy" src="https://cdn.builder.io/api/v1/image/assets/TEMP/9ad7e1e65691d762fac926408b8fc3b12756c1e347659309291069357a1c723a?placeholderIfAbsent=true&apiKey=89fbf65af6ec4d8dbfb8d4e5d6b1cc0d" alt="" class="object-contain self-center aspect-[0.15] w-[18px]" />
-            <div class="flex flex-col px-5 pt-9 pb-5 w-full bg-red-500 rounded-xl shadow-[0px_4px_4px_rgba(255,255,255,0.25)]">
-              <h2 class="self-center text-2xl text-white">Mosaic</h2>
-              <div class="flex gap-5 mt-12 text-xl text-red-500 max-md:mt-10">
-                <button class="px-6 py-6 bg-white rounded-xl shadow-[0px_4px_4px_rgba(255,255,255,0.25)] max-md:px-5">
-                  Data
-                </button>
-                <button class="px-5 py-6 bg-white rounded-xl shadow-[0px_4px_4px_rgba(255,255,255,0.25)]">
-                  Tools
-                </button>
-              </div>
-            </div>
-          </div>
-          <div class="flex flex-col mt-28 text-2xl text-white max-md:mt-10 max-md:max-w-full">
+<body class="bg-gray-100 font-sans">
+    <div class="fixed top-0 left-0 right-0 bg-white shadow-md z-50">
+        <div class="container mx-auto px-4 py-3 flex items-center justify-between">
+            <h1 id="graphTitle" class="text-2xl font-bold text-gray-800">Operations Flow</h1>
             <div class="flex items-center">
-              <img loading="lazy" src="https://cdn.builder.io/api/v1/image/assets/TEMP/d5ef1d0bb846c14adf9e2ae710f640657edaec2b019bd148ecb317afeee2410c?placeholderIfAbsent=true&apiKey=89fbf65af6ec4d8dbfb8d4e5d6b1cc0d" alt="" class="object-contain shrink-0 self-stretch my-auto max-w-full aspect-[6.67] w-[120px]" />
-              <div class="self-stretch px-16 py-7 bg-red-500 rounded-xl shadow-[0px_4px_4px_rgba(255,255,255,0.25)] max-md:px-5">
-                Peregrine
-              </div>
-              <img loading="lazy" src="https://cdn.builder.io/api/v1/image/assets/TEMP/fca60aac472cb36a6e89227643c2a00e2c0335053133dca114bff64c08969c86?placeholderIfAbsent=true&apiKey=89fbf65af6ec4d8dbfb8d4e5d6b1cc0d" alt="" class="object-contain shrink-0 self-stretch my-auto max-w-full aspect-[6.67] w-[120px]" />
+                <label class="relative inline-flex items-center cursor-pointer">
+                    <input type="checkbox" id="graphToggle" class="sr-only peer">
+                    <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
+                </label>
+                <span id="toggleLabel" class="ml-3 text-sm font-medium text-gray-700">Switch to Infrastructure Map</span>
             </div>
-            <div class="flex items-center mt-5">
-              <img loading="lazy" src="https://cdn.builder.io/api/v1/image/assets/TEMP/d5ef1d0bb846c14adf9e2ae710f640657edaec2b019bd148ecb317afeee2410c?placeholderIfAbsent=true&apiKey=89fbf65af6ec4d8dbfb8d4e5d6b1cc0d" alt="" class="object-contain shrink-0 self-stretch my-auto max-w-full aspect-[6.67] w-[120px]" />
-              <div class="self-stretch px-16 py-8 bg-red-500 rounded-xl shadow-[0px_4px_4px_rgba(255,255,255,0.25)] max-md:px-5">
-                Beeswax
-              </div>
-              <img loading="lazy" src="https://cdn.builder.io/api/v1/image/assets/TEMP/fca60aac472cb36a6e89227643c2a00e2c0335053133dca114bff64c08969c86?placeholderIfAbsent=true&apiKey=89fbf65af6ec4d8dbfb8d4e5d6b1cc0d" alt="" class="object-contain shrink-0 self-stretch my-auto max-w-full aspect-[6.67] w-[120px]" />
-            </div>
-          </div>
         </div>
-      </div>
-      <div class="px-5 py-32 text-2xl whitespace-nowrap bg-white rounded-xl shadow-[0px_4px_4px_rgba(255,255,255,0.25)] text-zinc-900 max-md:py-24">
-        SSP
-        <br />
-        <br />
-        AD
-        <br />
-        Exchange
-      </div>
-      <div class="flex flex-col self-start text-2xl whitespace-nowrap text-zinc-900 max-md:max-w-full">
-        <div class="flex items-center">
-          <img loading="lazy" src="https://cdn.builder.io/api/v1/image/assets/TEMP/d5ef1d0bb846c14adf9e2ae710f640657edaec2b019bd148ecb317afeee2410c?placeholderIfAbsent=true&apiKey=89fbf65af6ec4d8dbfb8d4e5d6b1cc0d" alt="" class="object-contain shrink-0 self-stretch my-auto max-w-full aspect-[6.67] w-[120px]" />
-          <div class="self-stretch px-16 py-8 bg-white rounded-xl shadow-[0px_4px_4px_rgba(255,255,255,0.25)] max-md:px-5">
-            Publisher
-          </div>
-          <img loading="lazy" src="https://cdn.builder.io/api/v1/image/assets/TEMP/d5ef1d0bb846c14adf9e2ae710f640657edaec2b019bd148ecb317afeee2410c?placeholderIfAbsent=true&apiKey=89fbf65af6ec4d8dbfb8d4e5d6b1cc0d" alt="" class="object-contain shrink-0 self-stretch my-auto max-w-full aspect-[6.67] w-[120px]" />
-        </div>
-        <img loading="lazy" src="https://cdn.builder.io/api/v1/image/assets/TEMP/2ccf4bcfc56fb627537332f44b885c801a5f1f196588ed3125e27aaf1085159a?placeholderIfAbsent=true&apiKey=89fbf65af6ec4d8dbfb8d4e5d6b1cc0d" alt="" class="object-contain mt-36 aspect-[27.03] w-[480px] max-md:mt-10 max-md:max-w-full" />
-        <img loading="lazy" src="https://cdn.builder.io/api/v1/image/assets/TEMP/1b85ac6c47c2179dc4bcb428d238804d9c22b830d3ac6341c8b1076bcb9a997c?placeholderIfAbsent=true&apiKey=89fbf65af6ec4d8dbfb8d4e5d6b1cc0d" alt="" class="object-contain mt-20 aspect-[27.03] w-[480px] max-md:mt-10 max-md:max-w-full" />
-      </div>
-      <div class="px-5 py-40 text-2xl bg-white rounded-xl shadow-[0px_4px_4px_rgba(255,255,255,0.25)] text-zinc-900 max-md:py-24">
-        Users
-        <br />
-        <br />
-        LG TV HH
-      </div>
     </div>
-  </div>
-</section>
+    <div id="graphDiv" class="container mx-auto mt-20 p-4 bg-white rounded-lg shadow-lg overflow-auto" style="height: calc(100vh - 5rem);"></div>
+    <script type="module">
+        const infraTree = `
+        graph TD
+            Salesforce("Salesforce") --> A2("Campaign Parameters")
+            C4("Segment Portal") --> Segments
+            Segments("Segments") --> A2
+            LG("LG") --> B5("Native segments")
+            B5 --> C4
+            LG --> A1("Inventory")
+            Data_p("Data Partnerhips") --> A1
+            A1 --> |Internal & External| B2("SSP")
+            A2 --> B1("DSP")
+            B1 --> C1("Peregrine")
+            B1 --> C2("Beeswax")
+            B2 --> SSP_logs
+            C1 --> PP
+            C2 --> PP
+            A1 <--> Programmatic("Programmatic")
+            PP("Pixel Pinger") --> DAS("DAS")
+            DAS --> Kasper("Kasper")
+            DAS --> Insights("Insights")
+            DAS --> Steller("Steller")
+            SSP_logs --> DAS
+            SSP_logs("SSP Logs") --> Elastic("Elastic")
+
+            click Salesforce "salesforce.html" "Go to Salesforce page"
+            click Opportunities "opportunities.html" "Go to Opportunities page"
+            click A2 "campaign_parameters.html" "Go to Campaign Parameters page"
+            click C4 "segment_portal.html" "Go to Segment Portal page"
+            click Segments "segments.html" "Go to Segments page"
+            click DAGs "dags.html" "Go to DAGs page"
+            click B5 "native_segments.html" "Go to Native Segments page"
+            click A1 "inventory.html" "Go to Inventory page"
+            click Data_p "data_partnerships.html" "Go to Data Partnerships page"
+            click B2 "ssp.html" "Go to SSP page"
+            click B1 "dsp.html" "Go to DSP page"
+            click C1 "peregrine.html" "Go to Peregrine page"
+            click C2 "beeswax.html" "Go to Beeswax page"
+            click SSP_logs "ssp_logs.html" "Go to SSP Logs page"
+            click PP "pixel_pinger.html" "Go to Pixel Pinger page"
+            click Programmatic "programmatic.html" "Go to Programmatic page"
+            click DAS "das.html" "Go to DAS page"
+            click Kasper "kasper.html" "Go to Kasper page"
+            click Insights "insights.html" "Go to Insights page"
+            click Steller "steller.html" "Go to Steller page"
+            click Elastic "elastic.html" "Go to Elastic page"
+
+            classDef clickable cursor:pointer;
+            class Salesforce,Opportunities,A2,C4,Segments,DAGs,B5,A1,Data_p,B2,B1,C1,C2,C3,SSP_logs,PP,Programmatic,DAS,Kasper,Insights,Reporting,Steller,Elastic clickable;        
+        `;
+
+        let currentGraph = 'operations';
+
+        mermaid.initialize({ 
+            startOnLoad: true,
+            theme: 'neutral',
+            fontFamily: 'Inter, sans-serif',
+            flowchart: {
+                curve: 'basis',
+                nodeSpacing: 50,
+                rankSpacing: 50,
+            }
+        });
+
+        function renderGraph() {
+            const graphDiv = document.getElementById('graphDiv');
+            if (currentGraph === 'operations') {
+                fetch('new_operations_flow.html')
+                    .then(response => response.text())
+                    .then(data => {
+                        graphDiv.innerHTML = data;
+                        graphDiv.firstChild.classList.add('w-full', 'h-full');
+                    })
+                    .catch(error => console.error('Error loading new_operations_flow.html:', error));
+            } else {
+                mermaid.render('mermaid-graph', infraTree).then(result => {
+                    graphDiv.innerHTML = result.svg;
+                    graphDiv.firstChild.classList.add('w-full', 'h-full');
+                    addHoverEffect();
+                });
+            }
+        }
+
+        function addHoverEffect() {
+            const nodes = document.querySelectorAll('.node');
+            nodes.forEach(node => {
+                node.classList.add('transition', 'duration-300', 'ease-in-out', 'hover:shadow-lg', 'hover:scale-105');
+                node.addEventListener('mouseenter', () => {
+                    node.querySelector('rect').setAttribute('fill', '#e5e7eb');
+                });
+                node.addEventListener('mouseleave', () => {
+                    node.querySelector('rect').setAttribute('fill', '#f3f4f6');
+                });
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', renderGraph);
+
+        document.getElementById('graphToggle').addEventListener('change', function() {
+            const graphTitle = document.getElementById('graphTitle');
+            const toggleLabel = document.getElementById('toggleLabel');
+
+            if (this.checked) {
+                currentGraph = 'infra';
+                graphTitle.textContent = 'Infrastructure Map';
+                toggleLabel.textContent = 'Switch to Operations Flow';
+            } else {
+                currentGraph = 'operations';
+                graphTitle.textContent = 'Operations Flow';
+                toggleLabel.textContent = 'Switch to Infrastructure Map';
+            }
+
+            renderGraph();
+        });
+    </script>
 </body>
 </html>
