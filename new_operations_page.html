@@ -14,31 +14,38 @@
                     fontFamily: {
                         sans: ['Inter', 'sans-serif'],
                     },
+                    colors: {
+                        custom: {
+                            yellow: '#FFCC00',
+                            red: '#FF3B30',
+                            green: '#34C759',
+                        }
+                    }
                 },
             },
         }
     </script>
     <style>
-        .mermaid .node rect { fill: #f3f4f6; stroke: #d1d5db; }
-        .mermaid .node text { fill: #1f2937; }
-        .mermaid .edgePath path { stroke: #9ca3af; }
-        .mermaid .clickable:hover rect { fill: #e5e7eb; cursor: pointer; }
+        .mermaid .node rect { stroke: #ffffff; }
+        .mermaid .node text { fill: #000000; }
+        .mermaid .edgePath path { stroke: #ffffff; }
+        .mermaid .clickable:hover rect { cursor: pointer; }
     </style>
 </head>
-<body class="bg-gray-100 font-sans">
-    <div class="fixed top-0 left-0 right-0 bg-white shadow-md z-50">
+<body class="bg-black text-white font-sans">
+    <div class="fixed top-0 left-0 right-0 bg-black shadow-md z-50">
         <div class="container mx-auto px-4 py-3 flex items-center justify-between">
-            <h1 id="graphTitle" class="text-2xl font-bold text-gray-800">Operations Flow</h1>
+            <h1 id="graphTitle" class="text-2xl font-bold">Operations Flow</h1>
             <div class="flex items-center">
                 <label class="relative inline-flex items-center cursor-pointer">
                     <input type="checkbox" id="graphToggle" class="sr-only peer">
-                    <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
+                    <div class="w-11 h-6 bg-gray-200 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
                 </label>
-                <span id="toggleLabel" class="ml-3 text-sm font-medium text-gray-700">Switch to Infrastructure Map</span>
+                <span id="toggleLabel" class="ml-3 text-sm font-medium">Switch to Infrastructure Map</span>
             </div>
         </div>
     </div>
-    <div id="graphDiv" class="container mx-auto mt-20 p-4 bg-white rounded-lg shadow-lg overflow-auto" style="height: calc(100vh - 5rem);"></div>
+    <div id="graphDiv" class="container mx-auto mt-20 p-4 bg-black rounded-lg shadow-lg overflow-auto" style="height: calc(100vh - 5rem);"></div>
     <script type="module">
         const infraTree = `
         graph TD
@@ -86,6 +93,17 @@
             click Steller "steller.html" "Go to Steller page"
             click Elastic "elastic.html" "Go to Elastic page"
 
+            classDef yellow fill:#FFCC00,stroke:#ffffff,color:#000000;
+            classDef red fill:#FF3B30,stroke:#ffffff,color:#000000;
+            classDef green fill:#34C759,stroke:#ffffff,color:#000000;
+            classDef white fill:#ffffff,stroke:#ffffff,color:#000000;
+            classDef black fill:#000000,stroke:#ffffff,color:#ffffff;
+            
+            class Salesforce,A2,B1,C1,C2 yellow;
+            class C4,Segments,B5,PP red;
+            class LG,A1,Data_p,B2,Programmatic green;
+            class SSP_logs,DAS,Kasper,Insights,Steller,Elastic white;
+
             classDef clickable cursor:pointer;
             class Salesforce,Opportunities,A2,C4,Segments,DAGs,B5,A1,Data_p,B2,B1,C1,C2,C3,SSP_logs,PP,Programmatic,DAS,Kasper,Insights,Reporting,Steller,Elastic clickable;        
         `;
@@ -94,7 +112,7 @@
 
         mermaid.initialize({ 
             startOnLoad: true,
-            theme: 'neutral',
+            theme: 'dark',
             fontFamily: 'Inter, sans-serif',
             flowchart: {
                 curve: 'basis',
@@ -125,13 +143,8 @@
         function addHoverEffect() {
             const nodes = document.querySelectorAll('.node');
             nodes.forEach(node => {
-                node.classList.add('transition', 'duration-300', 'ease-in-out', 'hover:shadow-lg', 'hover:scale-105');
-                node.addEventListener('mouseenter', () => {
-                    node.querySelector('rect').setAttribute('fill', '#e5e7eb');
-                });
-                node.addEventListener('mouseleave', () => {
-                    node.querySelector('rect').setAttribute('fill', '#f3f4f6');
-                });
+                node.classList.add('transition', 'duration-300', 'ease-in-out', 'hover:scale-105');
+                node.style.transformOrigin = 'center center';
             });
         }
 
