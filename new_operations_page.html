@@ -1,171 +1,180 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Graph Network</title>
-    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: {
-                        sans: ['Inter', 'sans-serif'],
-                    },
-                    colors: {
-                        custom: {
-                            yellow: '#FFCC00',
-                            red: '#FF3B30',
-                            green: '#34C759',
-                        }
-                    }
-                },
-            },
-        }
-    </script>
-    <style>
-        .mermaid .node rect { stroke: #ffffff; }
-        .mermaid .node text { fill: #000000; }
-        .mermaid .edgePath path { stroke: #ffffff; }
-        .mermaid .clickable:hover rect { cursor: pointer; }
-    </style>
-</head>
-<body class="bg-black text-white font-sans">
-    <div class="fixed top-0 left-0 right-0 bg-black shadow-md z-50">
-        <div class="container mx-auto px-4 py-3 flex items-center justify-between">
-            <h1 id="graphTitle" class="text-2xl font-bold">Operations Flow</h1>
-            <div class="flex items-center">
-                <label class="relative inline-flex items-center cursor-pointer">
-                    <input type="checkbox" id="graphToggle" class="sr-only peer">
-                    <div class="w-11 h-6 bg-gray-200 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
-                </label>
-                <span id="toggleLabel" class="ml-3 text-sm font-medium">Switch to Infrastructure Map</span>
+
+<html>
+
+  <head>
+
+    <meta charset="utf-8" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+
+    <link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous" />
+
+    <!-- Please DO NOT remove this line, all link and script tags will be merged to here -->
+
+    <link rel="stylesheet" type="text/css" href="/css/common.css" />
+
+    <link rel="stylesheet" type="text/css" href="/css/fonts.css" />
+
+    <link rel="stylesheet" type="text/css" href="/css/tailwind.css" />
+
+  </head>
+
+  <body class="flex-column">
+
+    <main class="beeswax flex flex-col bg-white">
+      <section class="flex min-h-[282px] flex-col">
+        <h1 class="mt-[145px] mb-[60px] ml-[7.38%] flex w-[360px] max-w-[85%] items-center font-Inter text-[64px] font-bold leading-[1.2] text-black md:text-[52px] xs:mt-20 xs:mr-0 xs:mb-[60px] xs:ml-[7.38%] xxs:text-[36px] tn:mt-[50px] tn:mr-0 tn:mb-[50px] tn:ml-[7.38%]">
+          <!-- Main title for bid flow section. --> 
+          Bid Flow
+        </h1>
+      </section>
+
+      <section class="flex flex-col">
+        <div class="relative mx-auto mt-[114px] mb-[123px] min-h-[1081px] w-[85.2%] max-w-[2181px] xs:my-20 xs:mx-auto tn:my-[50px] tn:mx-auto">
+          <!-- Container for bidding section items. --> 
+          <div class="absolute left-[24.5px] top-0 w-[2156px]">
+            <div class="absolute left-1/2 top-0 w-[2156px] translate-x-[-50%] translate-y-[0]">
+              <div class="absolute left-0 top-0 flex w-[1054px] justify-between gap-x-2.5 tn:gap-x-2">
+                <div class="mb-[157px] flex w-[552px] min-w-0 items-center gap-x-[21px] md:mx-0 md:mt-0 md:mb-[150px] xs:mx-0 xs:mt-0 xs:mb-20 xs:gap-x-4 tn:mx-0 tn:mt-0 tn:mb-[50px] tn:gap-x-2">
+                  <!-- Item in flex row displaying exchange info. --> 
+                  <h1 class="flex w-[180px] items-center justify-center text-center font-Inter text-[32px] font-bold leading-[1.21] text-black md:text-[30px] xxs:text-[26px]">
+                    <!-- Title for exchanges in bidding section. --> 
+                    Exchanges
+                    <br />
+                    (Bid Requests)
+                  </h1>
+                  <img class="w-[90px] min-w-0 object-cover" src="/assets/ef8691633bab933a8aa8d48c8d7fd641.svg" alt="alt text" />
+                  <div class="flex w-60 min-w-0 flex-col rounded-xl bg-[rgb(0,122,255)]">
+                    <h1 class="my-[100.5px] mx-[30px] flex h-[39px] w-[180px] max-w-[85%] items-center justify-center text-center font-Inter text-[32px] font-bold leading-[1.21] text-white md:text-[30px] xs:my-20 xs:mx-4 xxs:text-[26px] tn:my-[50px] tn:mx-2">
+                      <!-- Title for Beeswax information. --> 
+                      Beeswax
+                    </h1>
+                  </div>
+                </div>
+                <div class="mt-[203px] flex w-60 min-w-0 flex-col items-center gap-y-5 md:mx-0 md:mt-[150px] md:mb-0 xs:mx-0 xs:mt-20 xs:mb-0 tn:mx-0 tn:mt-[50px] tn:mb-0">
+                  <img class="w-[34px] object-cover" src="/assets/8d22a207d7e5cee1ad62b3d3e5df8c01.svg" alt="alt text" />
+                  <div class="flex w-full flex-col bg-[image:var(--src)] bg-[length:cover] bg-[center_center] bg-no-repeat" style="--src:url(/assets/2db30216cd2c165207a9b7f926a36cd7.svg)">
+                    <h1 class="mt-[76px] mr-[32.5px] mb-[26px] ml-[31.5px] flex h-[78px] w-44 max-w-[85%] items-center justify-center text-center font-Inter text-[32px] font-bold leading-[1.21] text-black md:mt-[76px] md:mr-8 md:mb-[26px] md:ml-[31.5px] md:text-[30px] xs:mx-4 xs:mt-[76px] xs:mb-[26px] xxs:text-[26px] tn:mx-2 tn:mt-[50px] tn:mb-[26px]">
+                      <!-- Title for data information. --> 
+                      Data
+                      <br />
+                      Augmenter
+                    </h1>
+                  </div>
+                </div>
+              </div>
+              <div class="absolute left-[574px] top-[3px] flex w-[1582px] items-center">
+                <img class="w-[720px] min-w-0 object-cover" src="/assets/f05eadb4728c009eda09e0954acc7836.svg" alt="alt text" />
+                <div class="flex w-[862px] min-w-0 gap-x-[11px] tn:gap-x-2">
+                  <div class="flex w-[360px] min-w-0 flex-col rounded-xl bg-[image:var(--src)] bg-[length:cover] bg-[center_center] bg-no-repeat" style="--src:url(/assets/f2d4815d9f2080051106a2bb7286c1d6.svg)">
+                    <h1 class="mx-[109px] mt-[122px] mb-[121px] flex h-[117px] w-[142px] max-w-[85%] items-center justify-center text-center font-Inter text-[32px] font-bold leading-[1.21] text-white md:mx-8 md:mt-[122px] md:mb-[121px] md:text-[30px] sm:mx-auto sm:mt-[122px] sm:mb-[121px] xs:my-20 xs:mx-auto xxs:text-[26px] tn:my-[50px] tn:mx-auto">
+                      <!-- Another Beeswax title for specific case. --> 
+                      Beeswax
+                      <br />
+                      Custom
+                      <br />
+                      Bidder
+                    </h1>
+                  </div>
+                  <div class="mt-[18.5px] mb-[61.5px] flex w-[251px] min-w-0 flex-col items-center gap-y-[86px] xs:gap-y-20 tn:mx-0 tn:mt-[18.5px] tn:mb-[50px] tn:gap-y-[50px]">
+                    <div class="relative min-h-[118.5px] w-[95.62%]">
+                      <img class="absolute left-0 bottom-0 w-60" src="/assets/fc03e3820040f0564a3212eba89be717.svg" alt="alt text" />
+                      <h2 class="absolute left-0 top-0 flex h-[87px] w-60 items-center justify-center text-center font-Inter text-[24px] font-bold leading-[1.2] text-black md:text-[22px] xxs:text-[20px]">
+                        <!-- Title indicating auctions information. --> 
+                        Auctions
+                        <br />
+                        +
+                        <br />
+                        Eligible line items
+                      </h2>
+                    </div>
+                    <div class="flex w-full flex-col items-center gap-y-3">
+                      <img class="w-[95.62%] object-cover" src="/assets/f203df4ecdbf4faf3c9958ddbe1042f5.svg" alt="alt text" />
+                      <h2 class="flex items-center justify-center text-center font-Inter text-[24px] font-bold leading-[1.2] text-black md:text-[22px] xxs:text-[20px]">
+                        <!-- Title indicating bid per line item. --> 
+                        $ bid per line item
+                      </h2>
+                    </div>
+                  </div>
+                  <div class="my-[60px] flex w-60 min-w-0 flex-col rounded-xl bg-[rgb(255,204,0)] outline-dashed outline-[3px] outline-offset-[-3px] outline-black tn:my-[50px] tn:mx-0">
+                    <h1 class="my-[81px] mx-[30px] flex h-[78px] w-[180px] max-w-[85%] items-center justify-center text-center font-Inter text-[32px] font-bold leading-[1.21] text-black md:text-[30px] xs:my-20 xs:mx-4 xxs:my-20 xxs:mx-auto xxs:text-[26px] tn:my-[50px] tn:mx-auto">
+                      <!-- Title for bidding information. --> 
+                      Bidding
+                      <br />
+                      Agent
+                    </h1>
+                  </div>
+                </div>
+              </div>
             </div>
+            <img class="absolute left-[1457px] top-[363px] w-[34px]" src="/assets/6ea721231c1ee0a164280523e4900f38.svg" alt="alt text" />
+          </div>
+          <div class="absolute left-1/2 bottom-0 flex w-[2181px] translate-x-[-50%] translate-y-[0] flex-col items-center gap-y-44 md:gap-y-[150px] xs:gap-y-20 tn:gap-y-[50px]">
+            <h1 class="flex w-full items-center font-Inter text-[64px] font-bold leading-[1.2] text-black md:text-[52px] xxs:text-[36px]">
+              <!-- Title for data flow segment. --> 
+              Data Flow
+            </h1>
+            <div class="flex w-[98.85%] gap-x-5 xs:gap-x-4 tn:gap-x-2">
+              <div class="flex w-[1060px] min-w-0 items-center gap-x-5 xs:gap-x-4 tn:gap-x-2">
+                <div class="flex w-[300px] min-w-0 flex-col rounded-xl bg-[rgb(255,204,0)] outline-dashed outline-[3px] outline-offset-[-3px] outline-black">
+                  <h1 class="my-[42px] mx-[30px] flex h-[156px] w-60 max-w-[85%] items-center justify-center text-center font-Inter text-[32px] font-bold leading-[1.21] text-black md:text-[30px] xs:my-[42px] xs:mx-4 xxs:my-[42px] xxs:mx-auto xxs:text-[26px]">
+                    <!-- Title describing ad serving and event tracking. --> 
+                    Ad is served and event trackers are fired
+                  </h1>
+                </div>
+                <img class="w-[480px] min-w-0 object-cover" src="/assets/e2965a7731a279482dec935f6519c8b2.svg" alt="alt text" />
+                <div class="flex w-60 min-w-0 flex-col rounded-xl bg-[rgb(0,122,255)]">
+                  <!-- Wrapper for additional Beeswax info. --> 
+                  <h1 class="my-[61.5px] mx-[30px] flex h-[117px] w-[180px] max-w-[85%] items-center justify-center text-center font-Inter text-[32px] font-bold leading-[1.21] text-white md:text-[30px] xs:my-[61.5px] xs:mx-4 xxs:my-[61.5px] xxs:mx-auto xxs:text-[26px] tn:my-[50px] tn:mx-auto">
+                    <!-- Title for Beeswax event server. --> 
+                    Beeswax
+                    <br />
+                    Event Server
+                  </h1>
+                </div>
+              </div>
+              <div class="mt-[27.5px] mb-[53px] flex w-[596px] min-w-0 flex-col gap-y-10 tn:mx-0 tn:mt-[27.5px] tn:mb-[50px]">
+                <div class="relative min-h-[59.5px]">
+                  <img class="absolute left-0 top-[25px] w-[596px]" src="/assets/4e9c6ef63e8ef7c0f6a3a5b47f3c9236.svg" alt="alt text" />
+                  <h2 class="absolute left-[37.5px] top-0 flex h-[29px] w-[476px] items-center justify-center text-center font-Inter text-[24px] font-bold leading-[1.2] text-black md:text-[22px] xxs:text-[20px]">
+                    <!-- Title for real-time event stream info. --> 
+                    Real-time event stream
+                  </h2>
+                </div>
+                <div class="relative min-h-[59.5px]">
+                  <img class="absolute left-0 top-[25px] w-[596px]" src="/assets/4e9c6ef63e8ef7c0f6a3a5b47f3c9236.svg" alt="alt text" />
+                  <h2 class="absolute left-[37.5px] top-0 flex h-[29px] w-[476px] items-center justify-center text-center font-Inter text-[24px] font-bold leading-[1.2] text-black md:text-[22px] xxs:text-[20px]">
+                    <!-- Title for batch delivery information. --> 
+                    Batch delivery to s3
+                  </h2>
+                </div>
+              </div>
+              <div class="mt-[4.5px] mb-[16.5px] flex w-[480px] min-w-0 flex-col gap-y-[21px]">
+                <h1 class="flex items-center justify-center text-center font-Inter text-[32px] font-bold leading-[1.21] text-black md:text-[30px] xxs:text-[26px]">
+                  <!-- Title for Beeswax reporting section. --> 
+                  Beeswax Reporting
+                </h1>
+                <h1 class="flex items-center justify-center text-center font-Inter text-[32px] font-bold leading-[1.21] text-black md:text-[30px] xxs:text-[26px]">
+                  <!-- Title for customer data store. --> 
+                  Customer Data Store
+                </h1>
+                <h1 class="flex items-center justify-center text-center font-Inter text-[32px] font-bold leading-[1.21] text-black md:text-[30px] xxs:text-[26px]">
+                  <!-- Title for Metamarkets section. --> 
+                  Metamarkets
+                </h1>
+                <h1 class="flex items-center justify-center text-center font-Inter text-[32px] font-bold leading-[1.21] text-black md:text-[30px] xxs:text-[26px]">
+                  <!-- Title for Snowflake section. --> 
+                  Snowflake
+                </h1>
+              </div>
+            </div>
+          </div>
         </div>
-    </div>
-    <div id="graphDiv" class="container mx-auto mt-20 p-4 bg-black rounded-lg shadow-lg overflow-auto" style="height: calc(100vh - 5rem);"></div>
-    <script type="module">
-        const infraTree = `
-        graph TD
-            Salesforce("Salesforce") --> A2("Campaign Parameters")
-            C4("Segment Portal") --> Segments
-            Segments("Segments") --> A2
-            LG("LG") --> B5("Native segments")
-            B5 --> C4
-            LG --> A1("Inventory")
-            Data_p("Data Partnerhips") --> A1
-            A1 --> |Internal & External| B2("SSP")
-            A2 --> B1("DSP")
-            B1 --> C1("Peregrine")
-            B1 --> C2("Beeswax")
-            B2 --> SSP_logs
-            C1 --> PP
-            C2 --> PP
-            A1 <--> Programmatic("Programmatic")
-            PP("Pixel Pinger") --> DAS("DAS")
-            DAS --> Kasper("Kasper")
-            DAS --> Insights("Insights")
-            DAS --> Steller("Steller")
-            SSP_logs --> DAS
-            SSP_logs("SSP Logs") --> Elastic("Elastic")
+      </section>
 
-            click Salesforce "salesforce.html" "Go to Salesforce page"
-            click Opportunities "opportunities.html" "Go to Opportunities page"
-            click A2 "campaign_parameters.html" "Go to Campaign Parameters page"
-            click C4 "segment_portal.html" "Go to Segment Portal page"
-            click Segments "segments.html" "Go to Segments page"
-            click DAGs "dags.html" "Go to DAGs page"
-            click B5 "native_segments.html" "Go to Native Segments page"
-            click A1 "inventory.html" "Go to Inventory page"
-            click Data_p "data_partnerships.html" "Go to Data Partnerships page"
-            click B2 "ssp.html" "Go to SSP page"
-            click B1 "dsp.html" "Go to DSP page"
-            click C1 "peregrine.html" "Go to Peregrine page"
-            click C2 "beeswax.html" "Go to Beeswax page"
-            click SSP_logs "ssp_logs.html" "Go to SSP Logs page"
-            click PP "pixel_pinger.html" "Go to Pixel Pinger page"
-            click Programmatic "programmatic.html" "Go to Programmatic page"
-            click DAS "das.html" "Go to DAS page"
-            click Kasper "kasper.html" "Go to Kasper page"
-            click Insights "insights.html" "Go to Insights page"
-            click Steller "steller.html" "Go to Steller page"
-            click Elastic "elastic.html" "Go to Elastic page"
+    </main>
 
-            classDef yellow fill:#FFCC00,stroke:#ffffff,color:#000000;
-            classDef red fill:#FF3B30,stroke:#ffffff,color:#000000;
-            classDef green fill:#34C759,stroke:#ffffff,color:#000000;
-            classDef white fill:#ffffff,stroke:#ffffff,color:#000000;
-            classDef black fill:#000000,stroke:#ffffff,color:#ffffff;
-            
-            class Salesforce,A2,B1,C1,C2 yellow;
-            class C4,Segments,B5,PP red;
-            class LG,A1,Data_p,B2,Programmatic green;
-            class SSP_logs,DAS,Kasper,Insights,Steller,Elastic white;
+  </body>
 
-            classDef clickable cursor:pointer;
-            class Salesforce,Opportunities,A2,C4,Segments,DAGs,B5,A1,Data_p,B2,B1,C1,C2,C3,SSP_logs,PP,Programmatic,DAS,Kasper,Insights,Reporting,Steller,Elastic clickable;        
-        `;
-
-        let currentGraph = 'operations';
-
-        mermaid.initialize({ 
-            startOnLoad: true,
-            theme: 'dark',
-            fontFamily: 'Inter, sans-serif',
-            flowchart: {
-                curve: 'basis',
-                nodeSpacing: 50,
-                rankSpacing: 50,
-            }
-        });
-
-        function renderGraph() {
-            const graphDiv = document.getElementById('graphDiv');
-            if (currentGraph === 'operations') {
-                fetch('new_operations_flow.html')
-                    .then(response => response.text())
-                    .then(data => {
-                        graphDiv.innerHTML = data;
-                        graphDiv.firstChild.classList.add('w-full', 'h-full');
-                    })
-                    .catch(error => console.error('Error loading new_operations_flow.html:', error));
-            } else {
-                mermaid.render('mermaid-graph', infraTree).then(result => {
-                    graphDiv.innerHTML = result.svg;
-                    graphDiv.firstChild.classList.add('w-full', 'h-full');
-                    addHoverEffect();
-                });
-            }
-        }
-
-        function addHoverEffect() {
-            const nodes = document.querySelectorAll('.node');
-            nodes.forEach(node => {
-                node.classList.add('transition', 'duration-300', 'ease-in-out', 'hover:scale-105');
-                node.style.transformOrigin = 'center center';
-            });
-        }
-
-        document.addEventListener('DOMContentLoaded', renderGraph);
-
-        document.getElementById('graphToggle').addEventListener('change', function() {
-            const graphTitle = document.getElementById('graphTitle');
-            const toggleLabel = document.getElementById('toggleLabel');
-
-            if (this.checked) {
-                currentGraph = 'infra';
-                graphTitle.textContent = 'Infrastructure Map';
-                toggleLabel.textContent = 'Switch to Operations Flow';
-            } else {
-                currentGraph = 'operations';
-                graphTitle.textContent = 'Operations Flow';
-                toggleLabel.textContent = 'Switch to Infrastructure Map';
-            }
-
-            renderGraph();
-        });
-    </script>
-</body>
 </html>
