@@ -114,6 +114,89 @@
             filter: invert(1);
         }
     </style>
+    
+    <title>Flow chart with arrows</title>
+    <style>
+        body {
+            font-family: Inter, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+        }
+        .diagram {
+            position: relative;
+            width: 800px;
+            height: 600px;
+            background-color: white;
+            border: 1px solid #ccc;
+        }
+        .box {
+            position: absolute;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 10px;
+            box-sizing: border-box;
+            transition: transform 0.3s;
+            cursor: pointer;
+            border-radius: 10px;
+        }
+        .box:hover {
+            transform: scale(1.1);
+            z-index: 10;
+        }
+        .yellow {
+            background-color: #FFCC00;
+            border: 2px dashed #000;
+            color: black;
+            
+        }
+        .blue {
+            background-color: #007AFF;
+            color: white;
+        }
+        .green {
+            background-color: #34C759;
+            color: white;
+            border-radius: 10px;
+            clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
+        }
+        .gray {
+            background-color: #D1D1D6;
+            color: black;
+        }
+        .arrow {
+            position: absolute;
+            height: 2px;
+            background-color: black;
+            transform-origin: 0 50%;
+        }
+        .arrow::after {
+            content: '';
+            position: absolute;
+            right: -10px;
+            top: -4px;
+            width: 0;
+            height: 0;
+            border-top: 5px solid transparent;
+            border-bottom: 5px solid transparent;
+            border-left: 10px solid black;
+        }
+        .title {
+            position: absolute;
+            font-weight: bold;
+            font-size: 18px;
+        }
+        .label {
+            position: absolute;
+            font-size: 14px;
+        }
+    </style>
+    
 </head>
 <body>
     <a href="#" class="back-link" onclick="goBackToInframap(); return false;">Back to Infrastructure Map</a>
@@ -123,6 +206,43 @@
     <p><a href='https://alphonsotv.atlassian.net/wiki/x/PYHtj' class="page-link">Confluence Page</a></p>
     <p>Beeswax serves as an internal DSP, with tools for running all types of advertising campaigns (Native, CTV and Cross Screen).</p>
     <p><a href='https://alphonso.beeswax.com/advertisers' class="bento-link"> Beeswax UI </a></p>
+    
+    <div class="diagram">
+        <div class="title" style="top: 40px; left: 20px;">Bid Flow</div>
+        <div class="title" style="top: 340px; left: 20px;">Data Flow</div>
+        
+        <!-- Arrows -->
+        <div class="arrow" style="width: 165px; top: 120px; left: 260px; transform: rotate(0deg);"></div>
+        <div class="arrow" style="width: 40px; top: 100px; left: 100px; transform: rotate(0deg);"></div>
+        <div class="arrow" style="width: 40px; top: 120px; left: 100px; transform: rotate(0deg);"></div>
+        <div class="arrow" style="width: 40px; top: 140px; left: 100px; transform: rotate(0deg);"></div>
+        <div class="arrow" style="width: 140px; top: 100px; left: 560px; transform: rotate(0deg);"></div>
+        <div class="arrow" style="width: 140px; top: 140px; left: 710px; transform: rotate(180deg);"></div>
+        <div class="arrow" style="width: 100px; top: 230px; left: 370px; transform: rotate(270deg);"></div>
+        <div class="arrow" style="width: 90px; top: 430px; left: 220px; transform: rotate(0deg);"></div>
+        <div class="arrow" style="width: 260px; top: 410px; left: 420px; transform: rotate(0deg);"></div>
+        <div class="arrow" style="width: 260px; top: 450px; left: 420px; transform: rotate(0deg);"></div>
+        <div class="arrow" style="width: 200px; top: 380px; left: 500px; transform: rotate(270deg);"></div>
+
+        <!-- Bid Flow -->
+        <div class="box blue" style="width: 100px; height: 80px; top: 80px; left: 160px;">Beeswax</div>
+        <div class="box green" style="width: 120px; height: 100px; top: 70px; left: 440px;">Beeswax Custom Bidder</div>
+        <div class="box yellow" style="width: 100px; height: 80px; top: 80px; left: 710px;">Bidding Agent</div>
+        <div class="box gray" style="width: 100px; height: 60px; top: 230px; left: 320px;">Data Augmenter</div>
+        
+        <!-- Data Flow -->
+        <div class="box yellow" style="width: 120px; height: 80px; top: 390px; left: 100px;">Ad is served and event trackers are fired</div>
+        <div class="box blue" style="width: 100px; height: 80px; top: 390px; left: 320px;">Beeswax Event Server</div>
+        
+        <!-- Labels -->
+        <div class="label" style="top: 95px; left: 20px;">Exchanges<br>(Bid<br>Requests)</div>
+        <div class="label" style="top: 55px; left: 580px;">Auctions +<br>Eligible line items</div>
+        <div class="label" style="top: 150px; left: 580px;">$ bid per line item</div>
+        <div class="label" style="top: 390px; left: 460px;">Real-time event stream</div>
+        <div class="label" style="top: 430px; left: 460px;">Batch delivery to s3</div>
+        <div class="label" style="top: 380px; left: 700px;">Beeswax Reporting<br>Customer Data Store<br>Metamarkets<br>Snowflake</div>
+    </div>
+
     <script>        
         function goBackToInframap() {
             if (window.parent !== window.self) {
