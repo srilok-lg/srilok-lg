@@ -93,7 +93,7 @@
     <title>Animated Back Link</title>
     <style>
         .back-link {
-            font-family: Arial, sans-serif;
+            font-family: Inter, sans-serif;
             font-size: 16px;
             color: #3498db;
             text-decoration: none;
@@ -143,13 +143,10 @@
     }
 
     .page-link:hover {
-/*         font-weight:bold; */
         text-decoration:underline;
     }
 
     .page-link:hover:after {
-/*         transform-origin: bottom left;
-        font-weight:normal; */
         text-decoration: none;
     }
     </style>
@@ -188,6 +185,17 @@
 </head>
 <body>
     <a href="#" class="back-link" onclick="goBackToInframap(); return false;">Back to Infrastructure Map</a>
+    <script>        
+        function goBackToInframap() {
+            if (window.parent !== window.self) {
+                // We're in an iframe
+                window.parent.postMessage({ action: 'navigateToInframap' }, '*');
+            } else {
+                // We're not in an iframe, navigate directly
+                window.location.href = 'index.html#infra';
+            }
+        }
+    </script>
 </body>
 <body>
     <h1>Beeswax</h1>     
@@ -213,7 +221,7 @@
         <div class="arrow" style="width: 200px; top: 380px; left: 500px; transform: rotate(270deg);"></div>
 
         <!-- Bid Flow -->
-        <div class="box blue" style="width: 100px; height: 100px; top: 80px; left: 100px;">Beeswax</div>
+        <div class="box blue" style="width: 100px; height: 100px; top: 80px; left: 160px;">Beeswax</div>
         <div class="box green" style="width: 120px; height: 100px; top: 70px; left: 440px;">Beeswax Custom Bidder</div>
         <div class="box yellow" style="width: 100px; height: 80px; top: 80px; left: 710px;">Bidding Agent</div>
         <div class="box gray" style="width: 100px; height: 60px; top: 230px; left: 320px;">Data Augmenter</div>
@@ -230,18 +238,6 @@
         <div class="label" style="top: 430px; left: 460px;">Batch delivery to s3</div>
         <div class="label" style="top: 380px; left: 700px;">Beeswax Reporting<br>Customer Data Store<br>Metamarkets<br>Snowflake</div>
     </div>
-
-    <script>        
-        function goBackToInframap() {
-            if (window.parent !== window.self) {
-                // We're in an iframe
-                window.parent.postMessage({ action: 'navigateToInframap' }, '*');
-            } else {
-                // We're not in an iframe, navigate directly
-                window.location.href = 'index.html#infra';
-            }
-        }
-    </script>
 </body>
 </html>
     
