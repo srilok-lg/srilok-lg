@@ -16,9 +16,15 @@
             display: flex;
         .diagram {
             position: relative;
-            width: 800px;
+            width: 900px;
             height: 600px;
-
+            border: 3px dotted #ccc;
+        }
+        .diagram2 {
+            position: relative;
+            width: 450px;
+            height: 300px;
+            border: 2px dotted #ccc;
         }
         .box {
             position: absolute;
@@ -238,6 +244,18 @@
         <div class="label" style="top: 430px; left: 460px;">Batch delivery to s3</div>
         <div class="label" style="top: 385px; left: 660px;">Beeswax Reporting<br>Customer Data Store<br>Metamarkets<br>Snowflake</div>
     </div>
+
+    <div class="diagram2">
+        <!-- side panel -->
+        <div class="box green" style="width: 120px; height: 100px; top: 120px; left: 60px;">Beeswax Custom Bidder</div>
+        <div class="arrow" style="width: 40px; top: 130px; left: 220px; transform: rotate(150deg);"></div>
+        <div class="label" style="top: 120px; left: 240px;">Standard strategies</div>
+        <div class="arrow" style="width: 40px; top: 170px; left: 230px; transform: rotate(180deg);"></div>
+        <div class="label" style="top: 160px; left: 240px;">Bid modifiers</div>
+        <div class="arrow" style="width: 40px; top: 210px; left: 220px; transform: rotate(210deg);"></div>
+        <div class="label" style="top: 200px; left: 240px;">Bid models</div>
+    </div>
+    
 </body>
 </html>
     
