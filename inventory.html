@@ -4,56 +4,108 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Inventory</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        body, html {
-            margin: 0;
-            padding: 0;
-            height: 100%;
-            overflow: hidden;
+        body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
             line-height: 1.6;
-            color: #333;
-        }
-        .container {
+            padding: 20px;
             display: flex;
             flex-direction: column;
-            height: 100vh;
-            padding: 20px;
-            box-sizing: border-box;
-        }
-        h1 { 
-            color: #2c3e50; 
-            margin: 0 0 10px 0;
-        }
-        #flowchart {
-            flex-grow: 1;
+            color: #333;
+            display: flex;
+        .diagram {
             position: relative;
-            display: grid;
-            grid-template-columns: repeat(5, 1fr);
-            grid-template-rows: repeat(4, 1fr);
-            gap: 4vh;
-            padding: 4vh;
+            width: 900px;
+            height: 600px;
+
         }
-        .bento-box {
-            border-radius: 10px;
-            padding: 10px;
+        .boundary {
+        border: 2px dotted #ccc
+        }
+        .box {
+            position: absolute;
             display: flex;
             justify-content: center;
             align-items: center;
-            border: 1px solid #000000;
-            transition: all 0.3s ease;
-            font-family: 'Inter', sans-serif;
-            font-size: 1.8vh;
-            font-weight: 600;
-            width: 80%;
-            height: 80%;
-            margin: auto;
+            text-align: center;
+            padding: 10px;
+            box-sizing: border-box;
+            transition: transform 0.3s;
+            cursor: pointer;
+            border-radius: 10px;
         }
-        .bento-box:hover {
-            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
-            transform: scale(1.05);
+        .box:hover {
+            transform: scale(1.1);
+            z-index: 10;
         }
+        .yellow {
+            background-color: #FFCC00;
+            border: 2px dashed #000;
+            color: black;
+        }
+        .blue {
+            background-color: #007AFF;
+            color: white;
+        }
+        .red{
+            background-color: #FF3B30;
+            color: white;
+        }
+        .green {
+            background-color: #34C759;
+            color: white;
+        }
+        .step {
+        	font-size: 14px;
+        	background-color: #FFCC00;
+            border: 2px solid;
+            border-color: #000000;
+            color: #000000;
+            clip-path: polygon(25% 0%, 75% 0%, 80% 50%, 75% 100%, 25% 100%, 30% 50%);
+            text-align: center;
+        }
+        .gray {
+            background-color: #D1D1D6;
+            color: black;
+        }
+        .arrow {
+            position: absolute;
+            height: 2px;
+            background-color: black;
+            transform-origin: 0 50%;
+        }
+        .arrow::after {
+            content: '';
+            position: absolute;
+            right: -10px;
+            top: -4px;
+            width: 0;
+            height: 0;
+            border-top: 5px solid transparent;
+            border-bottom: 5px solid transparent;
+            border-left: 10px solid black;
+        }
+        .title {
+            position: absolute;
+            font-weight: bold;
+            font-size: 18px;
+        }
+        .label {
+            position: absolute;
+            font-size: 14px;
+        }
+        }
+        h1 { color: #2c3e50; }
+        a { color: #3498db; text-decoration: none; }
+        a:hover { text-decoration: none; }
+    </style>
+</head>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Animated Back Link</title>
+    <style>
         .back-link {
             font-family: Inter, sans-serif;
             font-size: 16px;
@@ -62,192 +114,142 @@
             position: relative;
             transition: transform 0.3s ease;
             display: inline-block;
+            width: fit-content;
         }
+
         .back-link:before {
-            content: "\2190";
+            content: "\2190"; /* Left arrow Unicode character */
             margin-right: 5px;
         }
+
         .back-link:after {
-            content: 'Back to Infrastructure Map';
+            content: '';
             position: absolute;
             width: 100%;
             height: 2px;
-            bottom: -3px;
+            bottom: 0;
             left: 0;
             background-color: #3498db;
             transform: scaleX(0);
             transform-origin: bottom right;
             transition: transform 0.3s ease;
         }
+
         .back-link:hover {
             transform: scale(1.05);
+
         }
+
         .back-link:hover:after {
             transform: scaleX(1);
             transform-origin: bottom left;
         }
-        .page-link {
-            font-family: Inter, sans-serif;
+    </style>
+    <style>
+    .page-link {
+        font-family: Inter, sans-serif;
+        font-size: 16px;
+        font-weight:normal;
+        color: #3498db;
+        text-decoration: none;
+        position: relative;
+        transition: transform 0.3s ease;
+        display: inline-block;
+    }
+
+    .page-link:hover {
+        text-decoration:underline;
+    }
+
+    .page-link:hover:after {
+        text-decoration: none;
+    }
+    </style>
+    <title>Apple-style Bento Box Link - Dark Theme</title>
+    <style>
+        .bento-link {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 200px;
+            height: 100px;
+            background-color: #333333;
+            border-radius: 20px;
+            text-decoration: none;
+            color: #ffffff;
+            font-weight: 500;
             font-size: 16px;
-            font-weight: normal;
-            color: #3066BE;
-            text-decoration: none;
-            position: relative;
-            transition: transform 0.3s ease;
-            display: inline-block;
+            text-align: center;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
         }
-        .page-link:hover {
-            text-decoration: underline;
+
+        .bento-link:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
         }
-        .page-link:hover:after {
-            text-decoration: none;
-        }
-        .container > p {
-            margin: 0;
+    
+        .bento-link::before {
+            font-size: 24px;
+            margin-bottom: 10px;
+            filter: invert(1);
         }
     </style>
+    
 </head>
 <body>
-    <div class="container">
-        <a href="#" class="back-link" onclick="goBackToInframap(); return false;"></a>
-        <h1>Inventory</h1>
-        <p><a href='https://alphonsotv.atlassian.net/wiki/x/AYDmeQ' class="page-link">Confluence Page</a></p>
-        <p>The following flow-chart depicts the types of inventory across various devices and some overlaps too.</p>
-
-        <div id="flowchart"></div>
-    </div>
-    <script>
+    <a href="#" class="back-link" onclick="goBackToInframap(); return false;">Back to Infrastructure Map</a>
+    <script>        
         function goBackToInframap() {
             if (window.parent !== window.self) {
+                // We're in an iframe
                 window.parent.postMessage({ action: 'navigateToInframap' }, '*');
             } else {
+                // We're not in an iframe, navigate directly
                 window.location.href = 'index.html#infra';
             }
         }
-
-        const bentoBoxes = [
-            { id: 'inventory', label: 'Inventory', color: '#ffffff', gridArea: '1 / 3 / 2 / 4' },
-            { id: 'lg', label: 'LG', color: '#f2f2f7', gridArea: '2 / 2 / 3 / 3' },
-            { id: 'external', label: 'External', color: '#fef5ea', gridArea: '2 / 4 / 3 / 5' },
-            { id: 'native', label: 'Native', color: '#f2f2f7', gridArea: '3 / 1 / 4 / 2' },
-            { id: 'ctv', label: 'CTV', color: '#e8f3ec', gridArea: '3 / 3 / 4 / 4' },
-            { id: 'crossScreen', label: 'Cross Screen', color: '#fef5ea', gridArea: '3 / 5 / 4 / 6' },
-            { id: 'adSlots', label: 'Ad Slots', color: '#f2f2f7', gridArea: '4 / 1 / 5 / 2' },
-            { id: 'oo', label: 'O&O', color: '#e8f3ec', gridArea: '4 / 2 / 5 / 3' },
-            { id: 'adsPlus', label: 'Ads Plus', color: '#e8f3ec', gridArea: '4 / 3 / 5 / 4' },
-            { id: 'openMarket', label: 'Open Market', color: '#ffffff', gridArea: '4 / 4 / 5 / 5' },
-        ];
-
-        const flowchart = document.getElementById('flowchart');
-
-        bentoBoxes.forEach(box => {
-            const div = document.createElement('div');
-            div.id = box.id;
-            div.className = 'bento-box';
-            div.style.backgroundColor = box.color;
-            div.style.gridArea = box.gridArea;
-            div.textContent = box.label;
-            flowchart.appendChild(div);
-        });
-
-        const arrows = [
-            { from: 'inventory', to: 'lg' },
-            { from: 'inventory', to: 'external' },
-            { from: 'lg', to: 'native' },
-            { from: 'lg', to: 'ctv' },
-            { from: 'external', to: 'ctv' },
-            { from: 'external', to: 'crossScreen' },
-            { from: 'native', to: 'adSlots' },
-            { from: 'ctv', to: 'oo' },
-            { from: 'ctv', to: 'adsPlus' },
-            { from: 'ctv', to: 'openMarket' },
-            { from: 'crossScreen', to: 'openMarket' },
-        ];
-
-        function getIntersectionPoint(fromRect, toRect) {
-            const fromCenterX = fromRect.left + fromRect.width / 2;
-            const fromCenterY = fromRect.top + fromRect.height / 2;
-            const toCenterX = toRect.left + toRect.width / 2;
-            const toCenterY = toRect.top + toRect.height / 2;
-
-            const angle = Math.atan2(toCenterY - fromCenterY, toCenterX - fromCenterX);
-
-            let fromX, fromY, toX, toY;
-
-            // From box intersection
-            if (Math.abs(Math.cos(angle)) > Math.abs(Math.sin(angle))) {
-                fromX = fromCenterX + Math.sign(Math.cos(angle)) * fromRect.width / 2;
-                fromY = fromCenterY + Math.tan(angle) * (fromX - fromCenterX);
-            } else {
-                fromY = fromCenterY + Math.sign(Math.sin(angle)) * fromRect.height / 2;
-                fromX = fromCenterX + (fromY - fromCenterY) / Math.tan(angle);
-            }
-
-            // To box intersection
-            if (Math.abs(Math.cos(angle)) > Math.abs(Math.sin(angle))) {
-                toX = toCenterX - Math.sign(Math.cos(angle)) * toRect.width / 2;
-                toY = toCenterY + Math.tan(angle) * (toX - toCenterX);
-            } else {
-                toY = toCenterY - Math.sign(Math.sin(angle)) * toRect.height / 2;
-                toX = toCenterX + (toY - toCenterY) / Math.tan(angle);
-            }
-
-            return { fromX, fromY, toX, toY };
-        }
-
-        arrows.forEach(arrow => {
-            const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
-            svg.style.position = 'absolute';
-            svg.style.top = '0';
-            svg.style.left = '0';
-            svg.style.width = '100%';
-            svg.style.height = '100%';
-            svg.style.pointerEvents = 'none';
-
-            const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
-            path.setAttribute('stroke', '#000000');
-            path.setAttribute('stroke-width', '2');
-            path.setAttribute('fill', 'none');
-            path.setAttribute('marker-end', 'url(#arrowhead)');
-
-            const arrowhead = document.createElementNS("http://www.w3.org/2000/svg", "marker");
-            arrowhead.setAttribute('id', 'arrowhead');
-            arrowhead.setAttribute('markerWidth', '10');
-            arrowhead.setAttribute('markerHeight', '7');
-            arrowhead.setAttribute('refX', '9');
-            arrowhead.setAttribute('refY', '3.5');
-            arrowhead.setAttribute('orient', 'auto');
-
-            const polygon = document.createElementNS("http://www.w3.org/2000/svg", "polygon");
-            polygon.setAttribute('points', '0 0, 10 3.5, 0 7');
-            polygon.setAttribute('fill', '#000000');
-
-            arrowhead.appendChild(polygon);
-            svg.appendChild(arrowhead);
-            svg.appendChild(path);
-            flowchart.appendChild(svg);
-
-            const updateArrow = () => {
-                const fromElement = document.getElementById(arrow.from);
-                const toElement = document.getElementById(arrow.to);
-                if (fromElement && toElement) {
-                    const fromRect = fromElement.getBoundingClientRect();
-                    const toRect = toElement.getBoundingClientRect();
-                    const flowchartRect = flowchart.getBoundingClientRect();
-
-                    const { fromX, fromY, toX, toY } = getIntersectionPoint(fromRect, toRect);
-
-                    const adjustedFromX = fromX - flowchartRect.left;
-                    const adjustedFromY = fromY - flowchartRect.top;
-                    const adjustedToX = toX - flowchartRect.left;
-                    const adjustedToY = toY - flowchartRect.top;
-
-                    path.setAttribute('d', `M${adjustedFromX},${adjustedFromY} L${adjustedToX},${adjustedToY}`);
-                }
-            };
-            updateArrow();
-            window.addEventListener('resize', updateArrow);
-        });
     </script>
 </body>
+<body>
+    <h1>Inventory</h1>     
+    <a href='https://alphonsotv.atlassian.net/wiki/x/AYDmeQ' class="page-link">Confluence Page</a>
+    <p>The following flow-chart depicts the types of inventory across various devices and some overlaps too.</p>
+    
+    <div class="diagram">
+        <!-- Boundary 1 -->
+    	<div class="boundary" style="width: 1350px; height: 600px; top: 20px; left: 60px;"></div>
+        
+        <!-- Level1 -->
+        <div class="box gray" style="width: 100px; height: 80px; top: 80px; left: 630px;">Inventory</div>
+        <div class="arrow" style="width: 80px; top: 160px; left: 630px; transform: rotate(150deg);"></div>
+        <div class="arrow" style="width: 80px; top: 160px; left: 730px; transform: rotate(30deg);"></div>
+
+        <!-- Level2 -->
+        <div class="box blue" style="width: 100px; height: 80px; top: 210px; left: 450px;">LG</div>
+        <div class="arrow" style="width: 80px; top: 290px; left: 450px; transform: rotate(150deg);"></div>
+        <div class="arrow" style="width: 80px; top: 290px; left: 550px; transform: rotate(30deg);"></div>
+        <div class="box red" style="width: 100px; height: 80px; top: 210px; left: 810px;">External</div>
+        <div class="arrow" style="width: 80px; top: 290px; left: 810px; transform: rotate(150deg);"></div>
+        <div class="arrow" style="width: 80px; top: 290px; left: 910px; transform: rotate(30deg);"></div>
+        
+        <!-- Level3 -->
+        <div class="box blue" style="width: 100px; height: 80px; top: 340px; left: 270px;">Native</div>
+        <div class="arrow" style="width: 40px; top: 420px; left: 320px; transform: rotate(90deg);"></div>
+        <div class="box green" style="width: 100px; height: 80px; top: 340px; left: 630px;">CTV</div>
+        <div class="arrow" style="width: 80px; top: 420px; left: 630px; transform: rotate(150deg);"></div>
+        <div class="arrow" style="width: 40px; top: 420px; left: 680px; transform: rotate(90deg);"></div>
+        <div class="arrow" style="width: 80px; top: 420px; left: 730px; transform: rotate(30deg);"></div>
+        <div class="box red" style="width: 100px; height: 80px; top: 340px; left: 990px;">Cross Screen</div>
+        <div class="arrow" style="width: 80px; top: 420px; left: 990px; transform: rotate(150deg);"></div>
+
+        <!-- Level4 -->
+        <div class="box gray" style="width: 100px; height: 80px; top: 470px; left: 810px;">Open Market</div>
+        <div class="box green" style="width: 100px; height: 80px; top: 470px; left: 630px;">Ads Plus</div>
+        <div class="box green" style="width: 100px; height: 80px; top: 470px; left: 450px;">O&O</div>
+        <div class="box blue" style="width: 100px; height: 80px; top: 470px; left: 270px;">O&O</div>
+    </div>
+</body>
 </html>
+    
