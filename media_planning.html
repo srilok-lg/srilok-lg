@@ -5,13 +5,138 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Media Planning</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
     <style>
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
             line-height: 1.6;
             padding: 20px;
+            display: flex;
+            flex-direction: column;
             color: #333;
+            display: flex;
+            }
+        .diagram {
+            position: relative;
+            width: 900px;
+            height: 600px;
+
+        }
+        .boundary {
+        border: 2px dotted #ccc
+        }
+        .box {
+            position: absolute;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 10px;
+            box-sizing: border-box;
+            transition: transform 0.3s;
+            cursor: pointer;
+            border-radius: 10px;
+        }
+        .box:hover {
+            transform: scale(1.1);
+            z-index: 10;
+        }
+        .yellow {
+            background-color: #FFCC00;
+            border: 2px dashed #000;
+            color: black;
+        }
+        .blue {
+            background-color: #007AFF;
+            color: white;
+        }
+        .green {
+            background-color: #34C759;
+            color: white;
+        }
+        .red{
+            background-color: #FF3B30;
+            color: white;
+        }
+        .step {
+        	font-size: 14px;
+        	background-color: #FFCC00;
+            border: 2px solid;
+            border-color: #000000;
+            color: #000000;
+            clip-path: polygon(25% 0%, 75% 0%, 80% 50%, 75% 100%, 25% 100%, 30% 50%);
+            text-align: center;
+        }
+        .gray {
+            background-color: #D1D1D6;
+            color: #000000;
+        }
+        .arrow {
+            position: absolute;
+            height: 3px;
+            background-color: black;
+            transform-origin: 0 50%;
+        }
+        .arrow::after {
+            content: '';
+            position: absolute;
+            right: -10px;
+            top: -3.5px;
+            width: 0;
+            height: 0;
+            border-top: 5px solid transparent;
+            border-bottom: 5px solid transparent;
+            border-left: 10px solid black;
+        }
+        .cylinder{
+            width:200px;
+            height:150px;
+            background:#FFCC00;
+            border-radius:100px/30px;
+            position:relative;
+            overflow:hidden;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            color:#000000;
+            font-family:Arial,sans-serif;
+            font-size:18px;
+            text-align:center;
+            transition: transform 0.3s;
+        }
+        .cylinder::before{
+            position:absolute;
+            width:100%;
+            height:100%;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            z-index:2;
+        }
+        .cylinder::after{
+            content:'';
+            position:absolute;
+            width:calc(100% + 4px);
+            height:calc(100% + 4px);
+            top:-2px;
+            left:-2px;
+            border:2px solid #fff;
+            border-radius:inherit;
+            box-sizing:border-box;
+            pointer-events:none;
+        }
+        .cylinder:hover {
+            transform: scale(1.1);
+            z-index: 10;
+            }
+        .title {
+            position: absolute;
+            font-weight: bold;
+            font-size: 24px;
+        }
+        .label {
+            position: absolute;
+            font-size: 14px;
+        }
         }
         h1 { color: #2c3e50; }
         a { color: #3498db; text-decoration: none; }
@@ -24,13 +149,14 @@
     <title>Animated Back Link</title>
     <style>
         .back-link {
-            font-family: Arial, sans-serif;
+            font-family: Inter, sans-serif;
             font-size: 16px;
             color: #3498db;
             text-decoration: none;
             position: relative;
             transition: transform 0.3s ease;
             display: inline-block;
+            width: fit-content;
         }
 
         .back-link:before {
@@ -53,6 +179,7 @@
 
         .back-link:hover {
             transform: scale(1.05);
+
         }
 
         .back-link:hover:after {
@@ -60,54 +187,109 @@
             transform-origin: bottom left;
         }
     </style>
+    <style>
+    .page-link {
+        font-family: Inter, sans-serif;
+        font-size: 16px;
+        font-weight:normal;
+        color: #3498db;
+        text-decoration: none;
+        position: relative;
+        transition: transform 0.3s ease;
+        display: inline-block;
+    }
+
+    .page-link:hover {
+        text-decoration:underline;
+    }
+
+    .page-link:hover:after {
+        text-decoration: none;
+    }
+    </style>
+    <title>Apple-style Bento Box Link - Dark Theme</title>
+    <style>
+        .bento-link {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 200px;
+            height: 100px;
+            background-color: #333333;
+            border-radius: 20px;
+            text-decoration: none;
+            color: #ffffff;
+            font-weight: 500;
+            font-size: 16px;
+            text-align: center;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .bento-link:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+        }
+    
+        .bento-link::before {
+            font-size: 24px;
+            margin-bottom: 10px;
+            filter: invert(1);
+        }
+    </style>
+    
 </head>
 <body>
-    <a href="index.html" class="back-link">Back to Operations Flow</a>
-    <h1>Media Planning</h1>
-    <div id="graph"></div>
-    <script>
-        const graphDefinition = `
-        graph LR
-            subgraph MP["Media Planning"]
-                direction TB
-                    B1("Sales") <--> C1("Account Management") <--> C2("Media Planning")
-            end
-        
-            subgraph DB["Databases"]
-                direction TB
-                B2[("Salesforce")] --> |Opportunity Details|B3[("Mosaic")]
-            end
-        
-            MP --> |Closed Won|DB
-            MP --> |Creates the campaign|DB
-            A1("Advertisers") --> MP
-            DB  --> CM("Campaign Management")
-        `;
-
-        mermaid.initialize({
-            startOnLoad: true,
-            theme: 'neutral',
-            fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif'
-        });
-
-        document.addEventListener('DOMContentLoaded', function () {
-            const graphDiv = document.getElementById('graph');
-            
-            function renderGraph() {
-                mermaid.render('mermaid-graph', graphDefinition).then(result => {
-                    graphDiv.innerHTML = result.svg;
-                }).catch(error => {
-                    console.error('Error rendering the graph:', error);
-                    graphDiv.innerHTML = '<p>Error rendering the graph. Please try refreshing the page.</p>';
-                });
-            }
-            if (typeof mermaid !== 'undefined') {
-                renderGraph();
+    <a href="#" class="back-link" onclick="goBackToInframap(); return false;">Back to Infrastructure Map</a>
+    <script>        
+        function goBackToInframap() {
+            if (window.parent !== window.self) {
+                // We're in an iframe
+                window.parent.postMessage({ action: 'navigateToInframap' }, '*');
             } else {
-                console.error('Mermaid library not loaded');
-                graphDiv.innerHTML = '<p>Error: Mermaid library not loaded. Please check your internet connection and try again.</p>';
+                // We're not in an iframe, navigate directly
+                window.location.href = 'index.html#infra';
             }
-        });
+        }
     </script>
 </body>
+<body>
+    <h1>Media Planning</h1>     
+    <p><a href='https://alphonsotv.atlassian.net/wiki/x/VAB6kQ' class="page-link">Confluence Page</a></p>
+    
+    <div class="diagram">
+        <!-- Boundary 1 -->
+    	<div class="boundary" style="width: 1350px; height: 480px; top: 20px; left: 60px;"></div>
+
+        <!-- Box1 -->
+        <div class="box gray" style="width: 120px; height: 60px; top: 215px; left: 60px;">Advertisers </div>
+        <div class="arrow" style="width: 80px; top: 245px; left: 200px; transform: rotate(0deg);"></div>
+        
+        <div class="boundary" style="position: absolute; width: 220px; height: 430px; top: 20px; left: 310px;"></div>
+        <div class="label" style="font-size:16px; font-weight: bold; text-align:center; width: 180px; height: 60px; top: 30px; left: 330px;">Outreach</div>
+        <div class="box blue" style="width: 180px; height: 60px; top: 70px; left: 330px;">Sales</div>
+        <div class="arrow" style="width: 60px; top: 130px; left: 400px; transform: rotate(90deg);"></div>
+        <div class="arrow" style="width: 60px; top: 200px; left: 440px; transform: rotate(270deg);"></div>
+        <div class="box blue" style="width: 180px; height: 90px; top: 200px; left: 330px;">Account Management</div>
+        <div class="arrow" style="width: 60px; top: 290px; left: 400px; transform: rotate(90deg);"></div>
+        <div class="arrow" style="width: 60px; top: 360px; left: 440px; transform: rotate(270deg);"></div>
+        <div class="box blue" style="width: 180px; height: 60px; top: 360px; left: 330px;">Media Planning</div>
+        
+        <div class="arrow" style="width: 120px; top: 245px; left: 560px; transform: rotate(0deg);"></div>
+        <div class="label" style="text-align: center; width: 120px; height: 480px; top: 220px; left: 560px;"> Closed/Won</div>
+        <div class="label" style="text-align: center; width: 150px; height: 480px; top: 250px; left: 550px;"> Creates Campaign</div>
+
+		<div class="boundary" style="position: absolute; width: 220px; height: 340px; top: 70px; left: 710px;"></div>
+        <div class="label" style="font-size:16px; font-weight: bold; text-align:center; width: 220px; height: 60px; top: 80px; left: 710px;">Data</div>
+        <div class="cylinder" style="position: absolute; width: 150px; height: 80px; top: 120px; left: 745px;" >Salesforce</div>
+        <div class="label" style="text-align: left; width: 120px; height: 480px; top: 225px; left: 830px;"> Opportunity details</div>
+        <div class="arrow" style="width: 90px; top: 200px; left: 820px; transform: rotate(90deg);"></div>
+        <div class="cylinder" style="position: absolute; width: 150px; height: 80px; top: 300px; left: 745px;" >Mosaic</div>
+
+        <div class="arrow" style="width: 120px; top: 245px; left: 950px; transform: rotate(0deg);"></div>
+        <div class="box gray" style="width: 150px; height: 80px; top: 205px; left: 1100px;">Campaign Management</div>
+    </div>
+</body>
 </html>
+    
