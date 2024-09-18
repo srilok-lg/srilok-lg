@@ -178,6 +178,18 @@
         h1, h2 {
             color: #2c3e50;
         }
+        .content-wrapper {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+        .image-container {
+            flex: 0 0 45%;
+            margin-right: 20px;
+        }
+        .table-container {
+            flex: 0 0 50%;
+        }
         table {
             width: 100%;
             border-collapse: collapse;
@@ -235,8 +247,12 @@
     <h1>LG Native Ad Specs</h1>
     <a href='https://alphonsotv.atlassian.net/wiki/x/O4B9gQ' class="page-link">Confluence Page</a>
     <h2>Carousel Ad Unit</h2>
-    <img src="https://raw.githubusercontent.com/srilok-lgads/campaign-flowchart/main/images/Carousel-Ad-Unit.png" alt="Carousel Ad Unit Example">
-    <table>
+    <div class="content-wrapper">
+        <div class="image-container">
+            <img src="https://raw.githubusercontent.com/srilok-lgads/campaign-flowchart/main/images/Carousel-Ad-Unit.png" alt="Carousel Ad Unit Example">
+        </div>
+    <div class="table-container">
+        <table>
         <tr>
             <th colspan="2">Carousel Ad Unit</th>
         </tr>
@@ -288,7 +304,7 @@
                 • Videos are clickable and play automatically with no sound. Sound will play when user hovers over video.<br>
                 • Include an end card within the video to avoid a black screen as this is the final frame and will remain on screen for :5s<br>
                 • For Image with Video Overlay (Companion), place key content in the right half of the Image as the Video Overlay is displayed on the left hand side.<br>
-                • Please use the accompanying <a href="#">design template</a> to create the ad so that the right area is in view.
+                • Please use the accompanying design template to create the ad so that the right area is in view.
             </td>
         </tr>
         <tr class="spec-row-purple">
@@ -299,10 +315,15 @@
             <th>INTERNAL NOTES</th>
             <td>The Creative Approval Process is REQUIRED for all General Market Advertisers for Carousel Ad Units regardless of format type.</td>
         </tr>
-    </table>
+        </table>
+    </div>
 
     <h2>Wedge Ad Unit</h2>
-    <img src="/api/placeholder/400/320" alt="Wedge Ad Unit Example">
+    <div class="content-wrapper">
+        <div class="image-container">
+            <img src="https://raw.githubusercontent.com/srilok-lgads/campaign-flowchart/main/images/Wedge-Ad-Unit.png" alt="Carousel Ad Unit Example">
+        </div>
+    <div class="table-container">
     <table>
         <tr>
             <th colspan="2">Wedge Ad Unit</th>
@@ -352,9 +373,14 @@
             <td>The Wedge ad unit is not available in Germany.</td>
         </tr>
     </table>
+    </div>
 
     <h2>Home Launcher Ad Unit</h2>
-    <img src="/api/placeholder/400/320" alt="Home Launcher Ad Unit Example">
+    <div class="content-wrapper">
+        <div class="image-container">
+            <img src="https://raw.githubusercontent.com/srilok-lgads/campaign-flowchart/main/images/Home-Launcher-Ad-Unit.png" alt="Carousel Ad Unit Example">
+        </div>
+    <div class="table-container">
     <table>
         <tr>
             <th colspan="2">Home Launcher Ad Unit</th>
@@ -416,9 +442,14 @@
             </td>
         </tr>
     </table>
+    </div>
 
     <h2>Content Store Ad Unit</h2>
-    <img src="/api/placeholder/400/320" alt="Content Store Ad Unit Example">
+    <div class="content-wrapper">
+        <div class="image-container">
+            <img src="https://raw.githubusercontent.com/srilok-lgads/campaign-flowchart/main/images/Content-Store-Ad-Unit.png" alt="Carousel Ad Unit Example">
+        </div>
+    <div class="table-container">
     <table>
         <tr>
             <th colspan="2">Content Store Ad Unit</th>
@@ -474,9 +505,14 @@
             <td>1st party, 3rd party with 1×1 pixel (without action/redirect)</td>
         </tr>
     </table>
+    </div>
 
     <h2>Recommendation Ad Unit</h2>
-    <img src="/api/placeholder/400/320" alt="Recommendation Ad Unit Example">
+    <div class="content-wrapper">
+        <div class="image-container">
+            <img src="https://raw.githubusercontent.com/srilok-lgads/campaign-flowchart/main/images/Recommendation-Ad-Unit.png" alt="Carousel Ad Unit Example">
+        </div>
+    <div class="table-container">
     <table>
         <tr>
             <th colspan="2">Recommendation Ad Unit</th>
@@ -535,9 +571,14 @@
             <td>Formerly known as the secondary home screen ad unit, this has been renamed to Recommendation ad unit.</td>
         </tr>
     </table>
+    </div>
             
     <h2>Screensaver Ad Unit</h2>
-    <img src="/api/placeholder/400/320" alt="Screensaver Ad Unit Example">
+    <div class="content-wrapper">
+        <div class="image-container">
+            <img src="https://raw.githubusercontent.com/srilok-lgads/campaign-flowchart/main/images/Screensaver-Ad-Unit.png" alt="Carousel Ad Unit Example">
+        </div>
+    <div class="table-container">
     <table>
         <tr>
             <th colspan="2">Screensaver Ad Unit</th>
@@ -590,5 +631,7 @@
             <td>Idle time varies based on model type: OLED: 2m 10s | UHD: 60m | FHD: 60m.</td>
         </tr>
     </table>
+    </div>
+
     </body>
     </html>
