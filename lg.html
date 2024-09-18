@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>lg</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
     <style>
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
@@ -55,21 +56,46 @@
     <div id="popup" class="popup">
         <div class="popup-content">
             <span class="close-popup" id="closePopup">&times;</span>
-            <iframe id="confluenceFrame" style="width:100%;height:100%;border:none;" src=""></iframe>
+            <div id="confluenceContent"></div>
         </div>
     </div>
 
     <script>
-        document.getElementById('confluenceLink').addEventListener('click', function(e) {
+        const confluenceLink = document.getElementById('confluenceLink');
+        const popup = document.getElementById('popup');
+        const closePopup = document.getElementById('closePopup');
+        const confluenceContent = document.getElementById('confluenceContent');
+
+        // Confluence API details
+        const baseUrl = 'https://alphonsotv.atlassian.net/wiki/rest/api';
+        const pageId = '2172485691'; // Replace with your actual page ID
+        const apiToken = 'ATATT3xFfGF0Mx5HJAlVot66jPiFQrRsRtYU2uCMukgjCEah-l4z9Ra1pjApH94bcwJzK_9753ursYszpyAJRNpfUnYvyVZjekzMcnajbVQNjHZA5DhgtKGka2gABOyrsqaC5BvpfWGSBx1CvmGllhRq-Ic2KfjuYYSoqRHwohFZ9YfPV37jgE0=02CECACC'; // Replace with your actual API token
+
+        confluenceLink.addEventListener('click', async function(e) {
             e.preventDefault();
-            document.getElementById('confluenceFrame').src = 'https://alphonsotv.atlassian.net/wiki/spaces/PM/pages/2172485691/Creative+Native+and+CTV+Video#LG-Native-Ad-Specs';
-            document.getElementById('popup').style.display = 'block';
+            popup.style.display = 'block';
+            
+            try {
+                const response = await axios.get(`${baseUrl}/content/${pageId}?expand=body.storage`, {
+                    auth: {
+                        username: 'your-email@example.com', // Replace with your Atlassian account email
+                        password: apiToken
+                    }
+                });
+
+                const content = response.data.body.storage.value;
+                confluenceContent.innerHTML = content;
+            } catch (error) {
+                console.error('Error fetching Confluence content:', error);
+                confluenceContent.innerHTML = 'Error loading content. Please try again later.';
+            }
         });
 
-        document.getElementById('closePopup').addEventListener('click', function() {
-            document.getElementById('popup').style.display = 'none';
-            document.getElementById('confluenceFrame').src = '';
+        closePopup.addEventListener('click', function() {
+            popup.style.display = 'none';
         });
     </script>
 </body>
 </html>
+
+
