@@ -10,26 +10,31 @@
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
             line-height: 1.6;
             padding: 20px;
-            color: #333;
             display: flex;
             flex-direction: column;
-            align-items: center;
-        }
+            color: #333;
+            display: flex;
+            }
         .diagram {
             position: relative;
+            /* width: 900px;
+            height: 600px; */
             width: 100%;
             max-width: 1350px;
             height: 0;
-            padding-bottom: 44.44%; /* 600px / 1350px * 100 */
-            overflow: hidden;
+            padding-bottom: 50%; /* 600px / 1350px * 100 */
+            overflow: visible; /* Changed from hidden to visible */
+            font-size: 16px; 
+
         }
         .boundary {
-            border: 2px dotted #ccc;
-            position: absolute;
+        border: 2px dotted #ccc;
+        position: absolute;
             width: 100%;
             height: 100%;
             top: 0;
             left: 0;
+            box-sizing: border-box;
         }
         .box {
             position: absolute;
@@ -37,137 +42,222 @@
             justify-content: center;
             align-items: center;
             text-align: center;
-            padding: 1%;
+            padding: 10px;
             box-sizing: border-box;
             transition: transform 0.3s;
             cursor: pointer;
             border-radius: 10px;
-            font-size: 1vw;
         }
         .box:hover {
             transform: scale(1.1);
             z-index: 10;
         }
-        .yellow { background-color: #FFCC00; border: 2px dashed #000; color: black; }
-        .blue { background-color: #007AFF; color: white; }
-        .green { background-color: #34C759; color: white; }
-        .red { background-color: #FF3B30; color: white; }
-        .step {
-            font-size: 1vw;
+        .yellow {
             background-color: #FFCC00;
-            border: 2px solid #000000;
+            border: 2px dashed #000;
+            color: black;
+        }
+        .blue {
+            background-color: #007AFF;
+            color: white;
+        }
+        .green {
+            background-color: #34C759;
+            color: white;
+        }
+        .red{
+            background-color: #FF3B30;
+            color: white;
+        }
+        .step {
+            font-size: 14px;
+            background-color: #FFCC00;
+            border: 2px solid;
+            border-color: #000000;
             color: #000000;
             clip-path: polygon(25% 0%, 75% 0%, 80% 50%, 75% 100%, 25% 100%, 30% 50%);
             text-align: center;
         }
-        .gray { background-color: #D1D1D6; color: black; }
-        .arrow, .dottedarrow {
+        .gray {
+            background-color: #D1D1D6;
+            color: black;
+        }
+        .arrow {
             position: absolute;
-            height: 0.15%;
+            height: 2px;
             background-color: black;
             transform-origin: 0 50%;
         }
-        .arrow::after, .dottedarrow::after {
+        .arrow::after {
             content: '';
             position: absolute;
-            right: -0.74%;
-            top: -200%;
+            right: -10px;
+            top: -4px;
             width: 0;
             height: 0;
-            border-top: 0.37% solid transparent;
-            border-bottom: 0.37% solid transparent;
-            border-left: 0.74% solid black;
+            border-top: 5px solid transparent;
+            border-bottom: 5px solid transparent;
+            border-left: 10px solid black;
         }
         .dottedarrow {
-            background-color: transparent;
+            position: absolute;
+            height: 2px;
+            background-color: transparent; /* Changed from black to transparent */
+            transform-origin: 0 50%;
             background-image: linear-gradient(to right, black 50%, transparent 50%);
-            background-size: 0.59% 0.15%;
+            background-size: 8px 2px; /* Adjust size of dots and gaps */
             background-repeat: repeat-x;
         }
-        .title {
+        .dottedarrow::after {
+            content: '';
+            position: absolute;
+            right: -10px;
+            top: -4px;
+            width: 0;
+            height: 0;
+            border-top: 5px solid transparent;
+            border-bottom: 5px solid transparent;
+            border-left: 10px solid black;
+        }
+        .diagram-title {
             position: absolute;
             font-weight: bold;
-            font-size: 1.33vw;
+            font-size: 3em,;
         }
-        .label {
+        .diagram-label {
             position: absolute;
-            font-size: 1vw;
+            font-size: 1em;
         }
-        h1, h2 { color: #2c3e50; }
+        h1, h2 {
+            color: #2c3e50;
+        }
         a { color: #3498db; text-decoration: none; }
         a:hover { text-decoration: none; }
-        
-        /* Responsive adjustments */
-        @media (max-width: 768px) {
-            .box, .label, .step { font-size: 2vw; }
-            .title { font-size: 2.66vw; }
+
+        @media (max-width: 3840px) {
+            .diagram {
+                font-size: 0.417vw; /* 16px / 3840px * 100 */
+            }
+        }
+
+        @media (max-width: 2560px) {
+            .diagram {
+                font-size: 0.625vw; /* 16px / 2560px * 100 */
+            }
+        }
+
+        @media (max-width: 1350px) {
+            .diagram {
+                font-size: 1.185vw; /* 16px / 1350px * 100 */
+            }
+        }
+
+        @media (max-width: 375px) {
+            .diagram {
+                font-size: 4.267vw; /* 16px / 375px * 100 */
+            }
         }
     </style>
-    <!-- ... (rest of the head content remains the same) ... -->
+</head>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Animated Back Link</title>
+    <style>
+        .back-link {
+            font-family: Inter, sans-serif;
+            font-size: 16px;
+            color: #3498db;
+            text-decoration: none;
+            position: relative;
+            transition: transform 0.3s ease;
+            display: inline-block;
+            width: fit-content;
+        }
+
+        .back-link:before {
+            content: "\2190"; /* Left arrow Unicode character */
+            margin-right: 5px;
+        }
+
+        .back-link:after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 2px;
+            bottom: 0;
+            left: 0;
+            background-color: #3498db;
+            transform: scaleX(0);
+            transform-origin: bottom right;
+            transition: transform 0.3s ease;
+        }
+
+        .back-link:hover {
+            transform: scale(1.05);
+
+        }
+
+        .back-link:hover:after {
+            transform: scaleX(1);
+            transform-origin: bottom left;
+        }
+    </style>
+    <style>
+    .page-link {
+        font-family: Inter, sans-serif;
+        font-size: 16px;
+        font-weight:normal;
+        color: #3498db;
+        text-decoration: none;
+        position: relative;
+        transition: transform 0.3s ease;
+        display: inline-block;
+    }
+
+    .page-link:hover {
+        text-decoration:underline;
+    }
+
+    .page-link:hover:after {
+        text-decoration: none;
+    }
+    </style>
+    <title>Apple-style Bento Box Link - Dark Theme</title>
+    <style>
+        .bento-link {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 200px;
+            height: 100px;
+            background-color: #333333;
+            border-radius: 20px;
+            text-decoration: none;
+            color: #ffffff;
+            font-weight: 500;
+            font-size: 16px;
+            text-align: center;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .bento-link:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+        }
+    
+        .bento-link::before {
+            font-size: 24px;
+            margin-bottom: 10px;
+            filter: invert(1);
+        }
+    </style>
+    
 </head>
 <body>
     <a href="#" class="back-link" onclick="goBackToInframap(); return false;">Back to Infrastructure Map</a>
-    <h1>SSP & Ad Exchange</h1>     
-    <a href='https://alphonsotv.atlassian.net/wiki/x/PYHtj' class="page-link">Confluence Page</a>
-    <p>SSP stands for Supply Side Platform. It is a platform that enables publishers to automatically sell their ad inventory, often connected to ad exchanges. SSPs allow setting floor prices and bundling inventory for private marketplaces. The SSP dashboard monitors incoming native traffic, providing insights on requests, served ads, and errors, but it is not suitable for reporting campaign performance.</p>
-    
-    <div class="diagram">
-        <!-- Boundary 1 -->
-        <div class="boundary"></div>
-        
-        <div class="label" style="font-size: 1.48vw; font-weight: bold; width: 44.44%; height: 16.67%; top: 3.33%; left: 1.48%;">Where SSP & Ad Exchange come in the ad flow</div>
-        
-        <div class="box gray" style="width: 8.89%; height: 13.33%; top: 13.33%; left: 2.96%;">Advertisers</div>
-        <div class="arrow" style="width: 5.93%; top: 20%; left: 12.59%; transform: rotate(0deg);"></div>
-        
-        <div class="box gray" style="width: 7.41%; height: 13.33%; top: 13.33%; left: 20%;">DSP</div>
-        <div class="arrow" style="width: 5.93%; top: 20%; left: 28.15%; transform: rotate(0deg);"></div>
-        
-        <div class="box yellow" style="width: 7.41%; height: 13.33%; top: 13.33%; left: 35.56%;">Ad Exchange</div>
-        <div class="label" style="text-align: center; width: 7.41%; height: 13.33%; top: 11.67%; left: 42.96%;">facilitates bidding</div>
-        <div class="arrow" style="width: 5.93%; top: 20%; left: 43.7%; transform: rotate(0deg);"></div>
-        
-        <div class="box gray" style="width: 7.41%; height: 13.33%; top: 13.33%; left: 51.11%;">RTB</div>
-        <div class="label" style="text-align: center; width: 7.41%; height: 13.33%; top: 33.33%; left: 53.33%;">wins</div>        
-        <div class="arrow" style="width: 5.93%; top: 28.33%; left: 54.81%; transform: rotate(90deg);"></div>
-
-        <div class="box gray" style="width: 8.89%; height: 13.33%; top: 45%; left: 50.37%;">Ad Impressions</div>
-        <div class="label" style="text-align: left; width: 7.41%; height: 13.33%; top: 63.33%; left: 55.56%;">displayed<br>on</div>        
-        <div class="arrow" style="width: 5.93%; top: 60%; left: 54.81%; transform: rotate(90deg);"></div>
-        
-        <div class="box gray" style="width: 7.41%; height: 13.33%; top: 76.67%; left: 51.11%;">Publisher</div>
-        <div class="label" style="text-align: center; width: 7.41%; height: 13.33%; top: 78.33%; left: 43.7%;">provides</div>        
-        <div class="dottedarrow" style="width: 5.93%; top: 83.33%; left: 50.37%; transform: rotate(180deg);"></div>
-
-        <div class="box gray" style="width: 7.41%; height: 13.33%; top: 76.67%; left: 35.56%;">Inventory</div>
-        <div class="label" style="text-align: right; width: 7.41%; height: 13.33%; top: 65%; left: 31.11%;">managed<br>by</div>        
-        <div class="dottedarrow" style="width: 5.93%; top: 75%; left: 39.26%; transform: rotate(270deg);"></div>       
- 
-        <div class="box yellow" style="width: 7.41%; height: 13.33%; top: 45%; left: 35.56%;">SSP</div>
-        <div class="arrow" style="width: 5.93%; top: 43.33%; left: 39.26%; transform: rotate(270deg);"></div>        
-        
-        <div class="arrow" style="width: 8.89%; top: 75%; left: 50.37%; transform: rotate(225deg);"></div>          
-    </div>  
-    
-    <p></p>
-    <p><strong>Ad Exchange:</strong></p>
-    <ul style="margin-top: -6px;">
-        <li>An Ad Exchange is a digital marketplace for buying and selling advertising inventory</li>
-        <li>It facilitates real-time bidding (RTB) for ad impressions</li>
-        <li>Ad Exchanges connect multiple advertisers and publishers</li>
-        <li>They aim to maximize revenue for publishers and efficiency for advertisers</li>
-        <li>Ad Exchanges often use programmatic advertising techniques</li>
-    </ul>
-    
-    <p><strong>SSP (Supply-Side Platform):</strong></p>
-    <ul style="margin-top: -6px;">
-        <li>An SSP is a technology platform used by publishers to manage and sell their ad inventory</li>
-        <li>It helps publishers optimize their ad space yield</li>
-        <li>SSPs connect to multiple Ad Exchanges and Demand-Side Platforms (DSPs)</li>
-        <li>They provide tools for inventory management, pricing, and data analysis</li>
-        <li>SSPs aim to maximize revenue for publishers by finding the highest bidder for each ad impression</li>
-    </ul>
-    
     <script>        
         function goBackToInframap() {
             if (window.parent !== window.self) {
@@ -180,4 +270,67 @@
         }
     </script>
 </body>
-</html>
+<body>
+    <h1>SSP & Ad Exchange</h1>     
+    <a href='https://alphonsotv.atlassian.net/wiki/x/PYHtj' class="page-link">Confluence Page</a>
+    <p>SSP stands for Supply Side Platform. It is a platform that enables publishers to automatically sell their ad inventory, often connected to ad exchanges. SSPs allow setting floor prices and bundling inventory for private marketplaces. The SSP dashboard monitors incoming native traffic, providing insights on requests, served ads, and errors, but it is not suitable for reporting campaign performance.</p>
+    
+    
+    <div class="diagram">
+        <div class="boundary"></div>
+        
+        <div class="diagram-title" style="width: 50%; height: 15%; top: 3.33%; left: 2.5%;">Where SSP & Ad Exchange come in the ad flow</div>
+        
+        <div class="box gray" style="width: 15%; height: 15%; top: 15%; left: 2.5%;">Advertisers</div>
+        <div class="arrow" style="width: 8%; top: 22%; left: 18.5%; transform: rotate(0deg);"></div>
+        
+        <div class="box gray" style="width: 15%; height: 15%; top: 15%; left: 29%;">DSP</div>
+        <div class="arrow" style="width: 8%; top: 22%; left: 45%; transform: rotate(0deg);"></div>
+        
+        <div class="box yellow" style="width: 15%; height: 15%; top: 15%; left: 55.5%;">Ad Exchange</div>
+        <div class="diagram-label" style="text-align: center; width: 8%; height: 15%; top: 12%; left: 72%;">facilitates<br>bidding</div>
+        <div class="arrow" style="width: 8%; top: 22%; left: 71.5%; transform: rotate(0deg);"></div>
+        
+        <div class="box gray" style="width: 15%; height: 15%; top: 15%; left: 82%;">RTB</div>
+        <div class="diagram-label" style="text-align: left; width: 8%; height: 15%; top: 37%; left: 91%;">wins</div>        
+        <div class="arrow" style="width: 6%; top: 32%; left: 90%; transform: rotate(90deg);"></div>
+
+        <div class="box gray" style="width: 15%; height: 15%; top: 49%; left: 82%;">Ad Impressions</div>
+        <div class="diagram-label" style="text-align: left; width: 8%; height: 13.33%; top: 68%; left: 91%;">displayed<br>on</div>        
+        <div class="arrow" style="width: 6%; top: 65%; left: 90%; transform: rotate(90deg);"></div>
+        
+        <div class="box gray" style="width: 15%; height: 15%; top: 82%; left: 82%;">Publisher</div>
+        <div class="diagram-label" style="text-align: center; width: 8%; height: 15%; top: 84%; left: 73%;">provides</div>        
+        <div class="dottedarrow" style="width: 8%; top: 89%; left: 81%; transform: rotate(180deg);"></div>
+
+        <div class="box gray" style="width: 15%; height: 15%; top: 82%; left: 55.5%;">Inventory</div>
+        <div class="diagram-label" style="text-align: right; width: 8%; height: 15%; top: 67%; left: 54%;">managed<br>by</div>        
+        <div class="dottedarrow" style="width: 6%; top: 80%; left: 63%; transform: rotate(270deg);"></div>       
+ 
+        <div class="box yellow" style="width: 15%; height: 15%; top: 49%; left: 55.5%;">SSP</div>
+        <div class="arrow" style="width: 6%; top: 47%; left: 63%; transform: rotate(270deg);"></div>        
+        
+        <div class="arrow" style="width: 11.5%; top: 81%; left: 81%; transform: rotate(220deg);"></div>          
+    </div>  
+    
+    <p></p>
+    <p><strong>Ad Exchange:</strong></p>
+    <ul style="margin-top: -6px;">
+    	<li>An Ad Exchange is a digital marketplace for buying and selling advertising inventory</li>
+		<li>It facilitates real-time bidding (RTB) for ad impressions</li>
+		<li>Ad Exchanges connect multiple advertisers and publishers</li>
+		<li>They aim to maximize revenue for publishers and efficiency for advertisers</li>
+		<li>Ad Exchanges often use programmatic advertising techniques</li>
+    </ul>
+    
+	<p><strong>SSP (Supply-Side Platform):</strong></p>
+    <ul style="margin-top: -6px;">
+		<li>An SSP is a technology platform used by publishers to manage and sell their ad inventory</li>
+		<li>It helps publishers optimize their ad space yield</li>
+		<li>SSPs connect to multiple Ad Exchanges and Demand-Side Platforms (DSPs)</li>
+		<li>They provide tools for inventory management, pricing, and data analysis</li>
+		<li>SSPs aim to maximize revenue for publishers by finding the highest bidder for each ad impression</li>
+    </ul>
+
+</body>
+</html>  
