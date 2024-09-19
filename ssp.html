@@ -128,6 +128,20 @@
             position: absolute;
             font-size: 1em;
         }
+        .content-wrapper {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+
+        .diagram-container {
+            width: 50%;
+        }
+
+        .lists-container {
+            width: 45%;
+        }
         h1, h2 {
             color: #2c3e50;
         }
@@ -155,6 +169,11 @@
         @media (max-width: 375px) {
             .diagram {
                 font-size: 4.267vw; /* 16px / 375px * 100 */
+            }
+        }
+        @media (max-width: 1350px) {
+            .diagram-container, .lists-container {
+                width: 100%;
             }
         }
     </style>
@@ -275,62 +294,66 @@
     <a href='https://alphonsotv.atlassian.net/wiki/x/PYHtj' class="page-link">Confluence Page</a>
     <p>SSP stands for Supply Side Platform. It is a platform that enables publishers to automatically sell their ad inventory, often connected to ad exchanges. SSPs allow setting floor prices and bundling inventory for private marketplaces. The SSP dashboard monitors incoming native traffic, providing insights on requests, served ads, and errors, but it is not suitable for reporting campaign performance.</p>
     
-    
-    <div class="diagram" style="width: 50%;">
-        <div class="boundary"></div>
-        
-        <div class="diagram-title" style="width: 50%; height: 15%; top: 3.33%; left: 2.5%;">Where SSP & Ad Exchange come in the ad flow</div>
-        
-        <div class="box gray" style="width: 15%; height: 15%; top: 15%; left: 2.5%;">Advertisers</div>
-        <div class="arrow" style="width: 8%; top: 22%; left: 18.5%; transform: rotate(0deg);"></div>
-        
-        <div class="box gray" style="width: 15%; height: 15%; top: 15%; left: 29%;">DSP</div>
-        <div class="arrow" style="width: 8%; top: 22%; left: 45%; transform: rotate(0deg);"></div>
-        
-        <div class="box yellow" style="width: 15%; height: 15%; top: 15%; left: 55.5%;">Ad Exchange</div>
-        <div class="diagram-label" style="text-align: center; width: 8%; height: 15%; top: 12%; left: 72%;">facilitates<br>bidding</div>
-        <div class="arrow" style="width: 8%; top: 22%; left: 71.5%; transform: rotate(0deg);"></div>
-        
-        <div class="box gray" style="width: 15%; height: 15%; top: 15%; left: 82%;">RTB</div>
-        <div class="diagram-label" style="text-align: left; width: 8%; height: 15%; top: 37%; left: 91%;">wins</div>        
-        <div class="arrow" style="width: 6%; top: 32%; left: 90%; transform: rotate(90deg);"></div>
+    <div class="content-wrapper">
+        <div class="diagram-container">
+            <div class="diagram" style="width: 50%; height:75%;">
+                <div class="boundary"></div>
+                
+                <div class="diagram-title" style="width: 100%; height: 15%; top: 3.33%; left: 2.5%;">Where SSP & Ad Exchange come in the ad flow</div>
+                
+                <div class="box gray" style="width: 15%; height: 15%; top: 15%; left: 2.5%;">Advertisers</div>
+                <div class="arrow" style="width: 8%; top: 22%; left: 18.5%; transform: rotate(0deg);"></div>
+                
+                <div class="box gray" style="width: 15%; height: 15%; top: 15%; left: 29%;">DSP</div>
+                <div class="arrow" style="width: 8%; top: 22%; left: 45%; transform: rotate(0deg);"></div>
+                
+                <div class="box yellow" style="width: 15%; height: 15%; top: 15%; left: 55.5%;">Ad Exchange</div>
+                <div class="diagram-label" style="text-align: center; width: 8%; height: 15%; top: 12%; left: 72%;">facilitates<br>bidding</div>
+                <div class="arrow" style="width: 8%; top: 22%; left: 71.5%; transform: rotate(0deg);"></div>
+                
+                <div class="box gray" style="width: 15%; height: 15%; top: 15%; left: 82%;">RTB</div>
+                <div class="diagram-label" style="text-align: left; width: 8%; height: 15%; top: 37%; left: 91%;">wins</div>        
+                <div class="arrow" style="width: 6%; top: 32%; left: 90%; transform: rotate(90deg);"></div>
 
-        <div class="box gray" style="width: 15%; height: 15%; top: 49%; left: 82%;">Ad Impressions</div>
-        <div class="diagram-label" style="text-align: left; width: 8%; height: 13.33%; top: 68%; left: 91%;">displayed<br>on</div>        
-        <div class="arrow" style="width: 6%; top: 65%; left: 90%; transform: rotate(90deg);"></div>
-        
-        <div class="box gray" style="width: 15%; height: 15%; top: 82%; left: 82%;">Publisher</div>
-        <div class="diagram-label" style="text-align: center; width: 8%; height: 15%; top: 84%; left: 73%;">provides</div>        
-        <div class="dottedarrow" style="width: 8%; top: 89%; left: 81%; transform: rotate(180deg);"></div>
+                <div class="box gray" style="width: 15%; height: 15%; top: 49%; left: 82%;">Ad Impressions</div>
+                <div class="diagram-label" style="text-align: left; width: 8%; height: 13.33%; top: 68%; left: 91%;">displayed<br>on</div>        
+                <div class="arrow" style="width: 6%; top: 65%; left: 90%; transform: rotate(90deg);"></div>
+                
+                <div class="box gray" style="width: 15%; height: 15%; top: 82%; left: 82%;">Publisher</div>
+                <div class="diagram-label" style="text-align: center; width: 8%; height: 15%; top: 84%; left: 73%;">provides</div>        
+                <div class="dottedarrow" style="width: 8%; top: 89%; left: 81%; transform: rotate(180deg);"></div>
 
-        <div class="box gray" style="width: 15%; height: 15%; top: 82%; left: 55.5%;">Inventory</div>
-        <div class="diagram-label" style="text-align: right; width: 8%; height: 15%; top: 69%; left: 54%;">managed<br>by</div>        
-        <div class="dottedarrow" style="width: 6%; top: 80%; left: 63%; transform: rotate(270deg);"></div>       
- 
-        <div class="box yellow" style="width: 15%; height: 15%; top: 49%; left: 55.5%;">SSP</div>
-        <div class="arrow" style="width: 6%; top: 47%; left: 63%; transform: rotate(270deg);"></div>        
+                <div class="box gray" style="width: 15%; height: 15%; top: 82%; left: 55.5%;">Inventory</div>
+                <div class="diagram-label" style="text-align: right; width: 8%; height: 15%; top: 69%; left: 54%;">managed<br>by</div>        
+                <div class="dottedarrow" style="width: 6%; top: 80%; left: 63%; transform: rotate(270deg);"></div>       
         
-        <div class="arrow" style="width: 11.5%; top: 81%; left: 81%; transform: rotate(220deg);"></div>          
-    </div>  
-    
-    <p></p>
-    <p style="position: relative;"><strong>Ad Exchange:</strong></p>
-    <ul style="margin-top: -6px;">
-    	<li>An Ad Exchange is a digital marketplace for buying and selling advertising inventory</li>
-		<li>It facilitates real-time bidding (RTB) for ad impressions</li>
-		<li>Ad Exchanges connect multiple advertisers and publishers</li>
-		<li>They aim to maximize revenue for publishers and efficiency for advertisers</li>
-		<li>Ad Exchanges often use programmatic advertising techniques</li>
-    </ul>
-    
-	<p><strong>SSP (Supply-Side Platform):</strong></p>
-    <ul style="margin-top: -6px;">
-		<li>An SSP is a technology platform used by publishers to manage and sell their ad inventory</li>
-		<li>It helps publishers optimize their ad space yield</li>
-		<li>SSPs connect to multiple Ad Exchanges and Demand-Side Platforms (DSPs)</li>
-		<li>They provide tools for inventory management, pricing, and data analysis</li>
-		<li>SSPs aim to maximize revenue for publishers by finding the highest bidder for each ad impression</li>
-    </ul>
+                <div class="box yellow" style="width: 15%; height: 15%; top: 49%; left: 55.5%;">SSP</div>
+                <div class="arrow" style="width: 6%; top: 47%; left: 63%; transform: rotate(270deg);"></div>        
+                
+                <div class="arrow" style="width: 11.5%; top: 81%; left: 81%; transform: rotate(220deg);"></div>          
+            </div>  
+        </div>
+
+        <div class="lists-container">
+            <p><strong>Ad Exchange:</strong></p>
+            <ul style="margin-top: -6px;">
+                <li>An Ad Exchange is a digital marketplace for buying and selling advertising inventory</li>
+                <li>It facilitates real-time bidding (RTB) for ad impressions</li>
+                <li>Ad Exchanges connect multiple advertisers and publishers</li>
+                <li>They aim to maximize revenue for publishers and efficiency for advertisers</li>
+                <li>Ad Exchanges often use programmatic advertising techniques</li>
+            </ul>
+            
+            <p><strong>SSP (Supply-Side Platform):</strong></p>
+            <ul style="margin-top: -6px;">
+                <li>An SSP is a technology platform used by publishers to manage and sell their ad inventory</li>
+                <li>It helps publishers optimize their ad space yield</li>
+                <li>SSPs connect to multiple Ad Exchanges and Demand-Side Platforms (DSPs)</li>
+                <li>They provide tools for inventory management, pricing, and data analysis</li>
+                <li>SSPs aim to maximize revenue for publishers by finding the highest bidder for each ad impression</li>
+            </ul>
+        </div>
+    </div>
 
 </body>
 </html>  
