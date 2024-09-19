@@ -20,7 +20,7 @@
             /* width: 900px;
             height: 600px; */
             width: 100%;
-            max-width: 1350px;
+            /*max-width: 1350px;*/
             height: 0;
             padding-bottom: 50%; /* 600px / 1350px * 100 */
             overflow: visible; /* Changed from hidden to visible */
@@ -153,26 +153,26 @@
                 font-size: 0.417vw; /* 16px / 3840px * 100 */
             }
             .diagram-title {
-                font-size: 0.834vw; /* 16px / 3840px * 100 */
+                font-size: 0.417vw; /* 16px / 3840px * 100 */
             }
         }
 
 
         @media (max-width: 2560px) {
             .diagram {
-                font-size: 0.625vw; /* 16px / 2560px * 100 */
+                font-size: 0.75vw; /* 16px / 2560px * 100 */
             }
             .diagram-title {
-                font-size: 1.25vw; /* 16px / 2560px * 100 */
+                font-size: 0.75vw; /* 16px / 2560px * 100 */
             }
         }
 
         @media (max-width: 1350px) {
             .diagram {
-                font-size: 1.25vw; /* 16px / 1350px * 100 */
+                font-size: 1.5vw; /* 16px / 1350px * 100 */
             }
             .diagram-title {
-                font-size: 2.5vw; /* 16px / 1350px * 100 */
+                font-size: 1.5vw; /* 16px / 1350px * 100 */
             }
         }
 
@@ -181,7 +181,7 @@
                 font-size: 4.267vw; /* 16px / 375px * 100 */
             }
             .diagram-title {
-                font-size: 8.534vw; /* 16px / 375px * 100 */
+                font-size: 4.267vw; /* 16px / 375px * 100 */
             }
         }
         @media (max-width: 1350px) {
@@ -312,38 +312,38 @@
             <div class="diagram" style="width: 100%;">
                 <div class="boundary"></div>
                 
-                <div class="diagram-title" style="width: 100%; height: 15%; top: 3.33%; left: 2.5%;">Where SSP & Ad Exchange come in the ad flow</div>
+                <div class="diagram-title" style="width: 100%; left: 2.5%;"><h3>Where SSP & Ad Exchange come in the ad flow</h3></div>
                 
                 <div class="box gray" style="width: 15%; height: 15%; top: 15%; left: 2.5%;">Advertisers</div>
-                <div class="arrow" style="width: 8%; top: 22%; left: 18.5%; transform: rotate(0deg);"></div>
-                
+                <div class="arrow" style="width: 9%; top: 22%; left: 18.5%; transform: rotate(0deg);"></div>
+               
                 <div class="box gray" style="width: 15%; height: 15%; top: 15%; left: 29%;">DSP</div>
-                <div class="arrow" style="width: 8%; top: 22%; left: 45%; transform: rotate(0deg);"></div>
+                <div class="arrow" style="width: 9%; top: 22%; left: 45%; transform: rotate(0deg);"></div>
                 
                 <div class="box yellow" style="width: 15%; height: 15%; top: 15%; left: 55.5%;">Ad Exchange</div>
                 <div class="diagram-label" style="text-align: center; width: 8%; height: 15%; top: 12%; left: 72%;">facilitates<br>bidding</div>
-                <div class="arrow" style="width: 8%; top: 22%; left: 71.5%; transform: rotate(0deg);"></div>
+                <div class="arrow" style="width: 9%; top: 22%; left: 71.5%; transform: rotate(0deg);"></div>
                 
                 <div class="box gray" style="width: 15%; height: 15%; top: 15%; left: 82%;">RTB</div>
                 <div class="diagram-label" style="text-align: left; width: 8%; height: 15%; top: 37%; left: 91%;">wins</div>        
-                <div class="arrow" style="width: 6%; top: 32%; left: 90%; transform: rotate(90deg);"></div>
+                <div class="arrow" style="width: 7%; top: 31%; left: 90%; transform: rotate(90deg);"></div>
 
-                <div class="box gray" style="width: 15%; height: 15%; top: 49%; left: 82%;">Ad Impressions</div>
+                <div class="box gray" style="width: 15%; height: 15%; top: 48%; left: 82%;">Ad Impressions</div>
                 <div class="diagram-label" style="text-align: left; width: 8%; height: 13.33%; top: 68%; left: 91%;">displayed<br>on</div>        
-                <div class="arrow" style="width: 6%; top: 65%; left: 90%; transform: rotate(90deg);"></div>
+                <div class="arrow" style="width: 7%; top: 64%; left: 90%; transform: rotate(90deg);"></div>
                 
-                <div class="box gray" style="width: 15%; height: 15%; top: 82%; left: 82%;">Publisher</div>
-                <div class="diagram-label" style="text-align: center; width: 8%; height: 15%; top: 84%; left: 73%;">provides</div>        
-                <div class="dottedarrow" style="width: 8%; top: 89%; left: 81%; transform: rotate(180deg);"></div>
+                <div class="box gray" style="width: 15%; height: 15%; top: 81%; left: 82%;">Publisher</div>
+                <div class="diagram-label" style="text-align: center; width: 8%; height: 15%; top: 83.5%; left: 73%;">provides</div>        
+                <div class="dottedarrow" style="width: 9%; top: 88.5%; left: 81%; transform: rotate(180deg);"></div>
 
-                <div class="box gray" style="width: 15%; height: 15%; top: 82%; left: 55.5%;">Inventory</div>
+                <div class="box gray" style="width: 15%; height: 15%; top: 81%; left: 55.5%;">Inventory</div>
                 <div class="diagram-label" style="text-align: right; width: 8%; height: 15%; top: 69%; left: 54%;">managed<br>by</div>        
-                <div class="dottedarrow" style="width: 6%; top: 80%; left: 63%; transform: rotate(270deg);"></div>       
+                <div class="dottedarrow" style="width: 7%; top: 79.5%; left: 63%; transform: rotate(270deg);"></div>       
         
-                <div class="box yellow" style="width: 15%; height: 15%; top: 49%; left: 55.5%;">SSP</div>
-                <div class="arrow" style="width: 6%; top: 47%; left: 63%; transform: rotate(270deg);"></div>        
+                <div class="box yellow" style="width: 15%; height: 15%; top: 48%; left: 55.5%;">SSP</div>
+                <div class="arrow" style="width: 7%; top: 47%; left: 63%; transform: rotate(270deg);"></div>        
                 
-                <div class="arrow" style="width: 11.5%; top: 81%; left: 81%; transform: rotate(220deg);"></div>          
+                <div class="arrow" style="width: 12.5%; top: 81%; left: 81%; transform: rotate(220deg);"></div>          
             </div>  
         </div>
 
