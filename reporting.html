@@ -3,34 +3,175 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Reporting Flow</title>
+    <title>Reporting</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/17.0.2/umd/react.development.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/17.0.2/umd/react-dom.development.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.26.0/babel.min.js"></script>
     <style>
-        body, html {
-            margin: 0;
-            padding: 0;
-            width: 100%;
-            height: 100%;
+        body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
             line-height: 1.6;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
             color: #333;
         }
-        #root {
+        .diagram {
+            position: relative;
             width: 100%;
-            height: calc(100% - 80px);
-            overflow: hidden;
+            height: 0;
+            padding-bottom: 50%;
+            overflow: visible;
+            font-size: 16px;
         }
-        h1 { 
+        .boundary {
+            border: 2px dotted #ccc;
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            box-sizing: border-box;
+        }
+        .dotted-boundary-box {
+            position: absolute;
+            border: 2px dotted #000;
+            padding: 0px;
+            margin-top: 20px;
+            border-radius: 12.5px; 
+        }
+
+        .dotted-boundary-box::before {
+            content: attr(data-title);
+            position: absolute;
+            top: -10px;
+            left: 10px;
+            background-color: white;
+            padding: 0 5px;
+            font-weight: bold;
+        }
+        .box {
+            position: absolute;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 10px;
+            box-sizing: border-box;
+            transition: transform 0.3s;
+            cursor: pointer;
+            border-radius: 10px;
+        }
+        .box:hover {
+            transform: scale(1.1);
+            z-index: 10;
+        }
+        .yellow {
+            background-color: #FFCC00;
+            border: 0px solid #000;
+            color: black;
+        }
+        .blue {
+            background-color: #007AFF;
+            color: white;
+        }
+        .green {
+            background-color: #34C759;
+            color: white;
+        }
+        .red {
+            background-color: #FF3B30;
+            color: white;
+        }
+        .gray {
+            background-color: #D1D1D6;
+            color: black;
+        }
+        .line {
+            position: absolute;
+            height: 2px;
+            background-color: black;
+            transform-origin: 0 50%;
+        }
+        .arrow {
+            position: absolute;
+            height: 2px;
+            background-color: black;
+            transform-origin: 0 50%;
+        }
+        .arrow::after {
+            content: '';
+            position: absolute;
+            right: -10px;
+            top: -4px;
+            width: 0;
+            height: 0;
+            border-top: 5px solid transparent;
+            border-bottom: 5px solid transparent;
+            border-left: 10px solid black;
+        }
+        .dottedarrow {
+            position: absolute;
+            height: 2px;
+            background-color: transparent;
+            transform-origin: 0 50%;
+            background-image: linear-gradient(to right, black 50%, transparent 50%);
+            background-size: 8px 2px;
+            background-repeat: repeat-x;
+        }
+        .dottedarrow::after {
+            content: '';
+            position: absolute;
+            right: -10px;
+            top: -4px;
+            width: 0;
+            height: 0;
+            border-top: 5px solid transparent;
+            border-bottom: 5px solid transparent;
+            border-left: 10px solid black;
+        }
+        .diagram-title {
+            position: absolute;
+            font-weight: bold;
+            font-size: 20px;
+        }
+        .diagram-label {
+            position: absolute;
+            font-size: 1em;
+        }
+        .content-wrapper {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+        .diagram-container {
+            width: 100%;
+            margin-bottom: 40px;
+        }
+        .lists-container {
+            width: 100%;
+        }
+        h1, h2 {
             color: #2c3e50;
-            margin: 20px 0;
-            padding: 0 20px;
         }
         a { color: #3498db; text-decoration: none; }
-        a:hover { text-decoration: none; }
+        a:hover { text-decoration: underline; }
 
+        @media (max-width: 3840px) {
+            .diagram { font-size: 0.417vw; }
+            .diagram-title { font-size: 0.417vw; }
+        }
+        @media (max-width: 2560px) {
+            .diagram { font-size: 0.75vw; }
+            .diagram-title { font-size: 0.75vw; }
+        }
+        @media (max-width: 1350px) {
+            .diagram { font-size: 1.5vw; }
+            .diagram-title { font-size: 1.5vw; }
+        }
+        @media (max-width: 375px) {
+            .diagram { font-size: 4.267vw; }
+            .diagram-title { font-size: 4.267vw; }
+        }
         .back-link {
             font-family: Inter, sans-serif;
             font-size: 16px;
@@ -39,14 +180,12 @@
             position: relative;
             transition: transform 0.3s ease;
             display: inline-block;
-            margin: 20px;
+            width: fit-content;
         }
-
         .back-link:before {
             content: "\2190";
             margin-right: 5px;
         }
-
         .back-link:after {
             content: '';
             position: absolute;
@@ -59,170 +198,123 @@
             transform-origin: bottom right;
             transition: transform 0.3s ease;
         }
-
         .back-link:hover {
             transform: scale(1.05);
         }
-
         .back-link:hover:after {
             transform: scaleX(1);
             transform-origin: bottom left;
+        }
+        .page-link {
+            font-family: Inter, sans-serif;
+            font-size: 16px;
+            font-weight: normal;
+            color: #3498db;
+            text-decoration: none;
+            position: relative;
+            transition: transform 0.3s ease;
+            display: inline-block;
+        }
+        .page-link:hover {
+            text-decoration: underline;
+        }
+        .bento-link {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 200px;
+            height: 100px;
+            background-color: #333333;
+            border-radius: 20px;
+            text-decoration: none;
+            color: #ffffff;
+            font-weight: 500;
+            font-size: 16px;
+            text-align: center;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+        .bento-link:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+        }
+        .bento-link::before {
+            font-size: 24px;
+            margin-bottom: 10px;
+            filter: invert(1);
         }
     </style>
 </head>
 <body>
     <a href="#" class="back-link" onclick="goBackToInframap(); return false;">Back to Infrastructure Map</a>
-    <h1>Reporting Flow</h1>
-    <div id="root"></div>
-
-    <script type="text/babel">
-        const FlowchartBox = ({ id, text, x, y, width, height, onClick }) => {
-            const [isHovered, setIsHovered] = React.useState(false);
-
-            return (
-                <div
-                    style={{
-                        position: 'absolute',
-                        left: `${x}%`,
-                        top: `${y}%`,
-                        width: `${width}%`,
-                        height: `${height}%`,
-                        border: '2px solid #333',
-                        borderRadius: '5px',
-                        display: 'flex',
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                        backgroundColor: isHovered ? '#f0f0f0' : '#fff',
-                        fontSize: '14px',
-                        textAlign: 'center',
-                        padding: '5px',
-                        cursor: 'pointer',
-                        transition: 'all 0.3s',
-                        transform: isHovered ? 'scale(1.1)' : 'scale(1)',
-                        zIndex: isHovered ? 10 : 1,
-                        boxShadow: isHovered ? '0 4px 8px rgba(0,0,0,0.2)' : 'none',
-                    }}
-                    onClick={() => onClick(id)}
-                    onMouseEnter={() => setIsHovered(true)}
-                    onMouseLeave={() => setIsHovered(false)}
-                >
-                    {text}
-                </div>
-            );
-        };
-
-        const Arrow = ({ start, end, label, color = '#333' }) => {
-            const dx = end.x - start.x;
-            const dy = end.y - start.y;
-            const angle = Math.atan2(dy, dx) * 180 / Math.PI;
-            const length = Math.sqrt(dx * dx + dy * dy);
-
-            return (
-                <svg style={{ position: 'absolute', left: 0, top: 0, width: '100%', height: '100%', pointerEvents: 'none' }}>
-                    <defs>
-                        <marker id={`arrowhead-${color}`} markerWidth="10" markerHeight="7" 
-                        refX="0" refY="3" orient="auto">
-                            <polygon points="0 0, 6 3, 0 6" fill={color} />
-                        </marker>
-                    </defs>
-                    <line
-                        x1={`${start.x}%`}
-                        y1={`${start.y}%`}
-                        x2={`${end.x}%`}
-                        y2={`${end.y}%`}
-                        stroke={color}
-                        strokeWidth={2}
-                        markerEnd={`url(#arrowhead-${color})`}
-                    />
-                    {label && (
-                        <text
-                            x={`${(start.x + end.x) / 2}%`}
-                            y={`${(start.y + end.y) / 2}%`}
-                            textAnchor="middle"
-                            fill="#000"
-                            fontSize="12"
-                            backgroundColor="#fff"
-                        >
-                            <tspan x={`${(start.x + end.x) / 2}%`} dy="-5" style={{backgroundColor: '#fff', padding: '0 3px'}}>{label}</tspan>
-                        </text>
-                    )}
-                </svg>
-            );
-        };
-
-        const Flowchart = () => {
-            const handleBoxClick = (id) => {
-                console.log(`Box ${id} clicked`);
-                // You can add more functionality here, such as opening a modal or navigating to a new page
-            };
-
-            return (
-                <div style={{ position: 'relative', width: '100%', height: '100%' }}>
-                    <FlowchartBox id="A1" text="Mosaic Check" x={3} y={3} width={12} height={8} onClick={handleBoxClick} />
-                    <FlowchartBox id="A2" text="Reporting task" x={27} y={3} width={15} height={8} onClick={handleBoxClick} />
-                    <FlowchartBox id="A3" text="Insights" x={52} y={3} width={15} height={8} onClick={handleBoxClick} />
-                    <FlowchartBox id="A4" text="Standard Reports" x={48.5} y={25} width={10} height={8} onClick={handleBoxClick} />
-                    <FlowchartBox id="A5" text="Advanced Reports" x={60.5} y={25} width={10} height={8} onClick={handleBoxClick} />
-                    <FlowchartBox id="A6" text="Dropbox" x={52} y={45} width={15} height={8} onClick={handleBoxClick} />
-
-                    <FlowchartBox id="B1" text="LGE" x={27} y={25} width={15} height={8} onClick={handleBoxClick} />
-                    <FlowchartBox id="C1" text="Pixel Logs" x={5} y={25} width={10} height={8} onClick={handleBoxClick} />
-                    <FlowchartBox id="C2" text="ADP data" x={27} y={45} width={15} height={8} onClick={handleBoxClick} />
-
-                    <Arrow start={{x: 15, y: 8.5}} end={{x: 25.5, y: 8.5}} />
-                    <Arrow start={{x: 42, y: 8.5}} end={{x: 50.5, y: 8.5}} />
-
-                    <Arrow start={{x: 30, y: 13}} end={{x: 30, y: 23}} label="Data requests" color="#0066cc" />
-                    <Arrow start={{x: 40, y: 25}} end={{x: 40, y: 15}} label="Final attributed data" color="#cc6600" />
-
-                    <Arrow start={{x: 16, y: 30}} end={{x: 25.5, y: 30}} label="exposure dump"/>
-                    <Arrow start={{x: 35, y: 45}} end={{x: 35, y: 37}} />
-
-                    <Arrow start={{x: 55.5, y: 11}} end={{x: 55.5, y: 22.5}} color="#009900" />
-                    <Arrow start={{x: 64.5, y: 11}} end={{x: 64.5, y: 22.5}} color="#990000" />
-                    
-                    <Arrow start={{x: 52.5, y: 33}} end={{x: 59, y: 43}} color="#009900"/>
-                    <Arrow start={{x: 67.5, y: 33}} end={{x: 61, y: 43}} color="#990000"/>
-
-                    <div style={{
-                        position: 'absolute',
-                        left: '3%',
-                        top: '22%',
-                        width: '42%',
-                        height: '36%',
-                        border: '2px dashed #666',
-                        borderRadius: '10px',
-                        pointerEvents: 'none',
-                        zIndex: -1,
-                    }} />
-                    <div style={{
-                        position: 'absolute',
-                        left: '5%',
-                        top: '20%',
-                        backgroundColor: '#fff',
-                        padding: '0 5px',
-                        fontSize: '14px',
-                    }}>
-                        Reporting Flow
-                    </div>
-                </div>
-            );
-        };
-
-        // Render the Flowchart component
-        ReactDOM.render(<Flowchart />, document.getElementById('root'));
-    </script>
-
     <script>        
         function goBackToInframap() {
             if (window.parent !== window.self) {
-                // We're in an iframe
                 window.parent.postMessage({ action: 'navigateToInframap' }, '*');
             } else {
-                // We're not in an iframe, navigate directly
                 window.location.href = 'index.html#infra';
             }
         }
     </script>
+
+    <h1>Reporting</h1>     
+    <a href='https://alphonsotv.atlassian.net/wiki/x/uIHmoQ' class="page-link">Confluence Page</a>
+    <p></p>
+    <div class="content-wrapper">
+        <div class="diagram-container">
+            <div class="diagram">
+                <div class="diagram-title" style="width: 100%; left: 2.5%; top: 0%"><h2>Reporting Flow</h2></div>
+                
+                <!-- Row 1 -->
+                <div class="box yellow" style="width: 15%; height: 15%; top: 15%; left: 2.5%;">Mosaic</div>
+                <div class="arrow" style="width: 15%; top: 22.5%; left: 18.5%; transform: rotate(0deg);"></div>
+                <div class="box yellow" style="width: 20%; height: 15%; top: 15%; left: 36%;">Reporting task</div>
+                <div class="diagram-label" style="text-align: right; width: 8%; height: 15%; top: 36%; left: 32%;">data<br>requests</div>
+                <div class="diagram-label" style="text-align: left; width: 8%; height: 15%; top: 35%; left: 52%;">final<br>attributed data</div>
+                <div class="arrow" style="width: 15%; top: 22.5%; left: 57%; transform: rotate(0deg);"></div>
+                <div class="box red" style="width: 15%; height: 15%; top: 15%; left: 74.5%;">Insights</div>
+
+                <!-- Row 2 -->
+                <div class="dotted-boundary-box" data-title="Attribution flow" style="width: 56%; height: 50%; top: 48%; left: 1%; transform: rotate(0deg);"></div>
+                <div class="box blue" style="width: 15%; height: 15%; top: 60%; left: 2.5%;">Pixel logs</div>
+                <div class="diagram-label" style="text-align: center; width: 15%; height: 15%; top: 59%; left: 19%;">exposure dump</div>
+                <div class="arrow" style="width: 15%; top: 67%; left: 18.5%; transform: rotate(0deg);"></div>
+                <div class="box blue" style="width: 20%; height: 15%; top: 60%; left: 36%;">LGE</div>
+                
+                <!-- Vertical arrows -->
+                <div class="arrow" style="width: 12%; top: 31%; left: 42.5%; transform: rotate(90deg);"></div>
+                <div class="arrow" style="width: 12%; top: 59%; left: 50.5%; transform: rotate(270deg);"></div>
+                
+                <div class="box red" style="width: 12.5%; height: 15%; top: 50%; left: 67%;">Standard</div>
+                <div class="box red" style="width: 12.5%; height: 15%; top: 50%; left: 84.5%;">Advanced</div>
+
+                <!-- Vertical arrows from Insights -->
+                <div class="arrow" style="width: 3%; top: 39%; left: 73.25%; transform: rotate(90deg);"></div>
+                <div class="arrow" style="width: 3%; top: 39%; left: 90.75%; transform: rotate(90deg);"></div>
+                <div class="line" style="width: 4%; top: 39%; left: 82%; transform: rotate(270deg);"></div>
+                <div class="line" style="width: 17.5%; top: 39%; left: 73.25%; transform: rotate(0deg);"></div>
+                
+                <!-- Row 3 -->
+                <div class="box blue" style="width: 15%; height: 15%; top: 85%; left: 22.5%;">ADP Data</div>
+                <div class="arrow" style="width: 9%; top: 92.5%; left: 46%; transform: rotate(270deg);"></div>
+                <div class="line" style="width: 7.5%; top: 92.5%; left: 38.5%; transform: rotate(00deg);"></div>
+                
+                <div class="line" style="width: 3%; top: 67%; left: 73.25%; transform: rotate(90deg);"></div>
+                <div class="line" style="width: 3%; top: 67%; left: 90.75%; transform: rotate(90deg);"></div>
+                <div class="arrow" style="width: 4%; top: 73%; left: 82%; transform: rotate(90deg);"></div>
+                <div class="line" style="width: 17.5%; top: 73%; left: 73.25%; transform: rotate(0deg);"></div>
+				<div class="box green" style="width: 15%; height: 15%; top: 85%; left: 74.5%;">Dropbox</div>
+            </div>
+        </div>
+    </div>
 </body>
 </html>
+
+                
+                
+                
+
+
+          
+                
