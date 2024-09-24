@@ -25,7 +25,6 @@
             padding-bottom: 50%; /* 600px / 1350px * 100 */
             overflow: visible; /* Changed from hidden to visible */
             font-size: 16px; 
-            transform: translateY(10%)
         }
         .diagram-title {
             position: absolute;
@@ -163,48 +162,40 @@
         a { color: #3498db; text-decoration: none; }
         a:hover { text-decoration: none; }
 
+		/*4K resolution*/
         @media (max-width: 3840px) {
-            .diagram { font-size: 0.417vw; }
-            .diagram-title { font-size: 0.417vw; }
-            .diagram-label {font-size: 0.417vw;}
-            .dotted-boundary-box{font-size: 0.417vw;}
-        }
-        @media (max-width: 2560px) {
-            .diagram { font-size: 1vw; }
-            .diagram-title { font-size: 1vw;}
-            .diagram-label {font-size: 0.8vw;}
-            .dotted-boundary-box{font-size: 1vw;}
-        }
-        @media (max-width: 1350px) {
             .diagram { font-size: 1.5vw; }
-            .diagram-title { font-size: 1.5vw; }
-            .diagram-label {font-size: 1.25vw;}
+            .diagram-title { font-size: 1.875vw; }
+            .diagram-label {font-size: 1.125vw;}
             .dotted-boundary-box{font-size: 1.5vw;}
         }
-        @media (max-width: 1170px) {
-            .diagram { position: absolute; width: 100%; font-size:1.25vw; }
+        /*2K resolution*/
+        @media (max-width: 2560px) {
+            .diagram {font-size: 0.5625vw; }
+            .diagram-title { font-size: 0.5625vw;}
+            .diagram-label {font-size: 0.5625vw;}
+            .dotted-boundary-box{font-size: 0.6vw;}
+        }
+        /*iPhone*/
+        @media (max-width: 393px) {
+            .diagram { position: absolute; width: 100%; font-size:0.1535vw; }
             .content-wrapper {
                 display: flex;
                 flex-direction: column;
                 align-items: center;
                 margin-top: 20px;}
-            .diagram-container {width: 100%;}
+            .diagram-container {width: 75%;}
             .lists-container {width: 100%;}
-            .diagram-title { font-size: 1.25vw; }
-            .diagram-label {font-size: 0.8vw;}
-            .dotted-boundary-box{font-size: 1vw;}
+            .diagram-title { font-size: 0.192vw; }
+            .diagram-label {font-size: 0.1151vw;}
+            .dotted-boundary-box{font-size: 0.1535vw;}
         }
+        /*Macbook Air M1*/
         @media (max-width: 1440px) {
             .diagram {font-size: 1vw; }
-            .diagram-title { font-size: 1vw; }
+            .diagram-title { font-size: 1.25vw; }
             .diagram-label {font-size: 0.75vw;}
             .dotted-boundary-box{font-size: 1vw;}
-        }
-        @media (max-width: 701px) {
-            .diagram {width: 75%; font-size: 1.5vw; }
-            .diagram-title { font-size: 1.5vw; }
-            .diagram-label {font-size: 1.2vw;}
-            .dotted-boundary-box{font-size: 1.5vw;}
         }
 
     </style>
@@ -327,7 +318,7 @@
     <p>SSP stands for Supply Side Platform. It is a platform that enables publishers to automatically sell their ad inventory, often connected to ad exchanges. SSPs allow setting floor prices and bundling inventory for private marketplaces. The SSP dashboard monitors incoming native traffic, providing insights on requests, served ads, and errors, but it is not suitable for reporting campaign performance.</p>
     <div class="content-wrapper">
         <div class="lists-container">
-            <p><strong>Ad Exchange:</strong></p>
+            <p style="margin-top: -10px;"><strong>Ad Exchange:</strong></p>
             <ul style="margin-top: -10px;">
                 <li>An Ad Exchange is a digital marketplace for buying and selling advertising inventory</li>
                 <li>It facilitates real-time bidding (RTB) for ad impressions</li>
