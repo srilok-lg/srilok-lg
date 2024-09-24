@@ -213,7 +213,7 @@
     </style>
 </head>
 <body>
-    <a href="#" class="back-link" onclick="goBackToInframap(); return false;">Back to Infrastructure Map</a>
+    <a href="#" class="back-link" onclick="goBackToInframap(); return false;">Back to Inventory</a>
     <script>        
         function goBackToInframap() {
             if (window.parent !== window.self) {
@@ -221,7 +221,7 @@
                 window.parent.postMessage({ action: 'navigateToInframap' }, '*');
             } else {
                 // We're not in an iframe, navigate directly
-                window.location.href = 'index.html#infra';
+                window.location.href = 'inventory.html#infra';
             }
         }
     </script>
