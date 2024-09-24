@@ -25,6 +25,7 @@
             padding-bottom: 50%; /* 600px / 1350px * 100 */
             overflow: visible; /* Changed from hidden to visible */
             font-size: 16px; 
+            transform: translateY(25%);
 
         }
         .boundary {
@@ -35,6 +36,7 @@
             top: 0;
             left: 0;
             box-sizing: border-box;
+            transform: translateY(25%);
         }
         .box {
             position: absolute;
@@ -308,6 +310,25 @@
     <p>SSP stands for Supply Side Platform. It is a platform that enables publishers to automatically sell their ad inventory, often connected to ad exchanges. SSPs allow setting floor prices and bundling inventory for private marketplaces. The SSP dashboard monitors incoming native traffic, providing insights on requests, served ads, and errors, but it is not suitable for reporting campaign performance.</p>
     
     <div class="content-wrapper">
+        <div class="lists-container">
+            <p><strong>Ad Exchange:</strong></p>
+            <ul style="margin-top: -6px;">
+                <li>An Ad Exchange is a digital marketplace for buying and selling advertising inventory</li>
+                <li>It facilitates real-time bidding (RTB) for ad impressions</li>
+                <li>Ad Exchanges connect multiple advertisers and publishers</li>
+                <li>They aim to maximize revenue for publishers and efficiency for advertisers</li>
+                <li>Ad Exchanges often use programmatic advertising techniques</li>
+            </ul>
+            
+            <p><strong>SSP (Supply-Side Platform):</strong></p>
+            <ul style="margin-top: -6px;">
+                <li>An SSP is a technology platform used by publishers to manage and sell their ad inventory</li>
+                <li>It helps publishers optimize their ad space yield</li>
+                <li>SSPs connect to multiple Ad Exchanges and Demand-Side Platforms (DSPs)</li>
+                <li>They provide tools for inventory management, pricing, and data analysis</li>
+                <li>SSPs aim to maximize revenue for publishers by finding the highest bidder for each ad impression</li>
+            </ul>
+        </div>
         <div class="diagram-container">
             <div class="diagram" style="width: 100%;">
                 <div class="boundary"></div>
@@ -345,26 +366,6 @@
                 
                 <div class="arrow" style="width: 12.5%; top: 81%; left: 81%; transform: rotate(220deg);"></div>          
             </div>  
-        </div>
-
-        <div class="lists-container">
-            <p><strong>Ad Exchange:</strong></p>
-            <ul style="margin-top: -6px;">
-                <li>An Ad Exchange is a digital marketplace for buying and selling advertising inventory</li>
-                <li>It facilitates real-time bidding (RTB) for ad impressions</li>
-                <li>Ad Exchanges connect multiple advertisers and publishers</li>
-                <li>They aim to maximize revenue for publishers and efficiency for advertisers</li>
-                <li>Ad Exchanges often use programmatic advertising techniques</li>
-            </ul>
-            
-            <p><strong>SSP (Supply-Side Platform):</strong></p>
-            <ul style="margin-top: -6px;">
-                <li>An SSP is a technology platform used by publishers to manage and sell their ad inventory</li>
-                <li>It helps publishers optimize their ad space yield</li>
-                <li>SSPs connect to multiple Ad Exchanges and Demand-Side Platforms (DSPs)</li>
-                <li>They provide tools for inventory management, pricing, and data analysis</li>
-                <li>SSPs aim to maximize revenue for publishers by finding the highest bidder for each ad impression</li>
-            </ul>
         </div>
     </div>
 
