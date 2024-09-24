@@ -3,52 +3,228 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Graph Network</title>
-    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+    <title>Reporting</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
     <style>
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
             line-height: 1.6;
             padding: 20px;
-            color: #333;
-            margin: 0;
-        }
-
-        .header {
             display: flex;
-            align-items: center;
-            justify-content: flex-start;
-            position: fixed;
+            flex-direction: column;
+            color: #333;
+        }
+        .diagram {
+            position: relative;
+            width: 100%;
+            height: 0%;
+            padding-bottom: 40%;
+            overflow: visible;
+            font-size: 16px;
+        }
+        .diagram-title {
+            position: absolute;
+            font-weight: bold;
+            font-size: 20px;
+        }
+        .diagram-label {
+            position: absolute;
+            font-size: 16px;
+        }
+        .boundary {
+            border: 2px dotted #ccc;
+            position: absolute;
+            width: 75%;
+            height: 0%;
             top: 0;
             left: 0;
-            right: 0;
+            box-sizing: border-box;
+            transform: translateX(17.5%);
+        }
+        .dotted-boundary-box {
+            position: absolute;
+            border: 2px dotted #000;
+            padding: 0px;
+            font-size: 16px;
+            border-radius: 12.5px; 
+        }
+
+        .dotted-boundary-box::before {
+            content: attr(data-title);
+            position: absolute;
+            top: -12.5px;
+            left: 12.5px;
             background-color: white;
-            padding: 10px 20px;
-            z-index: 1000;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            /*padding: 0 5px;*/
+            font-weight: bold;
         }
-
-        h1 {
-            color: #2c3e50;
+        .box {
+            position: absolute;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 10px;
+            box-sizing: border-box;
+            transition: transform 0.3s;
+            cursor: pointer;
+            border-radius: 10px;
+        }
+        .box:hover {
+            transform: scale(1.1);
+            z-index: 10;
+        }
+        .box:visited {
+            color: inherit;
+        }
+        .yellow {
+            background-color: #FFCC00;
+            border: 0px solid #000;
+            color: black;
+        }
+        .blue {
+            background-color: #007AFF;
+            color: white;
+        }
+        .green {
+            background-color: #34C759;
+            color: white;
+        }
+        .red {
+            background-color: #FF3B30;
+            color: white;
+        }
+        .gray {
+            background-color: #D1D1D6;
+            color: black;
+        }
+        .line {
+            position: absolute;
+            height: 2.5px;
+            background-color: black;
+            transform-origin: 0 50%;
+        }
+		.arrow {
+            position: absolute;
+            height: 3px;
+            background-color: black;
+            transform-origin: 0 50%;
+        }
+        .arrow::after {
+            content: '';
+            position: absolute;
+            right: -10px;
+            top: -3.5px;
+            width: 0;
+            height: 0;
+            border-top: 5px solid transparent;
+            border-bottom: 5px solid transparent;
+            border-left: 10px solid black;
+        }
+        .greenarrow {
+            position: absolute;
+            height: 3px;
+            background-color: #34C759;
+            transform-origin: 0 50%;
+            cursor: pointer;
+        }
+        .greenarrow::after {
+            content: '';
+            position: absolute;
+            right: -10px;
+            top: -3.5px;
+            width: 0;
+            height: 0;
+            border-top: 5px solid transparent;
+            border-bottom: 5px solid transparent;
+            border-left: 10px solid #34C759;
+        }
+        .redarrow {
+            position: absolute;
+            height: 3px;
+            background-color: #FF3B30;
+            transform-origin: 0 50%;
+            cursor: pointer;
+        }
+        .redarrow::after {
+            content: '';
+            position: absolute;
+            right: -10px;
+            top: -3.5px;
+            width: 0;
+            height: 0;
+            border-top: 5px solid transparent;
+            border-bottom: 5px solid transparent;
+            border-left: 10px solid #FF3B30;
+        }
+        
+        .dottedarrow {
+            position: absolute;
+            height: 2px;
+            background-color: transparent;
+            transform-origin: 0 50%;
+            background-image: linear-gradient(to right, black 50%, transparent 50%);
+            background-size: 8px 2px;
+            background-repeat: repeat-x;
+        }
+        .dottedarrow::after {
+            content: '';
+            position: absolute;
+            right: -10px;
+            top: -4px;
+            width: 0;
+            height: 0;
+            border-top: 5px solid transparent;
+            border-bottom: 5px solid transparent;
+            border-left: 10px solid black;
+        }
+        .content-wrapper {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+        .diagram-container {
+            width: 100%;
+            margin-bottom: 40px;
+        }
+        .lists-container {
+            width: 100%;
+        }
+        .title {
+            position: absolute;
+            font-weight: bold;
+            font-size: 24px;
+        }
+        .label {
+            position: absolute;
+            font-size: 14px;
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+        }
+        #graphTitle {
             margin: 0;
-            margin-right: 20px;
         }
-
+        .switch-container {
+            display: flex;
+            align-items: center;
+        }
         .switch {
             position: relative;
             display: inline-block;
             width: 60px;
             height: 34px;
-            vertical-align: middle;
+            margin-left: 10px;
         }
-
         .switch input {
             opacity: 0;
             width: 0;
             height: 0;
         }
-
         .slider {
             position: absolute;
             cursor: pointer;
@@ -60,7 +236,6 @@
             transition: .4s;
             border-radius: 34px;
         }
-
         .slider:before {
             position: absolute;
             content: "";
@@ -72,149 +247,258 @@
             transition: .4s;
             border-radius: 50%;
         }
-
         input:checked + .slider {
             background-color: #2196F3;
         }
-
         input:checked + .slider:before {
             transform: translateX(26px);
         }
+        a { color: #3498db; text-decoration: none; }
+        a:hover { text-decoration: none; }
+        h1, h2 { color: #2c3e50;}
 
-        .switch-label {
+        /*4K resolution*/
+        @media (max-width: 3840px) {
+            .diagram { font-size: 1.5vw; }
+            .diagram-title { font-size: 1.875vw; }
+            .diagram-label {font-size: 1.125vw;}
+            .dotted-boundary-box{font-size: 1.5vw;}
+        }
+        /*2K resolution*/
+        @media (max-width: 2560px) {
+            .diagram {font-size: 0.5625vw; }
+            .diagram-title { font-size: 0.5625vw;}
+            .diagram-label {font-size: 0.5625vw;}
+            .dotted-boundary-box{font-size: 0.6vw;}
+        }
+        /*iPhone*/
+        @media (max-width: 393px) {
+            .diagram { position: absolute; width: 100%; font-size:0.1535vw; }
+            .content-wrapper {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                margin-top: 20px;}
+            .diagram-container {width: 75%;}
+            .lists-container {width: 100%;}
+            .diagram-title { font-size: 0.192vw; }
+            .diagram-label {font-size: 0.1151vw;}
+            .dotted-boundary-box{font-size: 0.1535vw;}
+        }
+        /*Macbook Air M1*/
+        @media (max-width: 1440px) {
+            .diagram {font-size: 1vw; }
+            .diagram-title { font-size: 1.25vw; }
+            .diagram-label {font-size: 0.75vw;}
+            .dotted-boundary-box{font-size: 1vw;}
+        }
+        .back-link {
+            font-family: Inter, sans-serif;
+            font-size: 16px;
+            color: #3498db;
+            text-decoration: none;
+            position: relative;
+            transition: transform 0.3s ease;
             display: inline-block;
-            vertical-align: middle;
-            margin-left: 10px;
+            width: fit-content;
         }
-
-        #graphDiv {
-            margin-top: 80px;
+        .back-link:before {
+            content: "\2190";
+            margin-right: 5px;
+        }
+        .back-link:after {
+            content: '';
+            position: absolute;
             width: 100%;
-            height: calc(100vh - 100px);
-            overflow: auto;
+            height: 2px;
+            bottom: 0;
+            left: 0;
+            background-color: #3498db;
+            transform: scaleX(0);
+            transform-origin: bottom right;
+            transition: transform 0.3s ease;
         }
-
-        .clickable:hover {
-            cursor: pointer;
-            filter: drop-shadow(0 0 5px rgba(0,0,0,0.3));
+        .back-link:hover {
             transform: scale(1.05);
+        }
+        .back-link:hover:after {
+            transform: scaleX(1);
+            transform-origin: bottom left;
+        }
+        .page-link {
+            font-family: Inter, sans-serif;
+            font-size: 16px;
+            font-weight: normal;
+            color: #3498db;
+            text-decoration: none;
+            position: relative;
+            transition: transform 0.3s ease;
+            display: inline-block;
+        }
+        .page-link:hover {
+            text-decoration: underline;
+        }
+        .bento-link {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 200px;
+            height: 100px;
+            background-color: #333333;
+            border-radius: 20px;
+            text-decoration: none;
+            color: #ffffff;
+            font-weight: 500;
+            font-size: 16px;
+            text-align: center;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+        .bento-link:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+        }
+        .bento-link::before {
+            font-size: 24px;
+            margin-bottom: 10px;
+            filter: invert(1);
         }
     </style>
 </head>
+
+    </style>
+</head>
+<head>
+    <title>Animated Back Link</title>
+    <style>
+        .back-link {
+            font-family: Inter, sans-serif;
+            font-size: 16px;
+            color: #3498db;
+            text-decoration: none;
+            position: relative;
+            transition: transform 0.3s ease;
+            display: inline-block;
+            width: fit-content;
+        }
+
+        .back-link:before {
+            content: "\2190"; /* Left arrow Unicode character */
+            margin-right: 5px;
+        }
+
+        .back-link:after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 2px;
+            bottom: 0;
+            left: 0;
+            background-color: #3498db;
+            transform: scaleX(0);
+            transform-origin: bottom right;
+            transition: transform 0.3s ease;
+        }
+
+        .back-link:hover {
+            transform: scale(1.05);
+
+        }
+
+        .back-link:hover:after {
+            transform: scaleX(1);
+            transform-origin: bottom left;
+        }
+    </style>
+
+    <title>Animated Page Link</title>
+    <style>
+    .page-link {
+        font-family: Inter, sans-serif;
+        font-size: 16px;
+        font-weight:normal;
+        color: #3498db;
+        text-decoration: none;
+        position: relative;
+        transition: transform 0.3s ease;
+        display: inline-block;
+    }
+
+    .page-link:hover {
+        text-decoration:underline;
+    }
+
+    .page-link:hover:after {
+        text-decoration: none;
+    }
+    .white-link {
+        color: #ffffff;
+    }
+    </style>
+</head>
+
 <body>
     <div class="header">
         <h1 id="graphTitle">Operations Flow</h1>
-        <label class="switch">
-            <input type="checkbox" id="graphToggle">
-            <span class="slider"></span>
-        </label>
-        <span class="switch-label" id="toggleLabel">Switch to Infrastructure Map</span>
+        <div class="switch-container">
+            <span class="switch-label" id="toggleLabel">Switch to Infrastructure Map</span>
+            <label class="switch">
+                <input type="checkbox" id="graphToggle">
+                <span class="slider"></span>
+            </label>
+        </div>
     </div>
-    <div id="graphDiv"></div>
-    <script type="module">
-        const infraTree = `
-        graph TD
-            Salesforce("Salesforce") --> A2("Campaign Parameters")
-            C4("Segment Portal") --> Segments
-            Segments("Segments") --> A2
-            LG("LG") --> B5("Native segments")
-            B5 --> C4
-            LG --> A1("Inventory")
-            Data_p("Data Partnerhips") --> A1
-            A1 --> |Internal & External| B2("SSP")
-            A2 --> B1("DSP")
-            B1 --> C1("Peregrine")
-            B1 --> C2("Beeswax")
-            B2 --> SSP_logs
-            C1 --> PP
-            C2 --> PP
-            A1 <--> Programmatic("Programmatic")
-            PP("Pixel Pinger") --> DAS("DAS")
-            DAS --> Kasper("Kasper")
-            DAS --> Insights("Insights")
-            DAS --> Steller("Steller")
-            SSP_logs --> DAS
-            SSP_logs("SSP Logs") --> Elastic("Elastic")
+    
+    <div class="diagram">
+        <!-- Boundaries -->
+        <div class="dotted-boundary-box" data-title="LG Ads" style="width: 41.5%; height: 80%; top: 12.5%; left: 13.5%;"></div>
+        <div class="dotted-boundary-box" data-title="Managed Service" style="width: 11.5%; height: 46%; top: 40.5%; left: 28.5%;"></div>
+        
+        
+        <!-- section1 -->
+        <div class="box gray" style="width: 7%; height: 10%; top: 40%; left:2.5% ;">Advertisers</div>
+        <div class="arrow" style="width: 8%; top: 45%; left:10% ; transform: rotate(300deg);"></div>
+        <div class="arrow" style="width: 8%; top: 45%; left:10% ; transform: rotate(60deg);"></div>
 
-            click Salesforce "salesforce.html" "Go to Salesforce page"
-            click Opportunities "opportunities.html" "Go to Opportunities page"
-            click A2 "campaign_parameters.html" "Go to Campaign Parameters page"
-            click C4 "segment_portal.html" "Go to Segment Portal page"
-            click Segments "segments.html" "Go to Segments page"
-            click DAGs "dags.html" "Go to DAGs page"
-            click B5 "native_segments.html" "Go to Native Segments page"
-            click A1 "inventory.html" "Go to Inventory page"
-            click Data_p "data_partnerships.html" "Go to Data Partnerships page"
-            click B2 "ssp.html" "Go to SSP page"
-            click B1 "dsp.html" "Go to DSP page"
-            click C1 "peregrine.html" "Go to Peregrine page"
-            click C2 "beeswax.html" "Go to Beeswax page"
-            click SSP_logs "ssp_logs.html" "Go to SSP Logs page"
-            click PP "pixel_pinger.html" "Go to Pixel Pinger page"
-            click Programmatic "programmatic.html" "Go to Programmatic page"
-            click DAS "das.html" "Go to DAS page"
-            click Kasper "kasper.html" "Go to Kasper page"
-            click Insights "insights.html" "Go to Insights page"
-            click Steller "steller.html" "Go to Steller page"
-            click Elastic "elastic.html" "Go to Elastic page"
+        <!---section2 top--->
+        <div class="box yellow" style="width: 8.75%; height: 10%; top: 20%; left:15% ;"><a href='media_planning.html' style="color: #000000; text-decoration: none;" >Sales Engineering</a></div>
+        <div class="arrow" style="width: 5%; top: 25%; left:24% ; transform: rotate(0deg);"></div>
+        <div class="box yellow" style="width: 8.75%; height: 10%; top: 20%; left:30% ;"><a href='salesforce.html' style="color: #000000; text-decoration: none;" >Salesforce</a></div>
+        <div class="arrow" style="width: 5%; top: 25%; left:39% ; transform: rotate(0deg);"></div>
+        <div class="box green" style="width: 8.75%; height: 10%; top: 20%; left:45% ;"><a href='programmatic.html' style="color: #ffffff; text-decoration: none;" >Programmatic</a></div>
+        <div class="greenarrow" style="width: 5%; top: 25%; left:54% ; transform: rotate(0deg);"></div>
 
-            classDef clickable cursor:pointer;
-            class Salesforce,Opportunities,A2,C4,Segments,DAGs,B5,A1,Data_p,B2,B1,C1,C2,C3,SSP_logs,PP,Programmatic,DAS,Kasper,Insights,Reporting,Steller,Elastic clickable;        
-        `;
+        <!---section2 bottom--->        
+        <div class="box yellow" style="width: 8.75%; height: 10%; top: 60%; left:15% ;"><a href='reporting.html' style="color: #000000; text-decoration: none;" >Reporting</a></div>        
+        <div class="arrow" style="width: 5%; top: 65%; left:24% ; transform: rotate(0deg);"></div>
+        <div class="box yellow" style="width: 8.75%; height: 10%; top: 45%; left:30% ;"><a href='mosaic.html' style="color: #000000; text-decoration: none;" >Mosaic</a></div>
+         <div class="box yellow" style="width: 8.75%; height: 7.5%; top: 57%; left:30% ;"><a href='mosaic_data.html' style="color: #000000; text-decoration: none;" >Data</a></div>
+         <div class="box yellow" style="width: 8.75%; height: 7.5%; top: 66.5%; left:30% ;"><a href='mosaic_tools.html' style="color: #000000; text-decoration: none;" >Tools</a></div>
+         <div class="box yellow" style="width: 8.75%; height: 7.5%; top: 76%; left:30% ;"><a href='troubleshooting.html' style="color: #000000; text-decoration: none;" >Troubleshoot</a></div>
+         
+        <div class="arrow" style="width: 6%; top: 65%; left:39% ; transform: rotate(330deg);"></div>
+        <div class="arrow" style="width: 6%; top: 65%; left:39% ; transform: rotate(30deg);"></div>
 
-        let currentGraph = 'operations';
+        <div class="box red" style="width: 8.75%; height: 10%; top: 50%; left:45% ;"><a href='peregrine.html' style="color: #ffffff; text-decoration: none;" >Peregrine</a></div>
+        <div class="redarrow" style="width: 5%; top: 55%; left:54% ; transform: rotate(0deg);"></div>
+        <div class="box red" style="width: 8.75%; height: 10%; top: 70%; left:45% ;"><a href='beeswax.html' style="color: #ffffff; text-decoration: none;" >Beeswax</a></div>
+        <div class="redarrow" style="width: 5%; top: 75%; left:54% ; transform: rotate(0deg);"></div>
 
-        mermaid.initialize({ 
-            startOnLoad: true,
-            theme: 'neutral',
-            fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif',
-            flowchart: {
-                curve: 'basis',
-                nodeSpacing: 50,
-                rankSpacing: 50,
-            }
-        });
+		<!---section3--->
+        <div class="box gray" style="width: 7%; height: 60%; top: 20%; left:60% ;"><a href='peregrine.html' style="color: #000000; text-decoration: none;" >SSP <br> Ad Exchange</a></div>
+        <div class="arrow" style="width: 5%; top: 47.5%; left:81% ; transform: rotate(0deg);"></div>
+        <div class="box gray" style="width: 20.5%; height: 10%; top: 20%; left:73.5% ;"><a href='inventory.html' style="color: #000000; text-decoration: none;" >Inventory</a></div>
+        <div class="line" style="width: 4%; top: 30%; left:77% ; transform: rotate(90deg);"></div>
+        <div class="line" style="width: 4%; top: 30%; left:90.5% ; transform: rotate(90deg);"></div>
+        <div class="box gray" style="width: 7%; height: 15%; top: 40%; left:73.5% ;"><a href='publisher.html' style="color: #000000; text-decoration: none;" >Publisher</a></div>
+        <div class="arrow" style="width: 5%; top: 47.5%; left:67.5% ; transform: rotate(0deg);"></div>
+        <div class="box gray" style="width: 7%; height: 40%; top: 40%; left:87% ;"><a href='https://lgads.tv/solutions/' style="color: #000000; text-decoration: none;" >Users <br> LG TV HH</a></div>
+        
+        <div class="greenarrow" style="width: 18.5%; top: 65%; left:67.5% ; transform: rotate(0deg);"></div>
+        <div class="redarrow" style="width: 18.5%; top: 75%; left:67.5% ; transform: rotate(0deg);"></div>
 
-        function renderGraph() {
-            const graphDiv = document.getElementById('graphDiv');
-            if (currentGraph === 'operations') {
-                fetch('new_operations_flow.html')
-                    .then(response => response.text())
-                    .then(data => {
-                        graphDiv.innerHTML = data;
-                        // Add this line to make the content fit the screen
-                        graphDiv.firstChild.style.width = '100%';
-                        graphDiv.firstChild.style.height = '100%';
-                    })
-                    .catch(error => console.error('Error loading new_operations_flow.html:', error));
-            } else {
-                mermaid.render('mermaid-graph', infraTree).then(result => {
-                    graphDiv.innerHTML = result.svg;
-                    // Add this line to make the content fit the screen
-                    graphDiv.firstChild.style.width = '100%';
-                    graphDiv.firstChild.style.height = '100%';
-                });
-            }
-        }
-
-        document.addEventListener('DOMContentLoaded', renderGraph);
-
-        document.getElementById('graphToggle').addEventListener('change', function() {
-            const graphTitle = document.getElementById('graphTitle');
-            const toggleLabel = document.getElementById('toggleLabel');
-
-            if (this.checked) {
-                currentGraph = 'infra';
-                graphTitle.textContent = 'Infrastructure Map';
-                toggleLabel.textContent = 'Switch to Operations Flow';
-            } else {
-                currentGraph = 'operations';
-                graphTitle.textContent = 'Operations Flow';
-                toggleLabel.textContent = 'Switch to Infrastructure Map';
-            }
-
-            renderGraph();
-        });
-    </script>
+    </div>
 </body>
 </html>
+    
