@@ -3,25 +3,64 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Beeswax</title>
+    <title>Operations Flow</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
     <style>
         body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+            font-family: 'Inter', sans-serif;
             line-height: 1.6;
             padding: 20px;
             display: flex;
             flex-direction: column;
             color: #333;
-            display: flex;
+        }
         .diagram {
             position: relative;
-            width: 900px;
-            height: 600px;
-
+            width: 100%;
+            height: 0%;
+            padding-bottom: 40%;
+            overflow: visible;
+            font-size: 16px;
+        }
+        .diagram-title {
+            position: absolute;
+            font-weight: bold;
+            font-size: 20px;
+        }
+        .diagram-label {
+            position: absolute;
+            font-size: 16px;
+        }
+        .diagram-label2 {
+            position: absolute;
+            font-size: 16px;
         }
         .boundary {
-        border: 2px dotted #ccc
+            border: 2px dotted #ccc;
+            position: absolute;
+            width: 75%;
+            height: 0%;
+            top: 0;
+            left: 0;
+            box-sizing: border-box;
+            transform: translateX(17.5%);
+        }
+        .dotted-boundary-box {
+            position: absolute;
+            border: 2px dotted #000;
+            padding: 0px;
+            font-size: 16px;
+            border-radius: 12.5px; 
+        }
+
+        .dotted-boundary-box::before {
+            content: attr(data-title);
+            position: absolute;
+            top: -15px;
+            left: 12.5px;
+            background-color: white;
+            /*padding: 0 5px;*/
+            font-weight: bold;
         }
         .box {
             position: absolute;
@@ -44,7 +83,7 @@
         }
         .yellow {
             background-color: #FFCC00;
-            border: 2px dashed #000;
+            border: 0px solid #000;
             color: black;
         }
         .blue {
@@ -66,17 +105,124 @@
             clip-path: polygon(25% 0%, 75% 0%, 80% 50%, 75% 100%, 25% 100%, 30% 50%);
             text-align: center;
         }
-        .gray {
-            background-color: #D1D1D6;
-            color: black;
+        .red {
+            background-color: #FF3B30;
+            color: white;
         }
-        .arrow {
+        .gray {
+            background-color: #636366;
+            color: #ffffff;
+        }
+        .cylinder{
+            width:200px;
+            height:150px;
+            background:#FFCC00;
+            border-radius:100px/30px;
+            position:relative;
+            overflow:hidden;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            color:#000000;
+            font-family:Inter,sans-serif;
+            font-size:18px;
+            text-align:center;
+            transition: transform 0.3s;
+        }
+        .cylinder::before{
+            position:absolute;
+            width:100%;
+            height:100%;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            z-index:2;
+        }
+        .cylinder::after{
+            content:'';
+            position:absolute;
+            width:calc(100% + 4px);
+            height:calc(100% + 4px);
+            top:-2px;
+            left:-2px;
+            border:2px solid #fff;
+            border-radius:inherit;
+            box-sizing:border-box;
+            pointer-events:none;
+        }
+        .cylinder:hover {
+            transform: scale(1.1);
+            z-index: 10;
+            }
+        .line {
             position: absolute;
-            height: 2px;
+            height: 2.5px;
+            background-color: black;
+            transform-origin: 0 50%;
+        }
+		.arrow {
+            position: absolute;
+            height: 3px;
             background-color: black;
             transform-origin: 0 50%;
         }
         .arrow::after {
+            content: '';
+            position: absolute;
+            right: -10px;
+            top: -3.5px;
+            width: 0;
+            height: 0;
+            border-top: 5px solid transparent;
+            border-bottom: 5px solid transparent;
+            border-left: 10px solid black;
+        }
+        .greenarrow {
+            position: absolute;
+            height: 3px;
+            background-color: #34C759;
+            transform-origin: 0 50%;
+            cursor: pointer;
+        }
+        .greenarrow::after {
+            content: '';
+            position: absolute;
+            right: -10px;
+            top: -3.5px;
+            width: 0;
+            height: 0;
+            border-top: 5px solid transparent;
+            border-bottom: 5px solid transparent;
+            border-left: 10px solid #34C759;
+        }
+        .redarrow {
+            position: absolute;
+            height: 3px;
+            background-color: #FF3B30;
+            transform-origin: 0 50%;
+            cursor: pointer;
+        }
+        .redarrow::after {
+            content: '';
+            position: absolute;
+            right: -10px;
+            top: -3.5px;
+            width: 0;
+            height: 0;
+            border-top: 5px solid transparent;
+            border-bottom: 5px solid transparent;
+            border-left: 10px solid #FF3B30;
+        }
+        .dottedarrow {
+            position: absolute;
+            height: 2px;
+            background-color: transparent;
+            transform-origin: 0 50%;
+            background-image: linear-gradient(to right, black 50%, transparent 50%);
+            background-size: 8px 2px;
+            background-repeat: repeat-x;
+        }
+        .dottedarrow::after {
             content: '';
             position: absolute;
             right: -10px;
@@ -87,24 +233,197 @@
             border-bottom: 5px solid transparent;
             border-left: 10px solid black;
         }
+        .content-wrapper {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+        .diagram-container {
+            width: 100%;
+            margin-bottom: 40px;
+        }
+        .lists-container {
+            width: 100%;
+        }
         .title {
             position: absolute;
             font-weight: bold;
-            font-size: 18px;
+            font-size: 24px;
         }
         .label {
             position: absolute;
             font-size: 14px;
         }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
         }
-        h1 { color: #2c3e50; }
+        #graphTitle {
+            margin: 0;
+        }
+        .switch-container {
+            display: flex;
+            align-items: center;
+        }
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 60px;
+            height: 34px;
+            margin-left: 10px;
+        }
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 34px;
+        }
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 26px;
+            width: 26px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+        input:checked + .slider {
+            background-color: #2196F3;
+        }
+        input:checked + .slider:before {
+            transform: translateX(26px);
+        }
         a { color: #3498db; text-decoration: none; }
         a:hover { text-decoration: none; }
+        h1, h2 { color: #2c3e50;}
+
+        /*4K resolution*/
+        @media (max-width: 3840px) {
+            .diagram { font-size: 1.5vw; }
+            .diagram-title { font-size: 1.875vw; }
+            .diagram-label {font-size: 1.125vw;}
+            .dotted-boundary-box{font-size: 1.5vw;}
+            .diagram-label2 {font-size: 1.5vw;}
+        }
+        /*2K resolution*/
+        @media (max-width: 2560px) {
+            .diagram {font-size: 0.5625vw; }
+            .diagram-title { font-size: 0.5625vw;}
+            .diagram-label {font-size: 0.5625vw;}
+            .diagram-label2 {font-size: 0.5625vw;}
+            .dotted-boundary-box{font-size: 0.6vw;}
+        }
+        /*iPhone*/
+        @media (max-width: 393px) {
+            .diagram { position: absolute; width: 100%; font-size:0.1535vw; }
+            .content-wrapper {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                margin-top: 20px;}
+            .diagram-container {width: 75%;}
+            .lists-container {width: 100%;}
+            .diagram-title { font-size: 0.192vw; }
+            .diagram-label {font-size: 0.1151vw;}
+            .diagram-label2 {font-size: 0.1535vw;}
+            .dotted-boundary-box{font-size: 0.1535vw;}
+        }
+        /*Macbook Air M1*/
+        @media (max-width: 1440px) {
+            .diagram {font-size: 1vw; }
+            .diagram-title { font-size: 1.25vw; }
+            .diagram-label {font-size: 0.9vw;}
+            .diagram-label2 {font-size: 1vw;}
+            .dotted-boundary-box{font-size: 1.25vw;}
+        }
+        .back-link {
+            font-family: Inter, sans-serif;
+            font-size: 16px;
+            color: #3498db;
+            text-decoration: none;
+            position: relative;
+            transition: transform 0.3s ease;
+            display: inline-block;
+            width: fit-content;
+        }
+        .back-link:before {
+            content: "\2190";
+            margin-right: 5px;
+        }
+        .back-link:after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 2px;
+            bottom: 0;
+            left: 0;
+            background-color: #3498db;
+            transform: scaleX(0);
+            transform-origin: bottom right;
+            transition: transform 0.3s ease;
+        }
+        .back-link:hover {
+            transform: scale(1.05);
+        }
+        .back-link:hover:after {
+            transform: scaleX(1);
+            transform-origin: bottom left;
+        }
+        .page-link {
+            font-family: Inter, sans-serif;
+            font-size: 16px;
+            font-weight: normal;
+            color: #3498db;
+            text-decoration: none;
+            position: relative;
+            transition: transform 0.3s ease;
+            display: inline-block;
+        }
+        .page-link:hover {
+            text-decoration: underline;
+        }
+        .bento-link {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 200px;
+            height: 100px;
+            background-color: #333333;
+            border-radius: 20px;
+            text-decoration: none;
+            color: #ffffff;
+            font-weight: 500;
+            font-size: 16px;
+            text-align: center;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+        .bento-link:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+        }
+        .bento-link::before {
+            font-size: 24px;
+            margin-bottom: 10px;
+            filter: invert(1);
+        }
     </style>
-</head>
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Animated Back Link</title>
     <style>
         .back-link {
@@ -146,6 +465,7 @@
             transform-origin: bottom left;
         }
     </style>
+    <title>Animated Page Link</title>
     <style>
     .page-link {
         font-family: Inter, sans-serif;
@@ -165,118 +485,85 @@
     .page-link:hover:after {
         text-decoration: none;
     }
+    .white-link {
+        color: #ffffff;
+    }
     </style>
-    <title>Apple-style Bento Box Link - Dark Theme</title>
-    <style>
-        .bento-link {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            width: 200px;
-            height: 100px;
-            background-color: #333333;
-            border-radius: 20px;
-            text-decoration: none;
-            color: #ffffff;
-            font-weight: 500;
-            font-size: 16px;
-            text-align: center;
-            padding: 20px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            transition: all 0.3s ease;
-        }
-
-        .bento-link:hover {
-            transform: scale(1.05);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
-        }
-    
-        .bento-link::before {
-            font-size: 24px;
-            margin-bottom: 10px;
-            filter: invert(1);
-        }
-    </style>
-    
 </head>
+
 <body>
     <a href="#" class="back-link" onclick="goBackToInframap(); return false;">Back to Infrastructure Map</a>
     <script>        
         function goBackToInframap() {
             if (window.parent !== window.self) {
-                // We're in an iframe
                 window.parent.postMessage({ action: 'navigateToInframap' }, '*');
             } else {
-                // We're not in an iframe, navigate directly
                 window.location.href = 'index.html#infra';
             }
         }
     </script>
-</body>
-<body>
+
     <h1>Beeswax</h1>     
     <a href='https://alphonsotv.atlassian.net/wiki/x/PYHtj' class="page-link">Confluence Page</a>
     <p><a href='https://alphonso.beeswax.com/advertisers' class="page-link">Beeswax</a> serves as an internal DSP, with tools for running all types of advertising campaigns (Native, CTV and Cross Screen).</p>
-    <p></p>
     <div class="diagram">
-        <!-- Boundary 1 -->
-    	<div class="boundary" style="width: 825px; height: 500px; top: 20px; left: 60px;"></div>
-        <div class="title" style="top: 40px; left: 20px;">Bid Flow</div>
-        <div class="title" style="top: 340px; left: 20px;">Data Flow</div>
-        
-        <!-- Arrows -->
-        <div class="arrow" style="width: 165px; top: 120px; left: 260px; transform: rotate(0deg);"></div>
-        <div class="arrow" style="width: 40px; top: 100px; left: 100px; transform: rotate(0deg);"></div>
-        <div class="arrow" style="width: 40px; top: 120px; left: 100px; transform: rotate(0deg);"></div>
-        <div class="arrow" style="width: 40px; top: 140px; left: 100px; transform: rotate(0deg);"></div>
-        <div class="arrow" style="width: 140px; top: 100px; left: 560px; transform: rotate(0deg);"></div>
-        <div class="arrow" style="width: 140px; top: 140px; left: 710px; transform: rotate(180deg);"></div>
-        <div class="arrow" style="width: 100px; top: 230px; left: 370px; transform: rotate(270deg);"></div>
-        <div class="arrow" style="width: 90px; top: 430px; left: 220px; transform: rotate(0deg);"></div>
-        <div class="arrow" style="width: 220px; top: 410px; left: 420px; transform: rotate(0deg);"></div>
-        <div class="arrow" style="width: 220px; top: 450px; left: 420px; transform: rotate(0deg);"></div>
-        <div class="arrow" style="width: 200px; top: 380px; left: 500px; transform: rotate(270deg);"></div>
+        <!-- Box1 -->
+        <div class="dotted-boundary-box" data-title="Bid Flow" style="width: 62%; height: 60%; top: 0%; left: 0%;"></div>
+        <div class="diagram-label" style="text-align: right; width: 7%; height: 10%; top: 11%; left: 0%;">Exchanges<br>(Bid<br>Requests)</div>
+        <div class="arrow" style="width: 3%; top: 10%; left: 8%; transform: rotate(0deg);"></div>
+        <div class="arrow" style="width: 3%; top: 14%; left: 8%; transform: rotate(0deg);"></div>
+        <div class="arrow" style="width: 3%; top: 18%; left: 8%; transform: rotate(0deg);"></div>
+        <div class="arrow" style="width: 3%; top: 22%; left: 8%; transform: rotate(0deg);"></div>
+		<div class="box blue" style="color:#ffffff; width: 10%; height: 16%; top: 8%; left: 13%;"><a href="https://alphonso.beeswax.com/advertisers?all=1" style="color: #ffffff; text-decoration: none;">Beeswax</a></div>
+        <div class="arrow" style="width: 5%; top: 16%; left: 24%; transform: rotate(0deg);"></div>
+		<div class="box green" style="width: 10%; height: 20%; top: 6%; left: 31%;">Beeswax<br>Custom<br>Bidder</div>
+        <div class="arrow" style="width: 7%; top: 12%; left: 41%; transform: rotate(0deg);"></div>
+        <div class="arrow" style="width: 7%; top: 18%; left: 49%; transform: rotate(180deg);"></div>
+        <div class="diagram-label" style=" text-align: center; width: 10%; height: 5%; top: 3%; left: 40%;">Auctions +<br>Eligible line items</div>
+        <div class="diagram-label" style=" text-align: center; width: 10%; height: 5%; top: 20%; left: 40%;">$ bid per<br>line item</div>
+        <div class="box yellow" style="width: 10%; height: 10%; top: 11%; left: 50%;">Bidding Agent</div>
+        <div class="line" style="width: 2%; top: 49%; left: 20%; transform: rotate(0deg);"></div>
+        <div class="box gray" style="width: 10%; height: 10%; top: 44%; left: 22%;">Data Augmenter</div>
+        <div class="box gray" style="width: 10%; height: 10%; top: 44%; left: 10%;"><a href="https://alphonso.beeswax.com/advertisers?all=1" style="color: #ffffff; text-decoration: none;">Segment Portal</a></div>
+        <div class="arrow" style="width: 9%; top: 43%; left: 27%; transform: rotate(270deg);"></div>
 
-        <!-- Bid Flow -->
-        <div class="box blue" style="color:#ffffff; width: 100px; height: 80px; top: 80px; left: 160px;"><a href="https://alphonso.beeswax.com/advertisers?all=1" style="color: #ffffff; text-decoration: none;">Beeswax</a></div>
-        <div class="box green" style="width: 120px; height: 100px; top: 70px; left: 440px;">Beeswax Custom Bidder</div>
-        <div class="box yellow" style="width: 100px; height: 80px; top: 80px; left: 710px;">Bidding Agent</div>
-        <div class="box gray" style="width: 100px; height: 60px; top: 230px; left: 320px;">Data Augmenter</div>
         
-        <!-- Data Flow -->
-        <div class="box yellow" style="width: 160px; height: 80px; top: 390px; left: 60px;">Ad is served and event trackers are fired</div>
-        <div class="box blue" style="width: 100px; height: 80px; top: 390px; left: 320px;">Beeswax Event Server</div>
+        <!-- Box2 -->
+        <div class="dotted-boundary-box" data-title="Data Flow" style="width: 62%; height: 34%; top: 64%; left: 0%;"></div>
+		<div class="box yellow" style="width: 10%; height: 15%; top: 75%; left: 2.5%;">Ad is served and event trackers are fired</div>
+        <div class="arrow" style="width: 5%; top: 82.5%; left: 13.5%; transform: rotate(0deg);"></div>
+        <div class="box blue" style="width: 10%; height: 15%; top: 75%; left: 20%;">Beeswax Event Server</div>
+        <div class="arrow" style="width: 17%; top: 78%; left: 31%; transform: rotate(0deg);"></div>
+        <div class="arrow" style="width: 17%; top: 86.5%; left: 31%; transform: rotate(0deg);"></div>
+        <div class="arrow" style="width: 17%; top: 73%; left: 36%; transform: rotate(270deg);"></div>
+       	<div class="diagram-label" style="text-align:center; width: 17%; top: 74%; left: 31%;">Real-time event stream</div>
+		<div class="diagram-label" style="text-align:center; width: 17%; top: 82.5%; left: 31%;">Batch delivery to s3</div>
+  		<div class="diagram-label" style="text-align:left; width: 10%; top: 74%; left: 50%;">Beeswax Reporting<br>Customer Data Store<br>Metamarkets<br>Snowflake</div>
         
-        <!-- Labels -->
-        <div class="label" style=" text-align: center; top: 95px; left: 20px;">Exchanges<br>(Bid<br>Requests)</div>
-        <div class="label" style=" text-align: center; top: 50px; left: 580px;">Auctions +<br>Eligible line items</div>
-        <div class="label" style="top: 150px; left: 580px;">$ bid per line item</div>
-        <div class="label" style="top: 390px; left: 460px;">Real-time event stream</div>
-        <div class="label" style="top: 430px; left: 460px;">Batch delivery to s3</div>
-        <div class="label" style="top: 385px; left: 660px;">Beeswax Reporting<br>Customer Data Store<br>Metamarkets<br>Snowflake</div>
-
-        <!--- boundary 2--->
-        <div class="boundary" style="width: 545px; height: 250px; top: 20px; left: 960px; position: absolute; top: 0px; left: 825px;"></div>
-        <div class="title" style="width: 400px; top: 40px; left: 850px;">Hexbid structure of Beeswax Custom Bidder</div>
-        <div class="box green" style="width: 120px; height: 100px; top: 100px; left: 960px;">Beeswax Custom Bidder</div>
-        <div class="arrow" style="width: 40px; top: 110px; left: 1120px; transform: rotate(150deg);"></div>
-        <div class="label" style="width: 150px; top: 100px; left: 1130px;">Standard strategies</div>
-        <div class="arrow" style="width: 40px; top: 150px; left: 1130px; transform: rotate(180deg);"></div>
-        <div class="label" style="width: 150px; top: 140px; left: 1140px;">Bid modifiers</div>
-        <div class="arrow" style="width: 40px; top: 190px; left: 1120px; transform: rotate(210deg);"></div>
-        <div class="label" style="width: 150px; top: 180px; left: 1130px;">Bid models</div>
+      
+        <!--- Box3--->
+        <div class="dotted-boundary-box" data-title="Hexbid structure of Beeswax" style="width: 38%; height: 49%; top: 0%; left: 63%;"></div>
+		<div class="box green" style="width: 10%; height: 20%; top: 15%; left: 68%;">Beeswax<br>Custom<br>Bidder</div>
         
-        <!--- boundary 3--->
-        <div class="boundary" style="width: 545px; height: 250px; top: 20px; left: 960px; position: absolute; top: 250px; left: 825px;"></div>
-        <div class="title" style="width: 400px; top: 290px; left: 850px;">Steps in a Beeswax Custom Bidder</div>
-        <div class="box step" style="width: 180px; height: 60px; top: 360px; left: 810px;">Targeting<br>match</div>
-        <div class="box step" style="width: 180px; height: 60px; top: 360px; left: 910px;">Creative<br>match</div>
-        <div class="box step" style="width: 180px; height: 60px; top: 360px; left: 1010px;">Frequency<br>cap</div>
-        <div class="box step" style="width: 180px; height: 60px; top: 360px; left: 1110px;">Available<br>budget</div>
-        <div class="box step" style="width: 180px; height: 60px; top: 360px; left: 1210px;">Pacing<br>(optional)</div>
+        <div class="arrow" style="width: 4%; top: 15%; left: 83%; transform: rotate(150deg);"></div>
+        <div class="diagram-label2" style="text-align:left; width: 10%; top: 13%; left: 84%;">Standard strategies</div>
+        
+        <div class="arrow" style="width: 4.5%; top: 25%; left: 84%; transform: rotate(180deg);"></div>
+        <div class="diagram-label2" style="text-align:left; width: 10%; top: 23%; left: 85%;">Bid modifiers</div>
+        
+        <div class="arrow" style="width: 4%; top: 35%; left: 83%; transform: rotate(210deg);"></div>
+        <div class="diagram-label2" style="text-align:left; width: 10%; top: 33%; left: 84%;">Bid models</div>
+        
+        <!--- Box4--->
+        <div class="dotted-boundary-box" data-title="Steps in a Beeswax Custom Bidder" style="width: 38%; height: 45%; top: 53%; left: 63%;"></div>
+        <div class="box step" style="width: 12%; height: 10%; top: 70%; left: 62%;">Targeting<br>match</div>
+        <div class="box step" style="width: 12%; height: 10%; top: 70%; left: 69%;">Creative<br>match</div>
+        <div class="box step" style="width: 12%; height: 10%; top: 70%; left: 76%;">Frequency<br>cap</div>
+        <div class="box step" style="width: 12%; height: 10%; top: 70%; left: 83%;">Available<br>budget</div>
+        <div class="box step" style="width: 12%; height: 10%; top: 70%; left: 90%;">Pacing<br>(optional)</div>
     </div>
 
-    <p style="margin-top: -20px;"><strong>Here are some additional details about Beeswax:</strong></p>
+    <p style="margin-top: 30px;"><strong>Here are some additional details about Beeswax:</strong></p>
     <ul style="margin-top: -6px;">
         <li>Beeswax is a self-service platform, allowing advertisers to run campaigns without a managed service. However, Beeswax also offers managed services to help advertisers optimize their campaigns.</li>
         <li>Beeswax ingests first-party data from advertisers to improve targeting and bidding. It can incorporate data like purchase history, website activity, app usage, and more.</li>
