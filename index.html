@@ -98,6 +98,47 @@
             background-color: #D1D1D6;
             color: black;
         }
+        .cylinder{
+            width:200px;
+            height:150px;
+            background:#FFCC00;
+            border-radius:100px/30px;
+            position:relative;
+            overflow:hidden;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            color:#000000;
+            font-family:Inter,sans-serif;
+            font-size:18px;
+            text-align:center;
+            transition: transform 0.3s;
+        }
+        .cylinder::before{
+            position:absolute;
+            width:100%;
+            height:100%;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            z-index:2;
+        }
+        .cylinder::after{
+            content:'';
+            position:absolute;
+            width:calc(100% + 4px);
+            height:calc(100% + 4px);
+            top:-2px;
+            left:-2px;
+            border:2px solid #fff;
+            border-radius:inherit;
+            box-sizing:border-box;
+            pointer-events:none;
+        }
+        .cylinder:hover {
+            transform: scale(1.1);
+            z-index: 10;
+            }
         .line {
             position: absolute;
             height: 2.5px;
@@ -157,7 +198,6 @@
             border-bottom: 5px solid transparent;
             border-left: 10px solid #FF3B30;
         }
-        
         .dottedarrow {
             position: absolute;
             height: 2px;

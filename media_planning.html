@@ -3,30 +3,66 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Media Planning</title>
+    <title>Reporting</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
     <style>
         body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+            font-family: 'Inter', sans-serif;
             line-height: 1.6;
             padding: 20px;
             display: flex;
             flex-direction: column;
             color: #333;
-            display: flex;
-            }
+        }
         .diagram {
             position: relative;
-            width: 900px;
-            height: 600px;
-
+            font-family:Inter,sans-serif;
+            width: 100%;
+            height: 0%;
+            padding-bottom: 40%;
+            overflow: visible;
+            font-size: 16px;
+        }
+        .diagram-title {
+            position: absolute;
+            font-weight: bold;
+            font-size: 20px;
+        }
+        .diagram-label {
+            position: absolute;
+            font-size: 16px;
         }
         .boundary {
-        border: 2px dotted #ccc
+            border: 2px dotted #ccc;
+            position: absolute;
+            width: 75%;
+            height: 0%;
+            top: 0;
+            left: 0;
+            box-sizing: border-box;
+            transform: translateX(17.5%);
+        }
+        .dotted-boundary-box {
+            position: absolute;
+            border: 2px dotted #000;
+            padding: 0px;
+            font-size: 16px;
+            border-radius: 12.5px; 
+        }
+
+        .dotted-boundary-box::before {
+            content: attr(data-title);
+            position: absolute;
+            top: -12.5px;
+            left: 12.5px;
+            background-color: white;
+            /*padding: 0 5px;*/
+            font-weight: bold;
         }
         .box {
             position: absolute;
             display: flex;
+            font-family:Inter,sans-serif;
             justify-content: center;
             align-items: center;
             text-align: center;
@@ -40,9 +76,12 @@
             transform: scale(1.1);
             z-index: 10;
         }
+        .box:visited {
+            color: inherit;
+        }
         .yellow {
             background-color: #FFCC00;
-            border: 2px dashed #000;
+            border: 0px solid #000;
             color: black;
         }
         .blue {
@@ -53,39 +92,13 @@
             background-color: #34C759;
             color: white;
         }
-        .red{
+        .red {
             background-color: #FF3B30;
             color: white;
         }
-        .step {
-        	font-size: 14px;
-        	background-color: #FFCC00;
-            border: 2px solid;
-            border-color: #000000;
-            color: #000000;
-            clip-path: polygon(25% 0%, 75% 0%, 80% 50%, 75% 100%, 25% 100%, 30% 50%);
-            text-align: center;
-        }
         .gray {
             background-color: #D1D1D6;
-            color: #000000;
-        }
-        .arrow {
-            position: absolute;
-            height: 3px;
-            background-color: black;
-            transform-origin: 0 50%;
-        }
-        .arrow::after {
-            content: '';
-            position: absolute;
-            right: -10px;
-            top: -3.5px;
-            width: 0;
-            height: 0;
-            border-top: 5px solid transparent;
-            border-bottom: 5px solid transparent;
-            border-left: 10px solid black;
+            color: black;
         }
         .cylinder{
             width:200px;
@@ -98,8 +111,7 @@
             align-items:center;
             justify-content:center;
             color:#000000;
-            font-family:Arial,sans-serif;
-            font-size:18px;
+            font-family:Inter,sans-serif;
             text-align:center;
             transition: transform 0.3s;
         }
@@ -128,6 +140,98 @@
             transform: scale(1.1);
             z-index: 10;
             }
+        .line {
+            position: absolute;
+            height: 2.5px;
+            background-color: black;
+            transform-origin: 0 50%;
+        }
+		.arrow {
+            position: absolute;
+            height: 3px;
+            background-color: black;
+            transform-origin: 0 50%;
+        }
+        .arrow::after {
+            content: '';
+            position: absolute;
+            right: -10px;
+            top: -3.5px;
+            width: 0;
+            height: 0;
+            border-top: 5px solid transparent;
+            border-bottom: 5px solid transparent;
+            border-left: 10px solid black;
+        }
+        .greenarrow {
+            position: absolute;
+            height: 3px;
+            background-color: #34C759;
+            transform-origin: 0 50%;
+            cursor: pointer;
+        }
+        .greenarrow::after {
+            content: '';
+            position: absolute;
+            right: -10px;
+            top: -3.5px;
+            width: 0;
+            height: 0;
+            border-top: 5px solid transparent;
+            border-bottom: 5px solid transparent;
+            border-left: 10px solid #34C759;
+        }
+        .redarrow {
+            position: absolute;
+            height: 3px;
+            background-color: #FF3B30;
+            transform-origin: 0 50%;
+            cursor: pointer;
+        }
+        .redarrow::after {
+            content: '';
+            position: absolute;
+            right: -10px;
+            top: -3.5px;
+            width: 0;
+            height: 0;
+            border-top: 5px solid transparent;
+            border-bottom: 5px solid transparent;
+            border-left: 10px solid #FF3B30;
+        }
+        .dottedarrow {
+            position: absolute;
+            height: 2px;
+            background-color: transparent;
+            transform-origin: 0 50%;
+            background-image: linear-gradient(to right, black 50%, transparent 50%);
+            background-size: 8px 2px;
+            background-repeat: repeat-x;
+        }
+        .dottedarrow::after {
+            content: '';
+            position: absolute;
+            right: -10px;
+            top: -4px;
+            width: 0;
+            height: 0;
+            border-top: 5px solid transparent;
+            border-bottom: 5px solid transparent;
+            border-left: 10px solid black;
+        }
+        .content-wrapper {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+        .diagram-container {
+            width: 100%;
+            margin-bottom: 40px;
+        }
+        .lists-container {
+            width: 100%;
+        }
         .title {
             position: absolute;
             font-weight: bold;
@@ -137,15 +241,175 @@
             position: absolute;
             font-size: 14px;
         }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
         }
-        h1 { color: #2c3e50; }
+        #graphTitle {
+            margin: 0;
+        }
+        .switch-container {
+            display: flex;
+            align-items: center;
+        }
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 60px;
+            height: 34px;
+            margin-left: 10px;
+        }
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 34px;
+        }
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 26px;
+            width: 26px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+        input:checked + .slider {
+            background-color: #2196F3;
+        }
+        input:checked + .slider:before {
+            transform: translateX(26px);
+        }
         a { color: #3498db; text-decoration: none; }
         a:hover { text-decoration: none; }
+        h1, h2 { color: #2c3e50;}
+
+        /*4K resolution*/
+        @media (max-width: 3840px) {
+            .diagram { font-size: 1.5vw; }
+            .diagram-title { font-size: 1.875vw; }
+            .diagram-label {font-size: 1.125vw;}
+            .dotted-boundary-box{font-size: 1.5vw;}
+        }
+        /*2K resolution*/
+        @media (max-width: 2560px) {
+            .diagram {font-size: 0.6vw; }
+            .diagram-label {font-size: 0.6vw;}
+            .dotted-boundary-box{font-size: 0.75vw;}
+        }
+        /*iPhone*/
+        @media (max-width: 393px) {
+            .diagram { position: absolute; width: 100%; font-size:0.1535vw; }
+            .content-wrapper {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                margin-top: 20px;}
+            .diagram-container {width: 75%;}
+            .lists-container {width: 100%;}
+            .diagram-title { font-size: 0.192vw; }
+            .diagram-label {font-size: 0.1151vw;}
+            .dotted-boundary-box{font-size: 0.1535vw;}
+        }
+        /*Macbook Air M1*/
+        @media (max-width: 1440px) {
+            .diagram {font-size: 1vw; }
+            .diagram-title { font-size: 1.25vw; }
+            .diagram-label {font-size: 1vw;}
+            .dotted-boundary-box{font-size: 1vw;}
+        }
+        .back-link {
+            font-family: Inter, sans-serif;
+            font-size: 16px;
+            color: #3498db;
+            text-decoration: none;
+            position: relative;
+            transition: transform 0.3s ease;
+            display: inline-block;
+            width: fit-content;
+        }
+        .back-link:before {
+            content: "\2190";
+            margin-right: 5px;
+        }
+        .back-link:after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 2px;
+            bottom: 0;
+            left: 0;
+            background-color: #3498db;
+            transform: scaleX(0);
+            transform-origin: bottom right;
+            transition: transform 0.3s ease;
+        }
+        .back-link:hover {
+            transform: scale(1.05);
+        }
+        .back-link:hover:after {
+            transform: scaleX(1);
+            transform-origin: bottom left;
+        }
+        .page-link {
+            font-family: Inter, sans-serif;
+            font-size: 16px;
+            font-weight: normal;
+            color: #3498db;
+            text-decoration: none;
+            position: relative;
+            transition: transform 0.3s ease;
+            display: inline-block;
+        }
+        .page-link:hover {
+            text-decoration: underline;
+        }
+        .bento-link {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 200px;
+            height: 100px;
+            background-color: #333333;
+            border-radius: 20px;
+            text-decoration: none;
+            color: #ffffff;
+            font-weight: 500;
+            font-size: 16px;
+            text-align: center;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+        .bento-link:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+        }
+        .bento-link::before {
+            font-size: 24px;
+            margin-bottom: 10px;
+            filter: invert(1);
+        }
+    </style>
+</head>
+
     </style>
 </head>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Animated Back Link</title>
     <style>
         .back-link {
@@ -187,6 +451,8 @@
             transform-origin: bottom left;
         }
     </style>
+
+    <title>Animated Page Link</title>
     <style>
     .page-link {
         font-family: Inter, sans-serif;
@@ -206,40 +472,13 @@
     .page-link:hover:after {
         text-decoration: none;
     }
+    .white-link {
+        color: #ffffff;
+    }
     </style>
-    <title>Apple-style Bento Box Link - Dark Theme</title>
-    <style>
-        .bento-link {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            width: 200px;
-            height: 100px;
-            background-color: #333333;
-            border-radius: 20px;
-            text-decoration: none;
-            color: #ffffff;
-            font-weight: 500;
-            font-size: 16px;
-            text-align: center;
-            padding: 20px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            transition: all 0.3s ease;
-        }
-
-        .bento-link:hover {
-            transform: scale(1.05);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
-        }
-    
-        .bento-link::before {
-            font-size: 24px;
-            margin-bottom: 10px;
-            filter: invert(1);
-        }
-    </style>
-    
 </head>
+
+
 <body>
     <a href="#" class="back-link" onclick="goBackToInframap(); return false;">Back to Infrastructure Map</a>
     <script>        
@@ -255,40 +494,36 @@
     </script>
 </body>
 <body>
-    <h1>Media Planning</h1>     
+    <h1 style="font-family:Inter,sans-serif;">Sales Engineering</h1>     
     <p><a href='https://alphonsotv.atlassian.net/wiki/x/VAB6kQ' class="page-link">Confluence Page</a></p>
-    
     <div class="diagram">
         <!-- Boundary 1 -->
-    	<div class="boundary" style="width: 1350px; height: 480px; top: 20px; left: 60px;"></div>
 
         <!-- Box1 -->
-        <div class="box gray" style="width: 120px; height: 60px; top: 215px; left: 60px;">Advertisers </div>
-        <div class="arrow" style="width: 80px; top: 245px; left: 200px; transform: rotate(0deg);"></div>
+        <div class="box gray" style="width: 10%; height: 10%; top: 35%; left: 3%;">Advertisers </div>
+        <div class="arrow" style="width: 5%; top: 40%; left: 13.5%; transform: rotate(0deg);"></div>
         
-        <div class="boundary" style="position: absolute; width: 220px; height: 430px; top: 20px; left: 310px;"></div>
-        <div class="label" style="font-size:16px; font-weight: bold; text-align:center; width: 180px; height: 60px; top: 30px; left: 330px;">Outreach</div>
-        <div class="box blue" style="width: 180px; height: 60px; top: 70px; left: 330px;">Sales</div>
-        <div class="arrow" style="width: 60px; top: 130px; left: 400px; transform: rotate(90deg);"></div>
-        <div class="arrow" style="width: 60px; top: 200px; left: 440px; transform: rotate(270deg);"></div>
-        <div class="box blue" style="width: 180px; height: 90px; top: 200px; left: 330px;">Account Management</div>
-        <div class="arrow" style="width: 60px; top: 290px; left: 400px; transform: rotate(90deg);"></div>
-        <div class="arrow" style="width: 60px; top: 360px; left: 440px; transform: rotate(270deg);"></div>
-        <div class="box blue" style="width: 180px; height: 60px; top: 360px; left: 330px;">Media Planning</div>
+        <div class="dotted-boundary-box" data-title="Outreach" style="width: 14%; height: 60%; top: 10%; left: 20%;"></div>
+        <div class="box blue" style="width: 10%; height: 10%; top: 15%; left: 22%;">Sales</div>
+        <div class="arrow" style="width: 3%; top: 25%; left: 25%; transform: rotate(90deg);"></div>
+        <div class="arrow" style="width: 3%; top: 34%; left: 29%; transform: rotate(270deg);"></div>
+        <div class="box blue" style="width: 10%; height: 10%; top: 35%; left: 22%;">Account Management</div>
+        <div class="arrow" style="width: 3%; top: 45%; left: 25%; transform: rotate(90deg);"></div>
+        <div class="arrow" style="width: 3%; top: 54%; left: 29%; transform: rotate(270deg);"></div>
+        <div class="box blue" style="width: 10%; height: 10%; top: 55%; left: 22%;">Media Planning</div>
         
-        <div class="arrow" style="width: 120px; top: 245px; left: 560px; transform: rotate(0deg);"></div>
-        <div class="label" style="text-align: center; width: 120px; height: 480px; top: 220px; left: 560px;"> Closed/Won</div>
-        <div class="label" style="text-align: center; width: 150px; height: 480px; top: 250px; left: 550px;"> Creates Campaign</div>
+        <div class="arrow" style="width: 12.5%; top: 40%; left: 35%; transform: rotate(0deg);"></div>
+        <div class="diagram-label" style=" text-align: center; width: 12.5%; height: 10%; top: 35%; left: 35%;"> Closed/Won</div>
+        <div class="diagram-label" style=" text-align: center; width: 12.5%; height: 10%; top: 41%; left: 35%;"> Creates Campaign</div>
 
-		<div class="boundary" style="position: absolute; width: 220px; height: 340px; top: 70px; left: 710px;"></div>
-        <div class="label" style="font-size:16px; font-weight: bold; text-align:center; width: 220px; height: 60px; top: 80px; left: 710px;">Data</div>
-        <div class="cylinder" style="position: absolute; width: 150px; height: 80px; top: 120px; left: 745px;" >Salesforce</div>
-        <div class="label" style="text-align: left; width: 120px; height: 480px; top: 225px; left: 830px;"> Opportunity details</div>
-        <div class="arrow" style="width: 90px; top: 200px; left: 820px; transform: rotate(90deg);"></div>
-        <div class="cylinder" style="position: absolute; width: 150px; height: 80px; top: 300px; left: 745px;" >Mosaic</div>
+        <div class="dotted-boundary-box" data-title="Data" style="width: 16%; height: 50%; top: 15%; left: 49%;"></div>
+        <div class="cylinder" style="position: absolute; width: 10%; height: 12.5%; top: 20%; left: 52%;" >Salesforce</div>
+        <div class="diagram-label" style="text-align: left; width: 15%; height: 10%; top: 36%; left: 58%;"> Opportunity<br>details</div>
+        <div class="arrow" style="width: 5%; top: 33%; left: 57%; transform: rotate(90deg);"></div>
+        <div class="cylinder" style="position: absolute; width: 10%; height: 12.5%; top: 49%; left: 52%;" >Mosaic</div>
 
-        <div class="arrow" style="width: 120px; top: 245px; left: 950px; transform: rotate(0deg);"></div>
-        <div class="box gray" style="width: 150px; height: 80px; top: 205px; left: 1100px;">Campaign Management</div>
+        <div class="arrow" style="width: 5%; top: 40%; left: 66%;"></div>
+        <div class="box gray" style="width: 10%; height: 15%; top: 32.5%; left: 72.5%;">Campaign Management</div>
     </div>
 </body>
 </html>
