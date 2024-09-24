@@ -3,25 +3,60 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Inventory</title>
+    <title>Operations Flow</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
     <style>
         body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+            font-family: 'Inter', sans-serif;
             line-height: 1.6;
             padding: 20px;
             display: flex;
             flex-direction: column;
             color: #333;
-            display: flex;
+        }
         .diagram {
             position: relative;
-            width: 900px;
-            height: 600px;
-
+            width: 100%;
+            height: 0%;
+            padding-bottom: 40%;
+            overflow: visible;
+            font-size: 16px;
+        }
+        .diagram-title {
+            position: absolute;
+            font-weight: bold;
+            font-size: 20px;
+        }
+        .diagram-label {
+            position: absolute;
+            font-size: 16px;
         }
         .boundary {
-        border: 2px dotted #ccc
+            border: 2px dotted #ccc;
+            position: absolute;
+            width: 75%;
+            height: 0%;
+            top: 0;
+            left: 0;
+            box-sizing: border-box;
+            transform: translateX(17.5%);
+        }
+        .dotted-boundary-box {
+            position: absolute;
+            border: 2px dotted #000;
+            padding: 0px;
+            font-size: 16px;
+            border-radius: 12.5px; 
+        }
+
+        .dotted-boundary-box::before {
+            content: attr(data-title);
+            position: absolute;
+            top: -15px;
+            left: 25px;
+            background-color: white;
+            /*padding: 0 5px;*/
+            font-weight: bold;
         }
         .box {
             position: absolute;
@@ -44,41 +79,135 @@
         }
         .yellow {
             background-color: #FFCC00;
-            border: 2px dashed #000;
+            border: 0px solid #000;
             color: black;
         }
         .blue {
             background-color: #007AFF;
             color: white;
         }
-        .red{
-            background-color: #FF3B30;
-            color: white;
-        }
         .green {
             background-color: #34C759;
             color: white;
         }
-        .step {
-        	font-size: 14px;
-        	background-color: #FFCC00;
-            border: 2px solid;
-            border-color: #000000;
-            color: #000000;
-            clip-path: polygon(25% 0%, 75% 0%, 80% 50%, 75% 100%, 25% 100%, 30% 50%);
-            text-align: center;
+        .red {
+            background-color: #FF3B30;
+            color: white;
         }
         .gray {
             background-color: #636366;
             color: #ffffff;
         }
-        .arrow {
+        .cylinder{
+            width:200px;
+            height:150px;
+            background:#FFCC00;
+            border-radius:100px/30px;
+            position:relative;
+            overflow:hidden;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            color:#000000;
+            font-family:Inter,sans-serif;
+            font-size:18px;
+            text-align:center;
+            transition: transform 0.3s;
+        }
+        .cylinder::before{
+            position:absolute;
+            width:100%;
+            height:100%;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            z-index:2;
+        }
+        .cylinder::after{
+            content:'';
+            position:absolute;
+            width:calc(100% + 4px);
+            height:calc(100% + 4px);
+            top:-2px;
+            left:-2px;
+            border:2px solid #fff;
+            border-radius:inherit;
+            box-sizing:border-box;
+            pointer-events:none;
+        }
+        .cylinder:hover {
+            transform: scale(1.1);
+            z-index: 10;
+            }
+        .line {
             position: absolute;
-            height: 2px;
+            height: 2.5px;
+            background-color: black;
+            transform-origin: 0 50%;
+        }
+		.arrow {
+            position: absolute;
+            height: 3px;
             background-color: black;
             transform-origin: 0 50%;
         }
         .arrow::after {
+            content: '';
+            position: absolute;
+            right: -10px;
+            top: -3.5px;
+            width: 0;
+            height: 0;
+            border-top: 5px solid transparent;
+            border-bottom: 5px solid transparent;
+            border-left: 10px solid black;
+        }
+        .greenarrow {
+            position: absolute;
+            height: 3px;
+            background-color: #34C759;
+            transform-origin: 0 50%;
+            cursor: pointer;
+        }
+        .greenarrow::after {
+            content: '';
+            position: absolute;
+            right: -10px;
+            top: -3.5px;
+            width: 0;
+            height: 0;
+            border-top: 5px solid transparent;
+            border-bottom: 5px solid transparent;
+            border-left: 10px solid #34C759;
+        }
+        .redarrow {
+            position: absolute;
+            height: 3px;
+            background-color: #FF3B30;
+            transform-origin: 0 50%;
+            cursor: pointer;
+        }
+        .redarrow::after {
+            content: '';
+            position: absolute;
+            right: -10px;
+            top: -3.5px;
+            width: 0;
+            height: 0;
+            border-top: 5px solid transparent;
+            border-bottom: 5px solid transparent;
+            border-left: 10px solid #FF3B30;
+        }
+        .dottedarrow {
+            position: absolute;
+            height: 2px;
+            background-color: transparent;
+            transform-origin: 0 50%;
+            background-image: linear-gradient(to right, black 50%, transparent 50%);
+            background-size: 8px 2px;
+            background-repeat: repeat-x;
+        }
+        .dottedarrow::after {
             content: '';
             position: absolute;
             right: -10px;
@@ -89,24 +218,199 @@
             border-bottom: 5px solid transparent;
             border-left: 10px solid black;
         }
+        .content-wrapper {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+        .diagram-container {
+            width: 100%;
+            margin-bottom: 40px;
+        }
+        .lists-container {
+            width: 100%;
+        }
         .title {
             position: absolute;
             font-weight: bold;
-            font-size: 18px;
+            font-size: 24px;
         }
         .label {
             position: absolute;
             font-size: 14px;
         }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
         }
-        h1 { color: #2c3e50; }
+        #graphTitle {
+            margin: 0;
+        }
+        .switch-container {
+            display: flex;
+            align-items: center;
+        }
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 60px;
+            height: 34px;
+            margin-left: 10px;
+        }
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 34px;
+        }
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 26px;
+            width: 26px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+        input:checked + .slider {
+            background-color: #2196F3;
+        }
+        input:checked + .slider:before {
+            transform: translateX(26px);
+        }
         a { color: #3498db; text-decoration: none; }
         a:hover { text-decoration: none; }
+        h1, h2 { color: #2c3e50;}
+
+        /*4K resolution*/
+        @media (max-width: 3840px) {
+            .diagram { font-size: 1.5vw; }
+            .diagram-title { font-size: 1.875vw; }
+            .diagram-label {font-size: 1.125vw;}
+            .dotted-boundary-box{font-size: 1.5vw;}
+        }
+        /*2K resolution*/
+        @media (max-width: 2560px) {
+            .diagram {font-size: 0.5625vw; }
+            .diagram-title { font-size: 0.5625vw;}
+            .diagram-label {font-size: 0.5625vw;}
+            .dotted-boundary-box{font-size: 0.6vw;}
+        }
+        /*iPhone*/
+        @media (max-width: 393px) {
+            .diagram { position: absolute; width: 100%; font-size:0.1535vw; }
+            .content-wrapper {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                margin-top: 20px;}
+            .diagram-container {width: 75%;}
+            .lists-container {width: 100%;}
+            .diagram-title { font-size: 0.192vw; }
+            .diagram-label {font-size: 0.1151vw;}
+            .dotted-boundary-box{font-size: 0.1535vw;}
+        }
+        /*Macbook Air M1*/
+        @media (max-width: 1440px) {
+            .diagram {font-weight: semi-bold; font-size: 1vw; }
+            .diagram-title { font-size: 1.25vw; }
+            .diagram-label {font-size: 1vw;}
+            .dotted-boundary-box{font-size: 1.25vw;}
+        }
+        .back-link {
+            font-family: Inter, sans-serif;
+            font-size: 16px;
+            color: #3498db;
+            text-decoration: none;
+            position: relative;
+            transition: transform 0.3s ease;
+            display: inline-block;
+            width: fit-content;
+        }
+        .back-link:before {
+            content: "\2190";
+            margin-right: 5px;
+        }
+        .back-link:after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 2px;
+            bottom: 0;
+            left: 0;
+            background-color: #3498db;
+            transform: scaleX(0);
+            transform-origin: bottom right;
+            transition: transform 0.3s ease;
+        }
+        .back-link:hover {
+            transform: scale(1.05);
+        }
+        .back-link:hover:after {
+            transform: scaleX(1);
+            transform-origin: bottom left;
+        }
+        .page-link {
+            font-family: Inter, sans-serif;
+            font-size: 16px;
+            font-weight: normal;
+            color: #3498db;
+            text-decoration: none;
+            position: relative;
+            transition: transform 0.3s ease;
+            display: inline-block;
+            width: fit-content;
+        }
+        .page-link:hover {
+            text-decoration: underline;
+        }
+        .bento-link {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 200px;
+            height: 100px;
+            background-color: #333333;
+            border-radius: 20px;
+            text-decoration: none;
+            color: #ffffff;
+            font-weight: 500;
+            font-size: 16px;
+            text-align: center;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+        .bento-link:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+        }
+        .bento-link::before {
+            font-size: 24px;
+            margin-bottom: 10px;
+            filter: invert(1);
+        }
+    </style>
+</head>
+
     </style>
 </head>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Animated Back Link</title>
     <style>
         .back-link {
@@ -148,6 +452,8 @@
             transform-origin: bottom left;
         }
     </style>
+
+    <title>Animated Page Link</title>
     <style>
     .page-link {
         font-family: Inter, sans-serif;
@@ -158,7 +464,6 @@
         position: relative;
         transition: transform 0.3s ease;
         display: inline-block;
-        width: fit-content;
     }
 
     .page-link:hover {
@@ -168,40 +473,12 @@
     .page-link:hover:after {
         text-decoration: none;
     }
+    .white-link {
+        color: #ffffff;
+    }
     </style>
-    <title>Apple-style Bento Box Link - Dark Theme</title>
-    <style>
-        .bento-link {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            width: 200px;
-            height: 100px;
-            background-color: #333333;
-            border-radius: 20px;
-            text-decoration: none;
-            color: #ffffff;
-            font-weight: 500;
-            font-size: 16px;
-            text-align: center;
-            padding: 20px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            transition: all 0.3s ease;
-        }
-
-        .bento-link:hover {
-            transform: scale(1.05);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
-        }
-    
-        .bento-link::before {
-            font-size: 24px;
-            margin-bottom: 10px;
-            filter: invert(1);
-        }
-    </style>
-    
 </head>
+
 <body>
     <a href="#" class="back-link" onclick="goBackToInframap(); return false;">Back to Infrastructure Map</a>
     <script>        
@@ -218,41 +495,42 @@
 </body>
 <body>
     <h1>Inventory</h1>     
-    <a href='https://alphonsotv.atlassian.net/wiki/x/AYDmeQ' class="page-link">Confluence Page</a>
-    <p>The following flow-chart depicts the types of inventory across various devices and some overlaps too.</p>
-    
+    <a href='https://alphonsotv.atlassian.net/wiki/x/AYDmeQ' class="page-link">Confluence Page</a>    
     <div class="diagram">
         <!-- Boundary 1 -->
-    	<div class="boundary" style="width: 1360px; height: 600px; top: 20px; left: 60px;"></div>
+    	<div class="dotted-boundary-box" data-title="Inventory Split" style="width: 100%; height: 75%; top: 5%; left: 0%;"></div>
         
         <!-- Level1 -->
-        <div class="box gray" style="width: 100px; height: 80px; top: 80px; left: 630px;">Inventory</div>
-        <div class="arrow" style="width: 80px; top: 160px; left: 630px; transform: rotate(150deg);"></div>
-        <div class="arrow" style="width: 80px; top: 160px; left: 730px; transform: rotate(30deg);"></div>
+        <div class="box gray" style="width: 10%; height: 10%; top: 10%; left: 45%;">Inventory</div>
+        <div class="arrow" style="width: 5%; top: 21%; left: 45%; transform: rotate(150deg);"></div>
+        <div class="arrow" style="width: 5%; top: 21%; left: 55%; transform: rotate(30deg);"></div>
 
         <!-- Level2 -->
-        <div class="box blue" style="width: 100px; height: 80px; top: 210px; left: 450px;">LG</div>
-        <div class="arrow" style="width: 80px; top: 290px; left: 450px; transform: rotate(150deg);"></div>
-        <div class="arrow" style="width: 80px; top: 290px; left: 550px; transform: rotate(30deg);"></div>
-        <div class="box red" style="width: 100px; height: 80px; top: 210px; left: 810px;">External</div>
-        <div class="arrow" style="width: 80px; top: 290px; left: 810px; transform: rotate(150deg);"></div>
-        <div class="arrow" style="width: 80px; top: 290px; left: 910px; transform: rotate(30deg);"></div>
+        <div class="box blue" style="width: 10%; height: 10%; top: 29%; left: 35%;">LG</div>
+        <div class="arrow" style="width: 5%; top: 39%; left: 35%; transform: rotate(150deg);"></div>
+        <div class="arrow" style="width: 5%; top: 39%; left: 45%; transform: rotate(30deg);"></div>
+        <div class="box red" style="width: 10%; height: 10%; top: 29%; left: 55%;">External</div>
+        <div class="arrow" style="width: 5%; top: 39%; left: 55%; transform: rotate(150deg);"></div>
+        <div class="arrow" style="width: 5%; top: 39%; left: 65%; transform: rotate(30deg);"></div>
+     
         
         <!-- Level3 -->
-        <div class="box blue" style="width: 100px; height: 80px; top: 340px; left: 270px;"><a href='inventory-native.html' style="color: #ffffff; text-decoration: none;">Native</a></div>
-        <div class="arrow" style="width: 40px; top: 420px; left: 320px; transform: rotate(90deg);"></div>
-        <div class="box green" style="width: 100px; height: 80px; top: 340px; left: 630px;"><a href='inventory-ctv.html' style="color: #ffffff; text-decoration: none;">CTV</a></div>
-        <div class="arrow" style="width: 80px; top: 420px; left: 630px; transform: rotate(150deg);"></div>
-        <div class="arrow" style="width: 40px; top: 420px; left: 680px; transform: rotate(90deg);"></div>
-        <div class="arrow" style="width: 80px; top: 420px; left: 730px; transform: rotate(30deg);"></div>
-        <div class="box red" style="width: 100px; height: 80px; top: 340px; left: 990px;"><a href='inventory-cross-screen.html' style="color: #ffffff; text-decoration: none;">Cross Screen</a></div>
-        <div class="arrow" style="width: 80px; top: 420px; left: 990px; transform: rotate(150deg);"></div>
-
+        <div class="box blue" style="width: 10%; height: 10%; top: 47%; left: 25%;"><a href='inventory-native.html' style="color: #ffffff; text-decoration: none;">Native</a></div>
+        <div class="arrow" style="width: 2%; top: 57%; left: 30%; transform: rotate(90deg);"></div>
+        <div class="box green" style="width: 10%; height: 10%; top: 47%; left: 45%;"><a href='inventory-ctv.html' style="color: #ffffff; text-decoration: none;">CTV</a></div>
+        <div class="arrow" style="width: 5%; top: 57%; left: 45%; transform: rotate(150deg);"></div>
+        <div class="arrow" style="width: 2%; top: 57%; left: 50%; transform: rotate(90deg);"></div>
+        <div class="arrow" style="width: 5%; top: 57%; left: 55%; transform: rotate(30deg);"></div>
+        <div class="box red" style="width: 10%; height: 10%; top: 47%; left: 65%;"><a href='inventory-cross-screen.html' style="color: #ffffff; text-decoration: none;">Cross Screen</a></div>
+        <div class="arrow" style="width: 5%; top: 57%; left: 65%; transform: rotate(150deg);"></div>
+        
         <!-- Level4 -->
-        <div class="box gray" style="width: 100px; height: 80px; top: 470px; left: 810px;"><a href='inventory-open-market.html' style="color: #ffffff; text-decoration: none;">Open Market</a></div>
-        <div class="box green" style="width: 100px; height: 80px; top: 470px; left: 630px;"><a href='inventory-ads-plus.html' style="color: #ffffff; text-decoration: none;">Ads Plus</a></div>
-        <div class="box green" style="width: 100px; height: 80px; top: 470px; left: 450px;"><a href='inventory-O&O.html' style="color: #ffffff; text-decoration: none;">O&O</a></div>
-        <div class="box blue" style="width: 100px; height: 80px; top: 470px; left: 270px;"><a href='inventory-adslots.html' style="color: #ffffff; text-decoration: none;">Ad Slots</a></div>
+        <div class="box green" style="width: 6%; height: 10%; top: 65%; left: 47%;"><a href='inventory-ads-plus.html' style="color: #ffffff; text-decoration: none;">Ads Plus</a></div>
+        <div class="box green" style="width: 6%; height: 10%; top: 65%; left: 37%;"><a href='inventory-O&O.html' style="color: #ffffff; text-decoration: none;">O&O</a></div>
+        <div class="box green" style="width: 6%; height: 10%; top: 65%; left: 57%;"><a href='inventory-open-market.html' style="color: #ffffff; text-decoration: none;">Open Market</a></div>
+        
+		<div class="box blue" style="width: 10%; height: 10%; top: 65%; left: 25%;"><a href='inventory-adslots.html' style="color: #ffffff; text-decoration: none;">Ad Slots</a></div>
+        
     </div>
 </body>
 </html>
