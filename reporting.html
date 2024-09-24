@@ -21,7 +21,9 @@
             padding-bottom: 40%;
             overflow: visible;
             font-size: 16px;
-            transform: translateX(17.5%);
+            align-items:center;
+            
+            
         }
         .diagram-title {
             position: absolute;
@@ -53,10 +55,9 @@
         .dotted-boundary-box::before {
             content: attr(data-title);
             position: absolute;
-            top: -12.5px;
-            left: 10px;
+            top: -20px;
+            left: 20px;
             background-color: white;
-            /*padding: 0 5px;*/
             font-weight: bold;
         }
         .box {
@@ -147,10 +148,13 @@
             flex-wrap: wrap;
             justify-content: space-between;
             margin-top: 20px;
+            
         }
         .diagram-container {
-            width: 100%;
+            width: 75%;
             margin-bottom: 40px;
+            align-items: center;
+            transform: translateX(30%);
         }
         .lists-container {
             width: 100%;
@@ -161,41 +165,43 @@
         a { color: #3498db; text-decoration: none; }
         a:hover { text-decoration: none; }
 
+        /*4K resolution*/
         @media (max-width: 3840px) {
-            .diagram { font-size: 0.417vw; }
-            .diagram-title { font-size: 0.417vw; }
-            .diagram-label {font-size: 0.417vw;}
-            .dotted-boundary-box{font-size: 0.417vw;}
-        }
-        @media (max-width: 2560px) {
-            .diagram { font-size: 1vw; }
-            .diagram-title { font-size: 1vw;}
-            .diagram-label {font-size: 0.8vw;}
-            .dotted-boundary-box{font-size: 1vw;}
-        }
-        @media (max-width: 1350px) {
             .diagram { font-size: 1.5vw; }
-            .diagram-title { font-size: 1.5vw; }
-            .diagram-label {font-size: 1.25vw;}
+            .diagram-title { font-size: 1.875vw; }
+            .diagram-label {font-size: 1.125vw;}
             .dotted-boundary-box{font-size: 1.5vw;}
         }
-        @media (max-width: 1170px) {
-            .diagram { position: absolute; width: 100%; font-size: 1vw; }
-            .diagram-title { font-size: 1vw; }
-            .diagram-label {font-size: 0.8vw;}
-            .dotted-boundary-box{font-size: 1vw;}
+        /*2K resolution*/
+        @media (max-width: 2560px) {
+            .diagram {font-size: 0.625vw; }
+            .diagram-title { font-size: 0.625vw;}
+            .diagram-label {font-size: 0.625vw;}
+            .dotted-boundary-box{font-size: 0.625vw;}
+            .dotted-boundary-box::before {
+              top: -15px;
+              left: 15px;}
         }
+        /*iPhone*/
+        @media (max-width: 393px) {
+            .diagram { position: absolute; width: 100%; font-size:0.1535vw; }
+            .content-wrapper {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                margin-top: 20px;}
+            .diagram-container {width: 75%;}
+            .lists-container {width: 100%;}
+            .diagram-title { font-size: 0.192vw; }
+            .diagram-label {font-size: 0.1151vw;}
+            .dotted-boundary-box{font-size: 0.1535vw;}
+        }
+        /*Macbook Air M1*/
         @media (max-width: 1440px) {
             .diagram {font-size: 1vw; }
-            .diagram-title { font-size: 1vw; }
+            .diagram-title { font-size: 1.25vw; }
             .diagram-label {font-size: 0.75vw;}
             .dotted-boundary-box{font-size: 1vw;}
-        }
-        @media (max-width: 701px) {
-            .diagram {width: 75%; font-size: 1.5vw; }
-            .diagram-title { font-size: 1.5vw; }
-            .diagram-label {font-size: 1.2vw;}
-            .dotted-boundary-box{font-size: 1.5vw;}
         }
         .back-link {
             font-family: Inter, sans-serif;
@@ -239,6 +245,7 @@
             position: relative;
             transition: transform 0.3s ease;
             display: inline-block;
+            width: fit-content;
         }
         .page-link:hover {
             text-decoration: underline;
