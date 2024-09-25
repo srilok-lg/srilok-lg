@@ -100,6 +100,36 @@
             background-color: #D1D1D6;
             color: black;
         }
+        .yellow_click { 
+            background-color: #FFCC00; 
+            border: 0px solid #000; 
+            color: black;
+            box-shadow: 0 0 15px rgba(255, 204, 0, 0.8);
+        }
+        .blue_click { 
+            background-color: #007AFF; 
+            color: white;
+            box-shadow: 0 0 15px rgba(0, 122, 255, 0.8);
+        }
+        .green_click { 
+            background-color: #34C759; 
+            color: white;
+            box-shadow: 0 0 15px rgba(52, 199, 89, 0.8);
+        }
+        .red_click { 
+            background-color: #FF3B30; 
+            color: white;
+            box-shadow: 0 0 15px rgba(255, 59, 48, 0.8);
+        }
+        .gray_click { 
+            background-color: #D1D1D6; 
+            color: black;
+            box-shadow: 0 0 15px rgba(209, 209, 214, 0.8);
+        }
+        .yellow_click:hover, .blue_click:hover, .green_click:hover, .red_click:hover, .gray_click:hover {
+            transform: scale(1.1);
+            z-index: 10;
+        }
         .line {
             position: absolute;
             height: 2px;
@@ -301,9 +331,9 @@
     <div class="arrow" style="width: 2%; top: 26%; left: 16%; transform: rotate(90deg);"></div>      
 
     <div class="arrow" style="width: 5%; top: 15%; left: 28.5%; transform: rotate(0deg);"></div>      
-    <div class="box yellow" style="width: 10%; height: 10%; top: 10%; left: 35%;"><a href="https://ssp-dashboard.alphonso.tv/app/kibana_overview#/" style="color: #000000; text-decoration: none;">Elastic</a></div>
+    <div class="box yellow_click" style="width: 10%; height: 10%; top: 10%; left: 35%;"><a href="https://ssp-dashboard.alphonso.tv/app/kibana_overview#/" style="color: #000000; text-decoration: none;">Elastic</a></div>
 
-    <div class="box red" style="width: 10%; height: 10%; top: 34%; left: 11%;"><a href='https://pulp.alphonso.tv/dasui' style="color: #ffffff; text-decoration: none;">DAS</a></div>
+    <div class="box red_click" style="width: 10%; height: 10%; top: 34%; left: 11%;"><a href='https://pulp.alphonso.tv/dasui' style="color: #ffffff; text-decoration: none;">DAS</a></div>
     <div class="line" style="width: 2%; top: 45%; left: 16%; transform: rotate(90deg);"></div>
     <div class="line" style="width: 14%; top: 50%; left: 9%; transform: rotate(0deg);"></div>   
     
@@ -311,9 +341,9 @@
     <div class="arrow" style="width: 2%; top: 50%; left: 23%; transform: rotate(90deg);"></div>
     <div class="arrow" style="width: 31.5%; top: 39%; left: 21.5%; transform: rotate(0deg);"></div>
     
-    <div class="box yellow" style="width: 10%; height: 10%; top: 58%; left: 4%;"><a href='https://insights.lgads.tv/' style="color: #000000; text-decoration: none;">Insights</a></div>
+    <div class="box yellow_click" style="width: 10%; height: 10%; top: 58%; left: 4%;"><a href='https://insights.lgads.tv/' style="color: #000000; text-decoration: none;">Insights</a></div>
     <div class="box yellow" style="width: 10%; height: 10%; top: 58%; left: 18%;">Kasper</div>
-    <div class="box blue" style="width: 8%; height: 58%; top: 10%; left: 54.5%;"><a href="https://mosaic.alphonso.tv/campaigns/performance" style="color: #ffffff; text-decoration: none;">Steller<br> <br><i>(Monitoring Dashboard)</i></a></div>
+    <div class="box blue_click" style="width: 8%; height: 58%; top: 10%; left: 54.5%;"><a href="https://mosaic.alphonso.tv/campaigns/performance" style="color: #ffffff; text-decoration: none;">Steller<br> <br><i>(Monitoring Dashboard)</i></a></div>
     
     <div class="dotted-boundary-box" data-title="3rd Party" style="width: 32%; height: 73%; top: 2.5%; left: 68%;"></div>         
     <div class="box gray" style="width: 10%; height: 10%; top: 10%; left: 72%;">API access</div>
@@ -322,7 +352,7 @@
     <div class="line" style="width: 2%; top: 21%; left: 91%; transform: rotate(90deg);"></div>      
     <div class="line" style="width: 14%; top: 26%; left: 77%; transform: rotate(0deg);"></div>      
     <div class="arrow" style="width: 2%; top: 26%; left: 84%; transform: rotate(90deg);"></div>  
-    <div class="box red" style="width: 10%; height: 10%; top: 34%; left: 79%;"><a href='https://alphonsotv.atlassian.net/wiki/x/HYDbjg' style="color: #ffffff; text-decoration: none;">Kaleido</a></div>
+    <div class="box red_click" style="width: 10%; height: 10%; top: 34%; left: 79%;"><a href='https://alphonsotv.atlassian.net/wiki/x/HYDbjg' style="color: #ffffff; text-decoration: none;">Kaleido</a></div>
     <div class="arrow" style="width: 14.5%; top: 39%; left: 78.5%; transform: rotate(180deg);"></div>
 
     
