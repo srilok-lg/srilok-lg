@@ -113,6 +113,36 @@
             background-color: #636366;
             color: #ffffff;
         }
+        .yellow_click:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 15px rgba(255, 204, 0, 0.8);
+            z-index: 10;
+            transition: 0.3s ease;
+        }
+        .blue_click:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 15px rgba(0, 122, 255, 0.8);
+            z-index: 10;
+            transition: 0.3s ease;
+        }
+        .green_click:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 15px rgba(52, 199, 89, 0.8);
+            z-index: 10;
+            transition: 0.3s ease;
+        }
+        .red_click:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 15px rgba(255, 59, 48, 0.8);
+            z-index: 10;
+            transition: 0.3s ease;
+        }
+        .gray_click:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 15px rgba(99, 99, 102, 0.8);
+            z-index: 10;
+            transition: 0.3s ease;
+        }
         .cylinder{
             width:200px;
             height:150px;
@@ -543,32 +573,69 @@
 </body>
 <body>
     <h1>Campaign Troubleshooting</h1>     
-    <p><a href='https://alphonsotv.atlassian.net/wiki/x/BIApuQ' class="page-link">Confluence Page</a></p>
-    
+    <p style="margin-top: -7.5px"><a href='https://alphonsotv.atlassian.net/wiki/x/BIApuQ' class="page-link">Confluence Page</a></p>
     <div class="diagram">
-        <!-- Boundary 1 -->
-    	<div class="dotted-boundary-box" data-title="Troubleshooting flow for pacing issues" style="width: 100%; height: 60%; top: 2.5%; left: 0%;"></div>
+        <!-- Native -->
+    	<div class="dotted-boundary-box" data-title="Troubleshooting flow for Native" style="width: 100%; height: 70%; top: 2.5%; left: 0%;"></div>
+        <div class="box gray" style="width: 10%; height: 15%; top: 30%; left: 12.5%;">Verify the data</div>
+        <div class="arrow" style="width: 5%; top: 37.5%; left: 23.5%; transform: rotate(0deg);"></div>
 
-        
-        <div class="box gray" style="width: 12%; height: 15%; top: 10%; left: 4.5%;">Verify the data</div>
-        <div class="arrow" style="width: 5%; top: 17.5%; left: 17.5%; transform: rotate(0deg);"></div>
-        
-        <div class="box yellow" style="width: 12%; height: 15%; top: 10%; left: 24.5%;">Check for budget restrictions</div>
-        <div class="redarrow" style="width: 8%; top: 17.5%; left: 37.5%; transform: rotate(0deg);"></div>
-        <div class="diagram-label2" style="text-align:center; width: 8%; top: 7.5%; left: 37.5%;"><i>CTV and <br>Cross Screen</i></div>
-        <div class="box yellow" style="width: 10%; height: 48%; top: 10%; left: 47.5%;">Check placement details</div>
-        <div class="redarrow" style="width: 5%; top: 17.5%; left: 58.5%; transform: rotate(0deg);"></div>
-        <div class="box yellow" style="width: 10%; height: 48%; top: 10%; left: 65.5%;">Check creative details</div>
-        <div class="redarrow" style="width: 5%; top: 17.5%; left: 76.5%; transform: rotate(0deg);"></div>
-        <div class="box red"style="width: 12%; height: 15%; top: 10%; left: 83.5%;">Check deal IDs and modifiers</div>
+        <div class="diagram-label2" style="text-align:center; width: 5%; top: 32.5%; left: 23.5%;">Native</div>
+        <div class="box blue" style="width: 12%; height: 15%; top: 30%; left: 30%;">Check Peregrine<br>RTB Stats</div>
+        <div class="arrow" style="width: 3%; top: 17.5%; left: 45%; transform: rotate(0deg);"></div>
+        <div class="arrow" style="width: 5%; top: 37.5%; left: 43%; transform: rotate(0deg);"></div>
+        <div class="arrow" style="width: 3%; top: 57.5%; left: 45%; transform: rotate(0deg);"></div>
+        <div class="line" style="width: 16%; top: 17.5%; left: 45%; transform: rotate(90deg);"></div>
+        <div class="box blue" style="text-align: center; width: 10%; height: 15%; top: 10%; left: 50%;">No bids /<br>No wins</div>
+        <div class="box blue" style="width: 10%; height: 15%; top: 30%; left: 50%;">Bids / No wins</div>
+        <div class="box blue" style="width: 10%; height: 15%; top: 50%; left: 50%;">Bids / Low wins</div>
+        <div class="arrow" style="width: 5%; top: 17.5%; left: 61%; transform: rotate(0deg);"></div>
+        <div class="box yellow" style="text-align: center; width: 10%; height: 15%; top: 10%; left: 68%;">Check dates for placement / creatives</div>
+        <div class="arrow" style="width: 5%; top: 37.5%; left: 61%; transform: rotate(0deg);"></div>
+        <div class="box yellow" style="width: 10%; height: 15%; top: 30%; left: 68%;">Check for RBs</div>
+        <div class="arrow" style="width: 5%; top: 57.5%; left: 61%; transform: rotate(0deg);"></div>
+        <div class="box red" style="width: 10%; height: 15%; top: 50%; left: 68%;">Check Elastic</div>
 
-        <div class="bluearrow" style="width: 5%; top: 27%; left: 30.5%; transform: rotate(90deg);"></div>
-        <div class="diagram-label2" style="text-align:center; width: 8%; top: 31%; left: 29%;"><i>Native</i></div>
-        <div class="box blue" style="width: 12%; height: 15%; top: 43%; left: 24.5%;">Check for RBs</div>
-        <div class="bluearrow" style="width: 8%; top: 51%; left: 37.5%; transform: rotate(0deg);"></div>
-        <div class="bluearrow" style="width: 5%; top: 51%; left: 58.5%; transform: rotate(0deg);"></div>
-        <div class="bluearrow" style="width: 5%; top: 51%; left: 76.5%; transform: rotate(0deg);"></div>
-        <div class="box blue"style="width: 12%; height: 15%; top: 43%; left: 83.5%;">Check traffic on elastic</div>
+        <div class="line" style="width: 8%; top: 37.5%; left: 82.5%; transform: rotate(90deg);"></div>
+        <div class="line" style="width: 3.5%; top: 37.5%; left: 79%; transform: rotate(0deg);"></div>
+        <div class="arrow" style="width: 3%; top: 57.5%; left: 82.5%; transform: rotate(180deg);"></div>
+        
+        <!-- CTV Video -->
+        <div class="dotted-boundary-box" data-title="Troubleshooting flow for CTV Video" style="width: 100%; height: 70%; top: 77.5%; left: 0%;"></div>
+        <div class="box gray" style="width: 10%; height: 15%; top: 105%; left: 2.5%;">Verify the data</div>
+        <div class="arrow" style="width: 5%; top: 112.5%; left: 13.5%; transform: rotate(0deg);"></div>
+        <div class="diagram-label2" style="text-align:center; width: 5%; top: 103%; left: 13.5%;">CTV Video</div>
+        <div class="box blue" style="width: 12%; height: 15%; top: 105%; left: 20%;">Check Beeswax<br>RTB Stats</div>
+        <div class="arrow" style="width: 3%; top: 92.5%; left: 35%; transform: rotate(0deg);"></div>
+        <div class="arrow" style="width: 5%; top: 112.5%; left: 33%; transform: rotate(0deg);"></div>
+        <div class="arrow" style="width: 3%; top: 132.5%; left: 35%; transform: rotate(0deg);"></div>
+        <div class="line" style="width: 16%; top: 92.5%; left: 35%; transform: rotate(90deg);"></div>
+        <div class="box blue" style="text-align: center; width: 10%; height: 15%; top: 85%; left: 40%;">No bids /<br>No wins</div>
+        <div class="box blue" style="width: 10%; height: 15%; top: 105%; left: 40%;">Bids / No wins</div>
+        <div class="box blue" style="width: 10%; height: 15%; top: 125%; left: 40%;">Bids / Low wins</div>
+        <div class="arrow" style="width: 5%; top: 92.5%; left: 51%; transform: rotate(0deg);"></div>
+        <div class="box yellow" style="text-align: center; width: 10%; height: 15%; top: 85%; left: 58%;">Check dates for placement / creatives</div>
+        <div class="line" style="width: 3%; top: 112.5%; left: 51%; transform: rotate(0deg);"></div>
+        <div class="line" style="width: 3%; top: 132.5%; left: 51%; transform: rotate(0deg);"></div>
+        
+        <div class="line" style="width: 0.2%; height:20.5%; top: 112.5%; left: 54%; transform: rotate(0deg);"></div>
+        
+        <div class="arrow" style="width: 2%; top: 122.5%; left: 54%; transform: rotate(0deg);"></div>
+        <div class="box red" style="width: 10%; height: 15%; top: 115%; left: 58%;">Check Bid Decision Flow</div>
+        <div class="line" style="width: 3%; top: 122.5%; left: 69%; transform: rotate(0deg);"></div>
+        <div class="line" style="width: 0.25%; height:39.5%; top: 103%; left: 72%; transform: rotate(0deg);"></div>
+        
+        <div class="arrow" style="width: 3%; top: 103%; left: 72%; transform: rotate(0deg);"></div>
+        <div class="box red" style="width: 10%; height: 10%; top: 98%; left: 76%;">Targeting / Creative Match</div>
+
+        <div class="arrow" style="width: 3%; top: 116%; left: 72%; transform: rotate(0deg);"></div>
+        <div class="box red" style="width: 10%; height: 10%; top: 111%; left: 76%;">F-Cap Met</div>
+
+        <div class="arrow" style="width: 3%; top: 129%; left: 72%; transform: rotate(0deg);"></div>
+        <div class="box red" style="width: 10%; height: 10%; top: 124%; left: 76%;">No Bid to Pace</div>
+
+        <div class="arrow" style="width: 3%; top: 142%; left: 72%; transform: rotate(0deg);"></div>
+        <div class="box red" style="width: 10%; height: 10%; top: 137%; left: 76%;">Post-Processing Fails</div>
 
     </div> 
 </body>
