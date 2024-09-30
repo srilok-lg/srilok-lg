@@ -100,6 +100,56 @@
             background-color: #D1D1D6;
             color: black;
         }
+        .yellow_click { 
+            background-color: #FFCC00; 
+            color: #000000;
+        }
+        .blue_click { 
+            background-color: #007AFF; 
+            color: #ffffff;
+        }
+        .green_click { 
+            background-color: #34C759; 
+            color: #ffffff;
+        }
+        .red_click { 
+            background-color: #FF3B30; 
+            color: #ffffff;
+        }
+        .gray_click { 
+            background-color: #636366; 
+            color: #ffffff;
+        }
+        .yellow_click:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 15px rgba(255, 204, 0, 0.8);
+            z-index: 10;
+            transition: 0.3s ease;
+        }
+        .blue_click:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 15px rgba(0, 122, 255, 0.8);
+            z-index: 10;
+            transition: 0.3s ease;
+        }
+        .green_click:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 15px rgba(52, 199, 89, 0.8);
+            z-index: 10;
+            transition: 0.3s ease;
+        }
+        .red_click:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 15px rgba(255, 59, 48, 0.8);
+            z-index: 10;
+            transition: 0.3s ease;
+        }
+        .gray_click:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 15px rgba(99, 99, 102, 0.8);
+            z-index: 10;
+            transition: 0.3s ease;
+        }
         .line {
             position: absolute;
             height: 2px;
@@ -293,29 +343,29 @@
         <div class="diagram-container">
             <div class="diagram">
                 <div class="dotted-boundary-box" data-title="Reporting flow" style="width: 100%; height: 100%; top: 2.5%; left: 0%; transform: rotate(0deg);"></div>                
-                
+
                 <!-- Row 1 -->
-                <div class="box yellow" style="width: 15%; height: 15%; top: 10%; left: 3.5%; transform: rotate(0deg);"><a href="https://srilok-lgads.github.io/campaign-flowchart/mosaic.html" style="color: #000000; text-decoration: none;">Mosaic</a></div>
+                <a href="https://srilok-lgads.github.io/campaign-flowchart/mosaic.html" class="box yellow_click" style="width: 15%; height: 15%; top: 10%; left: 3.5%;">Mosaic</a>
                 <div class="arrow" style="width: 16%; top: 17.5%; left: 19.5%; transform: rotate(0deg);"></div>
-                <div class="box yellow" style="width: 20%; height: 15%; top: 10%; left: 37%;">Reporting task</div>
+                <div class="box yellow_click" style="width: 20%; height: 15%; top: 10%; left: 37%;">Reporting task</div>
                 <div class="diagram-label" style="text-align: right; width: 8%; height: 15%; top: 31%; left: 34%;">data<br>requests</div>
                 <div class="diagram-label" style="text-align: left; width: 8%; height: 15%; top: 31%; left: 53%;">attributed<br>data</div>
                 <div class="arrow" style="width: 16%; top: 17.5%; left: 58%; transform: rotate(0deg);"></div>
-                <div class="box red" style="width: 15%; height: 15%; top: 10%; left: 75.5%;"><a href="https://srilok-lgads.github.io/campaign-flowchart/insights.html" style="color: #ffffff; text-decoration: none;"></a>Insights</div>
+                <a href="https://srilok-lgads.github.io/campaign-flowchart/insights.html" class="box red_click" style="width: 15%; height: 15%; top: 10%; left: 75.5%;">nsights</a>I
 
                 <!-- Row 2 -->
                 <div class="dotted-boundary-box" data-title="Attribution flow" style="width: 56%; height: 50%; top: 45%; left: 2%; transform: rotate(0deg);"></div>
-                <div class="box blue" style="width: 15%; height: 15%; top: 50%; left: 3.5%;">Pixel logs</div>
+                <div class="box blue_click" style="width: 15%; height: 15%; top: 50%; left: 3.5%;">Pixel logs</div>
                 <div class="diagram-label" style="text-align: center; width: 15%; height: 15%; top: 53%; left: 20%;">exposure dump</div>
                 <div class="arrow" style="width: 16%; top: 58%; left: 19.5%; transform: rotate(0deg);"></div>
-                <div class="box blue" style="width: 20%; height: 15%; top: 50%; left: 37%;">LGE</div>
+                <div class="box blue_click" style="width: 20%; height: 15%; top: 50%; left: 37%;">LGE</div>
                 
                 <!-- Vertical arrows -->
                 <div class="arrow" style="width: 8%; top: 26%; left: 43.5%; transform: rotate(90deg);"></div>
                 <div class="arrow" style="width: 8%; top: 48%; left: 51.5%; transform: rotate(270deg);"></div>
                 
-                <div class="box red" style="width: 12.5%; height: 12.5%; top: 45%; left: 68%;">Standard</div>
-                <div class="box red" style="width: 12.5%; height: 12.5%; top: 45%; left: 85.5%;">Advanced</div>
+                <div class="box red_click" style="width: 12.5%; height: 12.5%; top: 45%; left: 68%;">Standard</div>
+                <div class="box red_click" style="width: 12.5%; height: 12.5%; top: 45%; left: 85.5%;">Advanced</div>
 
                 <!-- Vertical arrows from Insights -->
                 <div class="arrow" style="width: 3%; top: 34%; left: 74.25%; transform: rotate(90deg);"></div>
@@ -324,7 +374,7 @@
                 <div class="line" style="width: 17.5%; top: 34%; left: 74.25%; transform: rotate(0deg);"></div>
                 
                 <!-- Row 3 -->
-                <div class="box blue" style="width: 15%; height: 15%; top: 76%; left: 23.5%;">ADP Data</div>
+                <div class="box blue_click" style="width: 15%; height: 15%; top: 76%; left: 23.5%;">ADP Data</div>
                 <div class="arrow" style="width: 6%; top: 83%; left: 47%; transform: rotate(270deg);"></div>
                 <div class="line" style="width: 7.5%; top: 83%; left: 39.5%; transform: rotate(0deg);"></div>
                 
@@ -332,7 +382,7 @@
                 <div class="line" style="width: 3%; top: 59%; left: 91.75%; transform: rotate(90deg);"></div>
                 <div class="arrow" style="width: 3%; top: 66.5%; left: 83%; transform: rotate(90deg);"></div>
                 <div class="line" style="width: 17.5%; top: 66.5%; left: 74.25%; transform: rotate(0deg);"></div>
-				<div class="box green" style="width: 15%; height: 15%; top: 78%; left: 75.5%;">Dropbox</div>
+				<div class="box green_click" style="width: 15%; height: 15%; top: 78%; left: 75.5%;">Dropbox</div>
             </div>
         </div>
     </div>
