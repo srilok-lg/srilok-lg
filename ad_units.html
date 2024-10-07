@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LG Native Ad Slots</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+            line-height: 1.6;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            color: #333;
+            display: flex;
+        }
+        .diagram {
+            position: relative;
+            width: 900px;
+            height: 600px;
+        }
+        .boundary {
+            border: 2px dotted #ccc;
+        }
+        .box {
+            position: absolute;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 10px;
+            box-sizing: border-box;
+            transition: transform 0.3s;
+            cursor: pointer;
+            border-radius: 10px;
+        }
+        .box:hover {
+            transform: scale(1.1);
+            z-index: 10;
+        }
+        .box:visited {
+            color: inherit;
+        }
+        .yellow {
+            background-color: #FFCC00;
+            border: 2px dashed #000;
+            color: black;
+        }
+        .blue {
+            background-color: #007AFF;
+            color: white;
+        }
+        .green {
+            background-color: #34C759;
+            color: white;
+            border-radius: 10px;
+            clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
+        }
+        .step {
+            font-size: 14px;
+            background-color: #FFCC00;
+            border: 2px solid;
+            border-color: #000000;
+            color: #000000;
+            clip-path: polygon(25% 0%, 75% 0%, 80% 50%, 75% 100%, 25% 100%, 30% 50%);
+            text-align: center;
+        }
+        .gray {
+            background-color: #D1D1D6;
+            color: black;
+        }
+        .arrow {
+            position: absolute;
+            height: 2px;
+            background-color: black;
+            transform-origin: 0 50%;
+        }
+        .arrow::after {
+            content: '';
+            position: absolute;
+            right: -10px;
+            top: -4px;
+            width: 0;
+            height: 0;
+            border-top: 5px solid transparent;
+            border-bottom: 5px solid transparent;
+            border-left: 10px solid black;
+        }
+        .title {
+            position: absolute;
+            font-weight: bold;
+            font-size: 18px;
+        }
+        .label {
+            position: absolute;
+            font-size: 14px;
+        }
+        a { color: #3498db; text-decoration: none; }
+        a:hover { text-decoration: none; }
+        h1, h2 {
+            color: #2c3e50;
+        }
+        .content-wrapper {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+        .image-container {
+            flex: 0 0 45%;
+            margin-right: 20px;
+        }
+        .table-container {
+            flex: 0 0 50%;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin: 20px 0;
+        }
+        .spec-row-blue {
+            background-color: #57a9ff;
+        }
+        .spec-row-purple {
+            background-color: #9f8fef;
+        }
+        .spec-row-green {
+            background-color: #4bce97;
+        }
+        .spec-row-red {
+            background-color: #f87168;
+        }
+        .spec-row-blue th, .spec-row-purple th, .spec-row-green th, .spec-row-red th {
+            color: black;
+        }
+        .spec-row-blue td, .spec-row-purple td, .spec-row-green td, .spec-row-red td {
+            color: white;
+        }
+        .back-link {
+            font-family: Inter, sans-serif;
+            font-size: 16px;
+            color: #3498db;
+            text-decoration: none;
+            position: relative;
+            transition: transform 0.3s ease;
+            display: inline-block;
+            width: fit-content;
+        }
+        .back-link:before {
+            content: "\2190";
+            margin-right: 5px;
+        }
+        .back-link:after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 2px;
+            bottom: 0;
+            left: 0;
+            background-color: #3498db;
+            transform: scaleX(0);
+            transform-origin: bottom right;
+            transition: transform 0.3s ease;
+        }
+        .back-link:hover {
+            transform: scale(1.05);
+        }
+        .back-link:hover:after {
+            transform: scaleX(1);
+            transform-origin: bottom left;
+        }
+        .page-link {
+            font-family: Inter, sans-serif;
+            font-size: 16px;
+            font-weight: normal;
+            color: #3498db;
+            text-decoration: none;
+            position: relative;
+            transition: transform 0.3s ease;
+            display: inline-block;
+            width: fit-content;
+        }
+        .page-link:hover {
+            text-decoration: underline;
+        }
+        .page-link:hover:after {
+            text-decoration: none;
+        }
+        .ad-availability-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        .ad-availability-table th, .ad-availability-table td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: center;
+        }
+        .ad-availability-table th {
+            background-color: #f2f2f2;
+        }
+        .ad-availability-table .webos-header {
+            background-color: #e6f3ff;
+            font-weight: bold;
+        }
+        .legend {
+            margin-top: 10px;
+            font-size: 14px;
+        }
+        .legend span {
+            margin-right: 15px;
+        }
+        .orange-dot, .green-dot, .purple-dot, .blue-dot {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            margin-right: 5px;
+        }
+        .orange-dot { background-color: orange; }
+        .green-dot { background-color: green; }
+        .purple-dot { background-color: purple; }
+        .blue-dot { background-color: blue; }
+    </style>
+</head>
+<body>
+    <a href="#" class="back-link" onclick="goBackToInframap(); return false;">Back to Inventory</a>
+    <h1>LG Native Ad Units</h1>
+    <a href='https://alphonsotv.atlassian.net/wiki/x/O4B9gQ' class="page-link">Confluence Page</a>
+    <h2>Ad Product Availability – by ad type</h2>
+    <table class="ad-availability-table">
+        <tr>
+            <th>Placement</th>
+            <th>Ad Slot Name</th>
+            <th>Size</th>
+            <th colspan="9" class="webos-header">webOS</th>
+        </tr>
+        <tr>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th>3.0</th>
+            <th>3.5</th>
+            <th>4.0</th>
+            <th>4.5</th>
+            <th>5.0</th>
+            <th>6.0</th>
+            <th>22</th>
+            <th>23</th>
+            <th>24</th>
+        </tr>
+        <tr>
+            <td>Wedge</td>
+            <td>Portal/Wedge@Main</td>
+            <td>1440X1080</td>
+            <td>🟠</td>
+            <td>🟠</td>
+            <td>🟠</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>Home Launcher</td>
+            <td>Portal/Homelauncher@Main</td>
+            <td>300X250</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td>🟠 (old)</td>
+            <td>🟠 (old)</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>Home Launcher with halo support</td>
+            <td>Portal/HomeCompanion@Main</td>
+            <td>300X250</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td>🟠 (old)</td>
+            <td>🟠 (old)</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>Home Second Content Store</td>
+            <td>Portal/HomeSecondContentStore@Main</td>
+            <td>300X250</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td>🟠 (old)</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>Home Hero (deprecated)</td>
+            <td>Portal/HomeHero withImage@Main</td>
+            <td>1354x762</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td>🟠🟣 (old)</td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>Home Carousel</td>
+            <td>Portal/HomeBigCarousel@Main</td>
+            <td>1629x420</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td>🟠🟢🟣</td>
+            <td>🟠🟢🟣</td>
+            <td>🟠🟢🟣</td>
+            <td>🟠🟢🟣</td>
+            <td>🟠🟢🟣</td>
+            <td>🟠🟢🟣</td>
+        </tr>
+        <tr>
+            <td>Home Recommend</td>
+            <td>Portal/HomeRecommend@Main</td>
+            <td>300X250</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td>🟠</td>
+            <td>🟠</td>
+            <td>🟠</td>
+            <td>🟠</td>
+            <td>🟠</td>
+            <td>🟠</td>
+        </tr>
+        <tr>
+            <td>LG Store (Apps) 'LG Store' is changed to 'Apps' on webOS6.0</td>
+            <td>Portal/Discovery@Main</td>
+            <td>970X250</td>
+            <td>🟠</td>
+            <td>🟠🟢</td>
+            <td>🟠🟢</td>
+            <td>🟠🟢</td>
+            <td>🟠🟢</td>
+            <td>🟠🟢</td>
+            <td>🟠🟢</td>
+            <td>🟠🟢</td>
+            <td>🟠🟢</td>
+        </tr>
+        <tr>
+            <td>Recommendation</td>
+            <td>Portal/Recommend@Main</td>
+            <td>300X250</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td>🟠 (old)</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>Browser</td>
+            <td>Portal/Browser@Main</td>
+            <td>300X250</td>
+            <td>🟠</td>
+            <td>🟠</td>
+            <td>🟠</td>
+            <td>🟠</td>
+            <td>🟠</td>
+            <td>🟠</td>
+            <td>🟠</td>
+            <td>🟠</td>
+            <td>🟠</td>
+        </tr>
+        <tr>
+            <td>ScreenSaver</td>
+            <td>Portal/ScreenSaver@Main</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td>🟠</td>
+            <td>🟠</td>
+            <td>🟠</td>
+            <td>🟠</td>
+            <td>🟠</td>
+            <td>🟠</td>
+        </tr>
+    </table>
+    <div class="legend">
+        <span><span class="orange-dot"></span> - Banner /</span>
+        <span><span class="green-dot"></span> - Companion /</span>
+        <span><span class="purple-dot"></span> - Video /</span>
+        <span><span class="blue-dot"></span> - Video Only /</span>
+    </div>
+</body>
+</html>
