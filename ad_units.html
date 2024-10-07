@@ -239,6 +239,17 @@
 </head>
 <body>
     <a href="#" class="back-link" onclick="goBackToInframap(); return false;">Back to Inventory</a>
+    <script>        
+        function goBackToInframap() {
+            if (window.parent !== window.self) {
+                // We're in an iframe
+                window.parent.postMessage({ action: 'navigateToInventory' }, '*');
+            } else {
+                // We're not in an iframe, navigate directly
+                window.location.href = 'inventory.html';
+            }
+        }
+    </script>
     <h1>LG Native Ad Units</h1>
     <a href='https://alphonsotv.atlassian.net/wiki/x/O4B9gQ' class="page-link">Confluence Page</a>
     <h2>Ad Product Availability – by ad type</h2>
