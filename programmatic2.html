@@ -30,6 +30,7 @@
         .diagram-label {
             position: absolute;
             font-size: 16px;
+            color: #FF453A;
         }
         .diagram-label2 {
             position: absolute;
@@ -275,6 +276,20 @@
         .concentric-circles:hover > div::before {
           border-color: rgba(255, 69, 58, 0.8);
           transform: scale(1.03);
+        }
+        .line {
+            position: absolute;
+            height: 2px;
+            background-color: black;
+            transform-origin: 0 50%;
+        }
+        .dottedline {
+            position: absolute;
+            height: 2px;
+            background-image: linear-gradient(to right, black 60%, transparent 40%);
+            background-size: 8px 2px;
+    		background-repeat: repeat-x;
+            transform-origin: 0 50%;
         }
 		.arrow {
             position: absolute;
@@ -662,21 +677,46 @@
     <p style="margin-top: -7.5px"><a href='https://alphonsotv.atlassian.net/wiki/x/BIApuQ' class="page-link">Confluence Page</a></p>
     <div class="diagram">
         <!-- Native -->
-    	<div class="dotted-boundary-box" data-title="Programmatic Bid Flow" style="width: 100%; height: 70%; top: 2.5%; left: 0%;"></div>
-        <div class="concentric-circles" style="font-weight: bold; text-align: center; width: 10%; top: 20%; left: 2.5%;">LG Channels<br>Viewer</div>
-        <div class="box gray" style="width: 15%; height: 5%; top: 30%; left: 7.5%; transform: rotate(270deg);">Content Plays</div>
-        <div class="dottedarrow" style="width: 2%; top: 32.5%; left: 17%; transform: rotate(0deg);"></div>
-
-        <div class="box red_click" style="width: 5%; height: 10%; top: 27.5%; left: 20%; transform: rotate(0deg);">SSAI</div>
-        <div class="arrow" style="width: 2%; top: 30%; left: 26%; transform: rotate(0deg);"></div>
-        <div class="arrow" style="width: 2%; top: 35%; left: 28.5%; transform: rotate(180deg);"></div>
-
-        <div class="box gray" style="width: 10%; height: 15%; top: 25%; left: 29.5%; display: flex; flex-direction: column; justify-content: space-between; align-items: center;">
-        	<span style="flex:0 0 auto;">Ad Server</span>
+    	<div class="dotted-boundary-box" data-title="Programmatic Bid Flow" style="width: 100%; height: 90%; top: 2.5%; left: 0%;"></div>
+        <div class="concentric-circles" style="font-weight: bold; text-align: center; width: 10%; top: 30%; left: 10%;">LG Channels<br>Viewer</div>
+        <div class="box gray" style="width: 15%; height: 5%; top: 40%; left: 14.5%; transform: rotate(270deg);">Content Plays</div>
+        <div class="dottedline" style="width: 4.5%; top: 42.5%; left: 24%; transform: rotate(0deg);"></div>
+        <div class="box red_click" style="width: 5%; height: 10%; top: 37.5%; left: 29%; transform: rotate(0deg);">SSAI</div>
+        <div class="arrow" style="width: 8%; top: 40%; left: 35%; transform: rotate(0deg);"></div>
+        <div class="arrow" style="width: 8%; top: 45%; left: 43.5%; transform: rotate(180deg);"></div>
+        <div class="box gray" style="width: 10%; height: 15%; top: 35%; left: 44.5%; display: flex; flex-direction: column; justify-content: space-between; align-items: center;">
+            <span style="flex:0 0 auto;">Ad Server</span>
             <img src="./images/springserve.png" style="width: 90%; height: auto; margin-bottom: 5%;">
         </div>
-            </svg>
+        
+        <div class="arrow" style="width: 10%; top: 27.5%; left: 49.4%; transform: rotate(0deg);"></div>
+        <div class="line" style="width: 3%; top: 35%; left: 49.5%; transform: rotate(270deg);"></div>
+        <div class="box gray" style="width: 10%; height: 15%; top: 20%; left: 61%; display: flex; flex-direction: column; justify-content: space-between; align-items: center;">
+            <span style="flex:0 0 auto;">SSP</span>
+            <img src="./images/magnite.png" style="width: 90%; height: auto; margin-bottom: 5%;">
         </div>
+        <div class="arrow" style="width: 2.5%; top: 58%; left: 49.5%; transform: rotate(270deg);"></div>
+        <div class="line" style="width: 10.5%; top: 57.75%; left: 49.4%; transform: rotate(0deg);"></div>
+        <div class="box gray" style="width: 10%; height: 30%; top: 52.5%; left: 61%; display: flex; flex-direction: column; justify-content: space-between; align-items: center;">
+            <span style="flex:0 0 auto;">DSP</span>
+            <img src="./images/beeswax.png" style="width: 90%; height: auto; margin-bottom: 5%;">
+            <img src="./images/dv360-logo.png" style="width: 90%; height: auto; margin-bottom: 5%;">
+            <img src="./images/The_Trade_Desk.png" style="width: 90%; height: auto; margin-bottom: 5%;">
+        </div>
+        
+        <div class="line" style="width: 3%; top: 27.5%; left: 72%; transform: rotate(0deg);"></div>
+        <div class="line" style="width: 12.3%; top: 27.3%; left: 75%; transform: rotate(90deg);"></div>
+        <div class="arrow" style="width: 2.5%; top: 57.75%; left: 75%; transform: rotate(180deg);"></div>
+        <div class="diagram-label" style="text-align:center; width: 8%; top: 30%; left: 35%;">1. Ad-Calls sent<br>to server</div>
+        <div class="diagram-label" style="text-align:center; width: 10%; top: 18%; left: 49.4%;">2. Ad-Calls<br>passed to SSP</div>
+        <div class="diagram-label" style="text-align:center; width: 10%; top: 10.5%; left: 61%;">3. Receives Ad-Calls<br>and Ingests</div>
+        <div class="diagram-label" style="text-align:center; width: 17.5%; top: 18%; left: 73%;">4. Evaluates Match Between Ad-Call and PMP with Appropriate Targeting</div>
+        <div class="diagram-label" style="text-align:center; width: 17.5%; top: 40%; left: 75%;">5. SSP Sends Bid Request to DSP</div>
+        <div class="diagram-label" style="text-align:center; width: 17.5%; top: 62%; left: 73%;">6. DSP Validates Bid Request Against Targeting - i.e. Ad-Call Data Matches Ad-Bid Targeting</div>
+        <div class="diagram-label" style="text-align:center; width: 10%; top: 62%; left: 49.4%;">7. DSP Sends Bid Response</div>
+        <div class="diagram-label" style="text-align:center; width: 8%; top: 48%; left: 35%;">8. DSP Wins Bid; Ad-Call is Fired</div>
+        <div class="diagram-label" style="text-align:center; width: 8%; top: 64%; left: 18%;">9. Ad is Served</div>
+
     </div>  
 </body>
 </html>
