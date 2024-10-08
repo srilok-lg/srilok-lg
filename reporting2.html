@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reporting</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+            line-height: 1.6;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            color: #333;
+        }
+        .diagram {
+            position: relative;
+            width: 100%;
+            height: 0%;
+            padding-bottom: 40%;
+            overflow: visible;
+            font-size: 16px;
+            align-items:center;
+        }
+        .diagram-title {
+            position: absolute;
+            font-weight: bold;
+            font-size: 20px;
+        }
+        .diagram-label {
+            position: absolute;
+            font-size: 16px;
+        }
+        .boundary {
+            border: 2px dotted #ccc;
+            position: absolute;
+            width: 75%;
+            height: 0%;
+            top: 0;
+            left: 0;
+            box-sizing: border-box;
+            transform: translateX(17.5%);
+        }
+        .dotted-boundary-box {
+            position: absolute;
+            border: 2px dotted #000;
+            padding: 0px;
+            font-size: 1vmin;
+            border-radius: 12.5px; 
+        }
+
+        .dotted-boundary-box::before {
+            content: attr(data-title);
+            position: absolute;
+            top: -12.5px;
+            left: 10px;
+            background-color: white;
+            /*padding: 0 5px;*/
+            font-weight: bold;
+        }
+        .box {
+            position: absolute;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 10px;
+            box-sizing: border-box;
+            transition: transform 0.3s;
+            cursor: pointer;
+            border-radius: 10px;
+        }
+        .box:hover {
+            transform: scale(1.1);
+            z-index: 10;
+        }
+        .box:visited {
+            color: inherit;
+        }
+        .yellow {
+            background-color: #FFCC00;
+            border: 0px solid #000;
+            color: black;
+        }
+        .blue {
+            background-color: #007AFF;
+            color: white;
+        }
+        .green {
+            background-color: #34C759;
+            color: white;
+        }
+        .red {
+            background-color: #FF3B30;
+            color: white;
+        }
+        .gray {
+            background-color: #D1D1D6;
+            color: black;
+        }
+        .yellow_click { 
+            background-color: #FFCC00; 
+            color: #000000;
+        }
+        .blue_click { 
+            background-color: #007AFF; 
+            color: #ffffff;
+        }
+        .green_click { 
+            background-color: #34C759; 
+            color: #ffffff;
+        }
+        .red_click { 
+            background-color: #FF3B30; 
+            color: #ffffff;
+        }
+        .gray_click { 
+            background-color: #636366; 
+            color: #ffffff;
+        }
+        .yellow_click:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 15px rgba(255, 204, 0, 0.8);
+            z-index: 10;
+            transition: 0.3s ease;
+        }
+        .blue_click:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 15px rgba(0, 122, 255, 0.8);
+            z-index: 10;
+            transition: 0.3s ease;
+        }
+        .green_click:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 15px rgba(52, 199, 89, 0.8);
+            z-index: 10;
+            transition: 0.3s ease;
+        }
+        .red_click:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 15px rgba(255, 59, 48, 0.8);
+            z-index: 10;
+            transition: 0.3s ease;
+        }
+        .gray_click:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 15px rgba(99, 99, 102, 0.8);
+            z-index: 10;
+            transition: 0.3s ease;
+        }
+        .line {
+            position: absolute;
+            height: 2px;
+            background-color: black;
+            transform-origin: 0 50%;
+        }
+        .dottedline {
+            position: absolute;
+            height: 2px;
+            background-image: linear-gradient(to right, #FF3B30 60%, transparent 40%);
+            background-size: 8px 2px;
+    		background-repeat: repeat-x;
+            transform-origin: 0 50%;
+        }
+        .arrow {
+            position: absolute;
+            height: 2px;
+            background-color: black;
+            transform-origin: 0 50%;
+        }
+        .arrow::after {
+            content: '';
+            position: absolute;
+            right: -10px;
+            top: -4px;
+            width: 0;
+            height: 0;
+            border-top: 5px solid transparent;
+            border-bottom: 5px solid transparent;
+            border-left: 10px solid black;
+        }
+        .dottedarrow {
+            position: absolute;
+            height: 2px;
+            background-color: transparent;
+            transform-origin: 0 50%;
+            background-image: linear-gradient(to right, black 50%, transparent 50%);
+            background-size: 8px 2px;
+            background-repeat: repeat-x;
+        }
+        .dottedarrow::after {
+            content: '';
+            position: absolute;
+            right: -10px;
+            top: -4px;
+            width: 0;
+            height: 0;
+            border-top: 5px solid transparent;
+            border-bottom: 5px solid transparent;
+            border-left: 10px solid black;
+        }
+        .content-wrapper {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            margin-top: 20px;
+            
+        }
+        .diagram-container {
+            width: 75%;
+            margin-bottom: 40px;
+            align-items: center;
+            transform: translateX(15%);
+        }
+        .lists-container {
+            width: 100%;
+        }
+        h1, h2 {
+            color: #2c3e50;
+        }
+        a { color: #3498db; text-decoration: none; }
+        a:hover { text-decoration: none; }
+
+        /*4K resolution*/
+        @media (max-width: 3840px) {
+            .diagram { font-size: 1.5vw; }
+            .diagram-title { font-size: 1.875vw; }
+            .diagram-label {font-size: 1.125vw;}
+            .dotted-boundary-box{font-size: 1.5vw;}
+        }
+        /*2K resolution*/
+        @media (max-width: 2560px) {
+            .diagram {font-size: 0.5625vw; }
+            .diagram-title { font-size: 0.5625vw;}
+            .diagram-label {font-size: 0.5625vw;}
+            .dotted-boundary-box{font-size: 0.6vw;}
+        }
+        /*iPhone*/
+        @media (max-width: 393px) {
+            .diagram { position: absolute; width: 100%; font-size:0.1535vw; }
+            .content-wrapper {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                margin-top: 20px;}
+            .diagram-container {width: 75%;}
+            .lists-container {width: 100%;}
+            .diagram-title { font-size: 0.192vw; }
+            .diagram-label {font-size: 0.1151vw;}
+            .dotted-boundary-box{font-size: 0.1535vw;}
+        }
+        /*Macbook Air M1*/
+        @media (max-width: 1440px) {
+            .diagram {font-size: 1vw; }
+            .diagram-title { font-size: 1.25vw; }
+            .diagram-label {font-size: 0.75vw;}
+            .dotted-boundary-box{font-size: 1vw;}
+        }
+        .back-link {
+            font-family: Inter, sans-serif;
+            font-size: 16px;
+            color: #3498db;
+            text-decoration: none;
+            position: relative;
+            transition: transform 0.3s ease;
+            display: inline-block;
+            width: fit-content;
+        }
+        .back-link:before {
+            content: "\2190";
+            margin-right: 5px;
+        }
+        .back-link:after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 2px;
+            bottom: 0;
+            left: 0;
+            background-color: #3498db;
+            transform: scaleX(0);
+            transform-origin: bottom right;
+            transition: transform 0.3s ease;
+        }
+        .back-link:hover {
+            transform: scale(1.05);
+        }
+        .back-link:hover:after {
+            transform: scaleX(1);
+            transform-origin: bottom left;
+        }
+        .page-link {
+            font-family: Inter, sans-serif;
+            font-size: 16px;
+            font-weight: normal;
+            color: #3498db;
+            text-decoration: none;
+            position: relative;
+            transition: transform 0.3s ease;
+            display: inline-block;
+            width: fit-content;
+        }
+        .page-link:hover {
+            text-decoration: underline;
+        }
+        .bento-link {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 200px;
+            height: 100px;
+            background-color: #333333;
+            border-radius: 20px;
+            text-decoration: none;
+            color: #ffffff;
+            font-weight: 500;
+            font-size: 16px;
+            text-align: center;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+        .bento-link:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+        }
+        .bento-link::before {
+            font-size: 24px;
+            margin-bottom: 10px;
+            filter: invert(1);
+        }
+    </style>
+</head>
+<body>
+    <a href="#" class="back-link" onclick="goBackToInframap(); return false;">Back to Operations Flow</a>
+    <script>        
+        function goBackToInframap() {
+            if (window.parent !== window.self) {
+                window.parent.postMessage({ action: 'navigateToInframap' }, '*');
+            } else {
+                window.location.href = 'index.html#infra';
+            }
+        }
+    </script>
+
+    <h1>Reporting</h1>     
+    <a href='https://alphonsotv.atlassian.net/wiki/x/uIHmoQ' class="page-link">Confluence Page</a>
+    <div class="diagram">
+        <div class="dotted-boundary-box" data-title="Reporting flow" style="width: 100%; height: 100%; top: 2.5%; left: 0%; transform: rotate(0deg);"></div>                
+
+        <!-- Row 1 -->
+        <div class="box gray" style="width: 15%; height: 10%; top: 10%; left: 35%;">Reporting</div>
+
+        <!-- 1st Party -->
+        <div class="box gray" style="width: 10%; height: 10%; top: 30%; left: 17.5%;">1st party</div>
+        <div class="line" style="width: 11.5%; top: 15%; left: 34%; transform: rotate(180deg);"></div>
+        <div class="arrow" style="width: 5%; top: 15%; left: 22.5%; transform: rotate(90deg);"></div>
+        <div class="arrow" style="width: 2.5%; top: 41%; left: 22.5%; transform: rotate(90deg);"></div>
+        <div class="dotted-boundary-box" data-title="Advanced Reports"; style="width: 22.5%; height: 20%; top: 52%; left: 17.5%;"></div>
+
+        <!-- 3rd Party -->
+        <div class="box gray" style="width: 10%; height: 10%; top: 30%; left: 57.5%;">3rd party</div>
+        <div class="line" style="width: 11.5%; top: 15%; left: 51%; transform: rotate(0deg);"></div>
+        <div class="arrow" style="width: 7.5%; top: 35%; left: 68%; transform: rotate(0deg);"></div>
+        <div class="box gray" style="width: 10%; height: 10%; top: 30%; left: 77%;">Measurement &<br> Verification</div>
+
+        <div class="arrow" style="width: 5%; top: 15%; left: 62.5%; transform: rotate(90deg);"></div>
+        <div class="arrow" style="width: 2.5%; top: 41%; left: 62.5%; transform: rotate(90deg);"></div>
+        <div class="dotted-boundary-box" data-title="Standard Reports"; style="width: 22.5%; height: 20%; top: 52%; left: 45%;"></div>
+        
+        <div class="dottedline" style="width: 9%; top: 35%; left: 28%; transform: rotate(0deg);"></div>
+
+        <a href="https://srilok-lgads.github.io/campaign-flowchart/insights.html" class="box red" style="border: 2px solid #FF3B30; background-color: #ffffff; color: #000000; width: 10%; height:10%; top: 30%; left: 37.5%;">Insights</a>
+
+
+                
