@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Responsive Interactive SVG Four-Section Plot</title>
+    <style>
+        body, html {
+            height: 100%;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #f0f0f0;
+            font-family: Inter, sans-serif;
+        }
+        #chart-container {
+            width: 90vw;
+            height: 90vh;
+            max-width: 800px;
+            max-height: 600px;
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .data-point {
+            cursor: pointer;
+        }
+        .data-point:hover {
+            stroke: #333;
+            stroke-width: 0.5%;
+        }
+        .quadrant-label {
+            font-size: 2.5%;
+            fill: #666;
+        }
+    </style>
+</head>
+<body>
+    <div id="chart-container">
+        <svg width="100%" height="100%" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid meet">
+            <!-- Axes -->
+            <line x1="10%" y1="50%" x2="90%" y2="50%" stroke="black" stroke-width="0.5%" />
+            <line x1="50%" y1="10%" x2="50%" y2="90%" stroke="black" stroke-width="0.5%" />
+            
+            <!-- X-axis labels -->
+            <text x="30%" y="10%" text-anchor="middle" style="font-size: 0.5vmin;">1st Party</text>
+            <text x="70%" y="10%" text-anchor="middle" style="font-size: 0.5vmin;">3rd Party</text>
+            
+            <!-- Y-axis labels -->
+            <text x="4%" y="30%" text-anchor="middle" transform="rotate(-90 4 30)" style="font-size: 0.5vmin;">Billing</text>
+            <text x="4%" y="70%" text-anchor="middle" transform="rotate(-90 4 70)" style="font-size: 0.5vmin;">Measurement</text>
+            
+            <!-- Quadrant labels -->
+            <text x="30%" y="30%" class="quadrant-label" text-anchor="middle" style="font-size: 0.25vmin;">1st Party Billing</text>
+            <text x="70%" y="30%" class="quadrant-label" text-anchor="middle">3rd Party Billing</text>
+            <text x="30%" y="70%" class="quadrant-label" text-anchor="middle">1st Party Measurement</text>
+            <text x="70%" y="70%" class="quadrant-label" text-anchor="middle">3rd Party Measurement</text>
+            
+            <!-- Data points -->
+            <circle class="data-point" cx="35%" cy="35%" r="2%" fill="rgba(255, 99, 132, 0.8)" data-label="Company A" />
+            <circle class="data-point" cx="65%" cy="25%" r="2%" fill="rgba(255, 99, 132, 0.8)" data-label="Company B" />
+            <circle class="data-point" cx="25%" cy="75%" r="2%" fill="rgba(255, 99, 132, 0.8)" data-label="Company C" />
+            <circle class="data-point" cx="75%" cy="65%" r="2%" fill="rgba(255, 99, 132, 0.8)" data-label="Company D" />
+        </svg>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const dataPoints = document.querySelectorAll('.data-point');
+            dataPoints.forEach(point => {
+                point.addEventListener('click', function() {
+                    alert('Clicked on: ' + this.getAttribute('data-label'));
+                });
+            });
+        });
+    </script>
+</body>
+</html>
