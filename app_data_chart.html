@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Metrics Dashboard</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/recharts/2.12.2/Recharts.js"></script>
+    <script src="https://apis.google.com/js/api.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
+    <style>
+        .chart-container {
+            padding: 20px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin: 20px;
+        }
+        .loading-spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #3498db;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .error-overlay {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+    </style>
+</head>
+<body class="bg-gray-100">
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect } = React;
+        const { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend } = Recharts;
+
+        const SPREADSHEET_ID = '1sIVik0fO0CxICVLdVgk26-XNYwx8KLdWJ7Olt3LzDj0'; // Your spreadsheet ID
+        const API_KEY = 'AIzaSyD_YzQ9s00sj6AwVTrf9861rX-fjFygJVQ'; // Your API key
+        const RANGE = 'Amazon Prime Video!A:K';
+
+        // Error message component
+        const ErrorMessage = ({ message, onRetry }) => (
+            <div className="error-overlay">
+                <div className="text-red-500 text-lg mb-2">⚠️ {message}</div>
+                {onRetry && (
+                    <button 
+                        onClick={onRetry}
+                        className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+                    >
+                        Retry
+                    </button>
+                )}
+            </div>
+        );
+
+        // Loading spinner component
+        const LoadingSpinner = () => (
+            <div className="flex items-center justify-center h-full">
+                <div className="loading-spinner"></div>
+                <div className="ml-4 text-gray-600">Loading data...</div>
+            </div>
+        );
+
+        // Empty state component
+        const EmptyState = () => (
+            <div className="flex items-center justify-center h-full">
+                <div className="text-gray-500 text-center">
+                    <div className="text-2xl mb-2">📊</div>
+                    <div>No data available</div>
+                </div>
+            </div>
+        );
+
+        function MetricsDashboard() {
+            const [data, setData] = useState([]);
+            const [loading, setLoading] = useState(true);
+            const [error, setError] = useState(null);
+
+            const loadData = async () => {
+                setLoading(true);
+                setError(null);
+                
+                try {
+                    await gapi.client.init({
+                        apiKey: API_KEY,
+                        discoveryDocs: ['https://sheets.googleapis.com/$discovery/rest?version=v4'],
+                    });
+
+                    const response = await gapi.client.sheets.spreadsheets.values.get({
+                        spreadsheetId: SPREADSHEET_ID,
+                        range: RANGE,
+                    });
+
+                    const values = response.result.values;
+                    if (!values || values.length === 0) {
+                        throw new Error('No data found in spreadsheet');
+                    }
+
+                    const headers = values[0].map(header => 
+                        header.toLowerCase().replace(/\s+/g, '_')
+                    );
+
+                    const formattedData = values.slice(1).map(row => {
+                        const rowData = {};
+                        headers.forEach((header, index) => {
+                            // Handle date column separately
+                            if (header === 'date') {
+                                rowData[header] = row[index];
+                            } else {
+                                // Convert string numbers to floats and handle invalid values
+                                const value = parseFloat(row[index]);
+                                rowData[header] = isNaN(value) ? 0 : value;
+                            }
+                        });
+                        return rowData;
+                    });
+
+                    setData(formattedData);
+                    setLoading(false);
+                } catch (err) {
+                    console.error('Error loading data:', err);
+                    setError(err.message || 'Error loading data from Google Sheets');
+                    setLoading(false);
+                }
+            };
+
+            useEffect(() => {
+                gapi.load('client', loadData);
+            }, []);
+
+            const renderChart = () => {
+                if (loading) return <LoadingSpinner />;
+                if (error) return <ErrorMessage message={error} onRetry={loadData} />;
+                if (!data.length) return <EmptyState />;
+
+                return (
+                    <LineChart
+                        width={1000}
+                        height={400}
+                        data={data}
+                        margin={{ top: 20, right: 30, left: 20, bottom: 20 }}
+                    >
+                        <CartesianGrid strokeDasharray="3 3" />
+                        <XAxis 
+                            dataKey="date" 
+                            tick={{ fontSize: 12 }}
+                            interval={0}
+                        />
+                        <YAxis 
+                            tick={{ fontSize: 12 }}
+                            width={80}
+                            tickFormatter={value => value.toLocaleString()}
+                        />
+                        <Tooltip 
+                            formatter={value => value.toLocaleString()}
+                            labelStyle={{ color: '#666' }}
+                        />
+                        <Legend 
+                            wrapperStyle={{ paddingTop: '20px' }}
+                        />
+                        <Line 
+                            type="monotone" 
+                            dataKey="launches" 
+                            stroke="#8884d8" 
+                            name="Launches"
+                            strokeWidth={2}
+                            dot={{ r: 4 }}
+                            activeDot={{ r: 6 }}
+                        />
+                        <Line 
+                            type="monotone" 
+                            dataKey="engaged_users" 
+                            stroke="#82ca9d" 
+                            name="Engaged Users"
+                            strokeWidth={2}
+                            dot={{ r: 4 }}
+                        />
+                        <Line 
+                            type="monotone" 
+                            dataKey="acquired_users" 
+                            stroke="#ffc658" 
+                            name="Acquired Users"
+                            strokeWidth={2}
+                            dot={{ r: 4 }}
+                        />
+                        <Line 
+                            type="monotone" 
+                            dataKey="installs" 
+                            stroke="#ff7300" 
+                            name="Installs"
+                            strokeWidth={2}
+                            dot={{ r: 4 }}
+                        />
+                        <Line 
+                            type="monotone" 
+                            dataKey="clicks" 
+                            stroke="#ff0000" 
+                            name="Clicks"
+                            strokeWidth={2}
+                            dot={{ r: 4 }}
+                        />
+                    </LineChart>
+                );
+            };
+
+            return (
+                <div className="chart-container relative">
+                    <div className="flex justify-between items-center mb-4">
+                        <h1 className="text-2xl font-bold">Metrics Timeline</h1>
+                        <button 
+                            onClick={loadData}
+                            className="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600 text-sm"
+                            disabled={loading}
+                        >
+                            {loading ? 'Refreshing...' : '↻ Refresh'}
+                        </button>
+                    </div>
+                    <div className="h-[500px] relative">
+                        {renderChart()}
+                    </div>
+                </div>
+            );
+        }
+
+        ReactDOM.render(<MetricsDashboard />, document.getElementById('root'));
+    </script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.9/babel.min.js"></script>
+</body>
+</html>
