@@ -1,188 +1,293 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Metrics Dashboard</title>
-    <!-- Load React -->
-    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
-    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
-    <!-- Load Recharts -->
-    <script src="https://unpkg.com/recharts/umd/Recharts.min.js"></script>
-    <!-- Load Google API -->
+    <!-- Chart.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js"></script>
+    <!-- Hammer.js for better touch support -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/hammer.js/2.0.8/hammer.min.js"></script>
+    <!-- Chart.js Zoom Plugin -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-zoom/1.2.1/chartjs-plugin-zoom.min.js"></script>
+    <!-- Google API -->
     <script src="https://apis.google.com/js/api.js"></script>
-    <!-- Load Babel -->
-    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
-    <!-- Load Tailwind -->
-    <script src="https://cdn.tailwindcss.com"></script>
-
     <style>
-        .chart-container {
+        .container {
+            max-width: 1200px;
+            margin: 20px auto;
             padding: 20px;
             background: white;
             border-radius: 8px;
             box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            margin: 20px;
         }
-        .loading-spinner {
-            border: 4px solid #f3f3f3;
-            border-top: 4px solid #3498db;
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            animation: spin 1s linear infinite;
+        .chart-wrapper {
+            position: relative;
+            height: 400px;
+            width: 100%;
+            overflow-x: auto;
+            overflow-y: hidden;
         }
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+        .chart-container {
+            position: relative;
+            height: 400px;
+            min-width: 100%;
+        }
+        .loading {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 20px;
+            border-radius: 4px;
+        }
+        .error {
+            color: red;
+            text-align: center;
+            padding: 20px;
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .controls {
+            display: flex;
+            gap: 10px;
+        }
+        button {
+            padding: 8px 16px;
+            background: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        button:hover {
+            background: #45a049;
+        }
+        button:disabled {
+            background: #cccccc;
+            cursor: not-allowed;
+        }
+        .zoom-info {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 12px;
+            color: #666;
         }
     </style>
 </head>
-<body class="bg-gray-100">
-    <div id="root"></div>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Metrics Timeline</h1>
+            <div class="controls">
+                <button onclick="resetZoom()">Reset Zoom</button>
+                <button onclick="loadData()">Refresh Data</button>
+            </div>
+        </div>
+        <div class="chart-wrapper">
+            <div class="chart-container">
+                <canvas id="metricsChart"></canvas>
+                <div id="loading" class="loading">Loading data...</div>
+            </div>
+            <div class="zoom-info">
+                Scroll to zoom, drag to pan
+            </div>
+        </div>
+        <div id="error" class="error" style="display: none;"></div>
+    </div>
 
-    <script type="text/babel">
-        // Destructure React elements
-        const { useState, useEffect } = React;
-        const { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend } = Recharts;
-
+    <script>
         // Configuration
-        const SPREADSHEET_ID = '1sIVik0fO0CxICVLdVgk26-XNYwx8KLdWJ7Olt3LzDj0'; // Your spreadsheet ID
-        const API_KEY = 'AIzaSyD_YzQ9s00sj6AwVTrf9861rX-fjFygJVQ'; // Your API key
+        const SPREADSHEET_ID = '1sIVik0fO0CxICVLdVgk26-XNYwx8KLdWJ7Olt3LzDj0'; // Replace with your spreadsheet ID
+        const API_KEY = 'AIzaSyD_YzQ9s00sj6AwVTrf9861rX-fjFygJVQ'; // Replace with your API key
         const RANGE = 'Amazon Prime Video!A:K';
 
-        function LoadingSpinner() {
-            return (
-                <div className="flex items-center justify-center h-[400px]">
-                    <div className="loading-spinner"></div>
-                    <div className="ml-4">Loading data...</div>
-                </div>
-            );
+        let chart = null;
+
+        // Initialize Google API client
+        function initClient() {
+            return gapi.client.init({
+                apiKey: API_KEY,
+                discoveryDocs: ['https://sheets.googleapis.com/$discovery/rest?version=v4'],
+            });
         }
 
-        function ErrorDisplay({ message, onRetry }) {
-            return (
-                <div className="flex flex-col items-center justify-center h-[400px]">
-                    <div className="text-red-500 mb-4">{message}</div>
-                    {onRetry && (
-                        <button 
-                            onClick={onRetry}
-                            className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
-                        >
-                            Try Again
-                        </button>
-                    )}
-                </div>
-            );
+        // Reset zoom level
+        function resetZoom() {
+            if (chart) {
+                chart.resetZoom();
+            }
         }
 
-        function MetricsDashboard() {
-            const [data, setData] = useState([]);
-            const [loading, setLoading] = useState(true);
-            const [error, setError] = useState(null);
+        // Load and process data
+        async function loadData() {
+            const loadingEl = document.getElementById('loading');
+            const errorEl = document.getElementById('error');
+            
+            loadingEl.style.display = 'block';
+            errorEl.style.display = 'none';
 
-            const loadData = async () => {
-                setLoading(true);
-                setError(null);
-
-                try {
-                    // Initialize the Google Sheets API
-                    await new Promise((resolve, reject) => {
-                        gapi.load('client', async () => {
-                            try {
-                                await gapi.client.init({
-                                    apiKey: API_KEY,
-                                    discoveryDocs: ['https://sheets.googleapis.com/$discovery/rest?version=v4'],
-                                });
-                                resolve();
-                            } catch (error) {
-                                reject(error);
-                            }
-                        });
+            try {
+                await new Promise((resolve, reject) => {
+                    gapi.load('client', async () => {
+                        try {
+                            await initClient();
+                            resolve();
+                        } catch (error) {
+                            reject(error);
+                        }
                     });
+                });
 
-                    // Fetch the data
-                    const response = await gapi.client.sheets.spreadsheets.values.get({
-                        spreadsheetId: SPREADSHEET_ID,
-                        range: RANGE,
-                    });
+                const response = await gapi.client.sheets.spreadsheets.values.get({
+                    spreadsheetId: SPREADSHEET_ID,
+                    range: RANGE,
+                });
 
-                    const values = response.result.values;
-                    if (!values || values.length === 0) {
-                        throw new Error('No data found in spreadsheet');
-                    }
-
-                    // Process the data
-                    const headers = values[0].map(header => 
-                        header.toLowerCase().replace(/\s+/g, '_')
-                    );
-
-                    const formattedData = values.slice(1).map(row => {
-                        const rowData = {};
-                        headers.forEach((header, index) => {
-                            if (header === 'date') {
-                                rowData[header] = row[index];
-                            } else {
-                                const value = parseFloat(row[index]);
-                                rowData[header] = isNaN(value) ? 0 : value;
-                            }
-                        });
-                        return rowData;
-                    });
-
-                    setData(formattedData);
-                    setLoading(false);
-                } catch (err) {
-                    console.error('Error loading data:', err);
-                    setError(err.message || 'Failed to load data');
-                    setLoading(false);
+                const values = response.result.values;
+                if (!values || values.length < 2) {
+                    throw new Error('No data found in spreadsheet');
                 }
-            };
 
-            useEffect(() => {
-                loadData();
-            }, []);
+                const headers = values[0];
+                const data = values.slice(1);
 
-            if (loading) return <LoadingSpinner />;
-            if (error) return <ErrorDisplay message={error} onRetry={loadData} />;
-            if (!data.length) return <ErrorDisplay message="No data available" />;
+                // Process data for Chart.js
+                const dates = data.map(row => row[0]);
+                const datasets = headers.slice(1).map((header, index) => ({
+                    label: header,
+                    data: data.map(row => parseFloat(row[index + 1]) || 0),
+                    borderColor: getColor(index),
+                    backgroundColor: getColor(index),
+                    tension: 0.1,
+                    fill: false,
+                    pointRadius: 3,
+                    pointHoverRadius: 5
+                }));
 
-            return (
-                <div className="chart-container">
-                    <div className="flex justify-between items-center mb-4">
-                        <h1 className="text-xl font-bold">Metrics Timeline</h1>
-                        <button 
-                            onClick={loadData} 
-                            className="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600"
-                        >
-                            Refresh
-                        </button>
-                    </div>
-                    <LineChart
-                        width={1000}
-                        height={400}
-                        data={data}
-                        margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
-                    >
-                        <CartesianGrid strokeDasharray="3 3" />
-                        <XAxis dataKey="date" />
-                        <YAxis />
-                        <Tooltip />
-                        <Legend />
-                        <Line type="monotone" dataKey="launches" stroke="#8884d8" name="Launches" />
-                        <Line type="monotone" dataKey="engaged_users" stroke="#82ca9d" name="Engaged Users" />
-                        <Line type="monotone" dataKey="acquired_users" stroke="#ffc658" name="Acquired Users" />
-                        <Line type="monotone" dataKey="installs" stroke="#ff7300" name="Installs" />
-                        <Line type="monotone" dataKey="clicks" stroke="#ff0000" name="Clicks" />
-                    </LineChart>
-                </div>
-            );
+                updateChart(dates, datasets);
+                loadingEl.style.display = 'none';
+
+            } catch (error) {
+                console.error('Error loading data:', error);
+                loadingEl.style.display = 'none';
+                errorEl.textContent = `Error: ${error.message || 'Failed to load data'}`;
+                errorEl.style.display = 'block';
+            }
         }
 
-        // Render the app
-        const root = ReactDOM.createRoot(document.getElementById('root'));
-        root.render(<MetricsDashboard />);
+        // Update or create chart
+        function updateChart(labels, datasets) {
+            const ctx = document.getElementById('metricsChart').getContext('2d');
+            
+            if (chart) {
+                chart.destroy();
+            }
+
+            // Calculate minimum chart width based on data points
+            const minWidth = Math.max(labels.length * 50, window.innerWidth - 40);
+            ctx.canvas.parentNode.style.width = `${minWidth}px`;
+
+            chart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: datasets
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                        },
+                        tooltip: {
+                            mode: 'index',
+                            intersect: false,
+                            callbacks: {
+                                label: function(context) {
+                                    return `${context.dataset.label}: ${context.raw.toLocaleString()}`;
+                                }
+                            }
+                        },
+                        zoom: {
+                            pan: {
+                                enabled: true,
+                                mode: 'x',
+                                modifierKey: 'ctrl',
+                            },
+                            zoom: {
+                                wheel: {
+                                    enabled: true,
+                                },
+                                pinch: {
+                                    enabled: true
+                                },
+                                mode: 'x',
+                            },
+                            limits: {
+                                x: {min: 'original', max: 'original'}
+                            }
+                        }
+                    },
+                    scales: {
+                        x: {
+                            grid: {
+                                display: false
+                            }
+                        },
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                callback: function(value) {
+                                    return value.toLocaleString();
+                                }
+                            }
+                        }
+                    },
+                    interaction: {
+                        mode: 'nearest',
+                        axis: 'x',
+                        intersect: false
+                    }
+                }
+            });
+        }
+
+        // Get colors for different metrics
+        function getColor(index) {
+            const colors = [
+                '#8884d8',  // Launches
+                '#82ca9d',  // Engaged Users
+                '#ffc658',  // Acquired Users
+                '#ff7300',  // Installs
+                '#ff0000'   // Clicks
+            ];
+            return colors[index] || colors[0];
+        }
+
+        // Handle window resize
+        window.addEventListener('resize', () => {
+            if (chart) {
+                chart.resize();
+            }
+        });
+
+        // Load data when page loads
+        window.onload = loadData;
     </script>
 </body>
 </html>
