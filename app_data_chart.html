@@ -89,24 +89,22 @@
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="header">
+    <div>
+        <div>
             <h1>App Metrics Timeline</h1>
-            <div class="controls">
-                <button onclick="resetZoom()">Reset Zoom</button>
-                <button onclick="loadData()">Refresh Data</button>
+            <div>
+                <button onclick="resetZoom()" id="resetBtn">Reset Zoom</button>
+                <button onclick="loadData()" id="refreshBtn">Refresh Data</button>
             </div>
         </div>
-        <div class="chart-wrapper">
-            <div class="chart-container">
-                <canvas id="metricsChart"></canvas>
-                <div id="loading" class="loading">Loading data...</div>
-            </div>
-            <div class="zoom-info">
-                Scroll to zoom, drag to pan
+        <div id="error" style="color: red; display: none;"></div>
+        <div id="debug" style="color: gray; font-size: 12px; margin: 10px 0;"></div>
+        <div style="position: relative; height: 400px;">
+            <canvas id="metricsChart"></canvas>
+            <div id="loading" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">
+                Loading data...
             </div>
         </div>
-        <div id="error" class="error" style="display: none;"></div>
     </div>
 
     <script>
@@ -114,25 +112,13 @@
         const SPREADSHEET_ID = '1sIVik0fO0CxICVLdVgk26-XNYwx8KLdWJ7Olt3LzDj0'; // Replace with your spreadsheet ID
         const API_KEY = 'AIzaSyD_YzQ9s00sj6AwVTrf9861rX-fjFygJVQ'; // Replace with your API key
         const RANGE = 'Amazon Prime Video!A:K';
-
+        
         let chart = null;
 
-        async function checkApiAccess() {
-            try {
-                const response = await fetch(
-                    `https://sheets.googleapis.com/v4/spreadsheets/${SPREADSHEET_ID}/values/${RANGE}?key=${API_KEY}`,
-                    { method: 'GET' }
-                );
-                
-                if (!response.ok) {
-                    const error = await response.json();
-                    throw new Error(error.error.message || 'API access failed');
-                }
-                
-                return true;
-            } catch (error) {
-                throw new Error(`API Check Failed: ${error.message}`);
-            }
+        function debugLog(message) {
+            console.log(message);
+            const debugEl = document.getElementById('debug');
+            debugEl.innerHTML += message + '<br>';
         }
 
         function resetZoom() {
@@ -144,47 +130,45 @@
         async function loadData() {
             const loadingEl = document.getElementById('loading');
             const errorEl = document.getElementById('error');
+            const debugEl = document.getElementById('debug');
             const refreshBtn = document.getElementById('refreshBtn');
             
             loadingEl.style.display = 'block';
             errorEl.style.display = 'none';
+            debugEl.innerHTML = '';
             refreshBtn.disabled = true;
 
             try {
-                // First check API access
-                await checkApiAccess();
+                debugLog('Fetching data from Google Sheets...');
+                
+                // Direct fetch approach instead of using gapi
+                const url = `https://sheets.googleapis.com/v4/spreadsheets/${SPREADSHEET_ID}/values/${RANGE}?key=${API_KEY}`;
+                debugLog(`Requesting URL: ${url}`);
 
-                await new Promise((resolve, reject) => {
-                    gapi.load('client', async () => {
-                        try {
-                            await gapi.client.init({
-                                apiKey: API_KEY,
-                                discoveryDocs: ['https://sheets.googleapis.com/$discovery/rest?version=v4'],
-                            });
-                            resolve();
-                        } catch (error) {
-                            reject(error);
-                        }
-                    });
-                });
+                const response = await fetch(url);
+                debugLog(`Response status: ${response.status}`);
 
-                const response = await gapi.client.sheets.spreadsheets.values.get({
-                    spreadsheetId: SPREADSHEET_ID,
-                    range: RANGE,
-                });
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(errorData.error?.message || `HTTP error! status: ${response.status}`);
+                }
 
-                const values = response.result.values;
-                if (!values || values.length < 2) {
+                const data = await response.json();
+                debugLog(`Data received. Rows: ${data.values?.length || 0}`);
+
+                if (!data.values || data.values.length < 2) {
                     throw new Error('No data found in spreadsheet');
                 }
 
-                const headers = values[0];
-                const data = values.slice(1);
+                const headers = data.values[0];
+                const rows = data.values.slice(1);
 
-                const dates = data.map(row => row[0]);
+                debugLog(`Headers: ${headers.join(', ')}`);
+
+                const dates = rows.map(row => row[0]);
                 const datasets = headers.slice(1).map((header, index) => ({
                     label: header,
-                    data: data.map(row => parseFloat(row[index + 1]) || 0),
+                    data: rows.map(row => parseFloat(row[index + 1]) || 0),
                     borderColor: getColor(index),
                     backgroundColor: getColor(index),
                     tension: 0.1,
@@ -193,25 +177,14 @@
 
                 updateChart(dates, datasets);
                 loadingEl.style.display = 'none';
+                debugLog('Chart updated successfully');
 
             } catch (error) {
                 console.error('Error:', error);
-                let errorMessage = 'Failed to load data';
-                let helpText = '';
-
-                if (error.message.includes('403')) {
-                    errorMessage = 'Access denied to Google Sheets. Please check: \n';
-                    errorMessage += '1. API key is correct\n';
-                    errorMessage += '2. Domain is allowed in Google Cloud Console\n';
-                    errorMessage += '3. Spreadsheet is shared publicly\n';
-                    errorMessage += '4. Spreadsheet ID is correct\n';
-                    errorMessage += `Current domain: ${window.location.hostname}\n`;
-                    errorMessage += `Spreadsheet ID: ${SPREADSHEET_ID}`;
-                }
-
-                errorEl.textContent = errorMessage;
+                errorEl.textContent = `Error: ${error.message}`;
                 errorEl.style.display = 'block';
                 loadingEl.style.display = 'none';
+                debugLog(`Error occurred: ${error.message}`);
             } finally {
                 refreshBtn.disabled = false;
             }
